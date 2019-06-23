@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="Zhixian Yang">
 <meta property="og:description" content="深度优先搜索问题一 [http://poj.org/problem?id=2386]:     “Lake Counting”  有一个大小为N*M的园子，雨后积了很多水。八连通的积水被认为是在一起的。请求出园子里共有多少个水洼？(八连通是指下图中相对.的8 部分)wwww.wwww从任意的’W’开始，不停地把邻接的部分用’.’代替，一次DFS(深度优先遍历)遍历后，与初始的这个 W 所连接的所有">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-23T04:25:46.000Z">
+<meta property="og:updated_time" content="2019-06-23T04:26:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="最基础的穷竭搜索——《挑战程序设计竞赛》">
 <meta name="twitter:description" content="深度优先搜索问题一 [http://poj.org/problem?id=2386]:     “Lake Counting”  有一个大小为N*M的园子，雨后积了很多水。八连通的积水被认为是在一起的。请求出园子里共有多少个水洼？(八连通是指下图中相对.的8 部分)wwww.wwww从任意的’W’开始，不停地把邻接的部分用’.’代替，一次DFS(深度优先遍历)遍历后，与初始的这个 W 所连接的所有">
@@ -362,7 +362,7 @@
       
         <h3 id="深度优先搜索"><a href="#深度优先搜索" class="headerlink" title="深度优先搜索"></a>深度优先搜索</h3><p>问题一 [<a href="http://poj.org/problem?id=2386]" target="_blank" rel="noopener">http://poj.org/problem?id=2386]</a>:     “Lake Counting”</p>
 <blockquote>
-<p>有一个大小为N*M的园子，雨后积了很多水。八连通的积水被认为是在一起的。请求出园子里共有多少个水洼？(八连通是指下图中相对.的8 部分)<br>www<br>w.w<br>www<br>从任意的’W’开始，不停地把邻接的部分用’.’代替，一次DFS(深度优先遍历)遍历后，与初始的这个 W 所连接的所有 ‘W’ 都会被替换成 ‘.’，因此直到图中没有 ‘W’为止，总共进行 DFS 的次数即为积水的次数。<br>使用深度优先搜索，从任意W开始，进入DFS，在DFS中把八联通的邻接部分都’.’代替，若八连通区域中又有一个”W”，进入下一层DFS，直到当前的连通分支不再有W，总共DFS的次数就是答案。八连通对应着8个方向的状态转移，每个格子至多调用一次DFS，所以复杂度是$O(8\times N \times M) = O(\times N \times M)$</p>
+<p>有一个大小为N*M的园子，雨后积了很多水。八连通的积水被认为是在一起的。请求出园子里共有多少个水洼？(八连通是指下图中相对.的8 部分)<br>www<br>w.w<br>www<br>从任意的’W’开始，不停地把邻接的部分用’.’代替，一次DFS(深度优先遍历)遍历后，与初始的这个 W 所连接的所有 ‘W’ 都会被替换成 ‘.’，因此直到图中没有 ‘W’为止，总共进行 DFS 的次数即为积水的次数。<br>使用深度优先搜索，从任意W开始，进入DFS，在DFS中把八联通的邻接部分都’.’代替，若八连通区域中又有一个”W”，进入下一层DFS，直到当前的连通分支不再有W，总共DFS的次数就是答案。八连通对应着8个方向的状态转移，每个格子至多调用一次DFS，所以复杂度是$O(8\times N \times M) = O(N \times M)$</p>
 </blockquote>
 
       
