@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[最基础的穷竭搜索——《挑战程序设计竞赛》]]></title>
+    <url>%2F2019%2F06%2F23%2F%E6%9C%80%E5%9F%BA%E7%A1%80%E7%9A%84%E7%A9%B7%E7%AB%AD%E6%90%9C%E7%B4%A2%E2%80%94%E2%80%94%E3%80%8A%E6%8C%91%E6%88%98%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%AB%9E%E8%B5%9B%E3%80%8B%2F</url>
+    <content type="text"><![CDATA[深度优先搜索[http://poj.org/problem?id=2386]:]]></content>
+      <tags>
+        <tag>Algorithm</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Hello World]]></title>
     <url>%2F2019%2F06%2F22%2FHello-World-0%2F</url>
     <content type="text"></content>
