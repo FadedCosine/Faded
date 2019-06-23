@@ -77,18 +77,18 @@
 
 
 
-<meta name="description" content="2.1.4 深度优先搜索 [http://poj.org/problem?id=2386]:     “Lake Counting”  有一个大小为N*M的园子，雨后积了很多水。八连通的积水被认为是在一起的。请求出园子里共有多少个水洼？(八连通是指下图中相对.的8 部分)wwww.wwww从任意的’W’开始，不停地把邻接的部分用’.’代替，一次DFS(深度优先遍历)遍历后，与初始的这个 W 所连接">
+<meta name="description" content="2.1.4 深度优先搜索 [http://poj.org/problem?id=2386]:     “Lake Counting”  有一个大小为N*M的园子，雨后积了很多水。八连通的积水被认为是在一起的。请求出园子里共有多少个水洼？(八连通是指下图中相对.的8 部分)wwww.wwww  从任意的’W’开始，不停地把邻接的部分用’.’代替，一次DFS(深度优先遍历)遍历后，与初始的这个 W 所">
 <meta name="keywords" content="Algorithm">
 <meta property="og:type" content="article">
 <meta property="og:title" content="最基础的穷竭搜索——《挑战程序设计竞赛》">
 <meta property="og:url" content="http://yoursite.com/2019/06/23/最基础的穷竭搜索——《挑战程序设计竞赛》/index.html">
 <meta property="og:site_name" content="Zhixian Yang">
-<meta property="og:description" content="2.1.4 深度优先搜索 [http://poj.org/problem?id=2386]:     “Lake Counting”  有一个大小为N*M的园子，雨后积了很多水。八连通的积水被认为是在一起的。请求出园子里共有多少个水洼？(八连通是指下图中相对.的8 部分)wwww.wwww从任意的’W’开始，不停地把邻接的部分用’.’代替，一次DFS(深度优先遍历)遍历后，与初始的这个 W 所连接">
+<meta property="og:description" content="2.1.4 深度优先搜索 [http://poj.org/problem?id=2386]:     “Lake Counting”  有一个大小为N*M的园子，雨后积了很多水。八连通的积水被认为是在一起的。请求出园子里共有多少个水洼？(八连通是指下图中相对.的8 部分)wwww.wwww  从任意的’W’开始，不停地把邻接的部分用’.’代替，一次DFS(深度优先遍历)遍历后，与初始的这个 W 所">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-23T10:08:02.000Z">
+<meta property="og:updated_time" content="2019-06-23T10:30:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="最基础的穷竭搜索——《挑战程序设计竞赛》">
-<meta name="twitter:description" content="2.1.4 深度优先搜索 [http://poj.org/problem?id=2386]:     “Lake Counting”  有一个大小为N*M的园子，雨后积了很多水。八连通的积水被认为是在一起的。请求出园子里共有多少个水洼？(八连通是指下图中相对.的8 部分)wwww.wwww从任意的’W’开始，不停地把邻接的部分用’.’代替，一次DFS(深度优先遍历)遍历后，与初始的这个 W 所连接">
+<meta name="twitter:description" content="2.1.4 深度优先搜索 [http://poj.org/problem?id=2386]:     “Lake Counting”  有一个大小为N*M的园子，雨后积了很多水。八连通的积水被认为是在一起的。请求出园子里共有多少个水洼？(八连通是指下图中相对.的8 部分)wwww.wwww  从任意的’W’开始，不停地把邻接的部分用’.’代替，一次DFS(深度优先遍历)遍历后，与初始的这个 W 所">
 
 
 
@@ -362,8 +362,9 @@
       
         <h3 id="2-1-4-深度优先搜索"><a href="#2-1-4-深度优先搜索" class="headerlink" title="2.1.4 深度优先搜索"></a>2.1.4 深度优先搜索</h3><p> [<a href="http://poj.org/problem?id=2386]" target="_blank" rel="noopener">http://poj.org/problem?id=2386]</a>:     “Lake Counting”</p>
 <blockquote>
-<p>有一个大小为N*M的园子，雨后积了很多水。八连通的积水被认为是在一起的。请求出园子里共有多少个水洼？(八连通是指下图中相对.的8 部分)<br>www<br>w.w<br>www<br>从任意的’W’开始，不停地把邻接的部分用’.’代替，一次DFS(深度优先遍历)遍历后，与初始的这个 W 所连接的所有 ‘W’ 都会被替换成 ‘.’，因此直到图中没有 ‘W’为止，总共进行 DFS 的次数即为积水的次数。<br>使用深度优先搜索，从任意W开始，进入DFS，在DFS中把八联通的邻接部分都’.’代替，若八连通区域中又有一个”W”，进入下一层DFS，直到当前的连通分支不再有W，总共DFS的次数就是答案。八连通对应着8个方向的状态转移，每个格子至多调用一次DFS，所以复杂度是$O(8\times N \times M) = O(N \times M)$。</p>
+<p>有一个大小为N*M的园子，雨后积了很多水。八连通的积水被认为是在一起的。请求出园子里共有多少个水洼？(八连通是指下图中相对.的8 部分)<br>www<br>w.w<br>www</p>
 </blockquote>
+<p>从任意的’W’开始，不停地把邻接的部分用’.’代替，一次DFS(深度优先遍历)遍历后，与初始的这个 W 所连接的所有 ‘W’ 都会被替换成 ‘.’，因此直到图中没有 ‘W’为止，总共进行 DFS 的次数即为积水的次数。<br>使用深度优先搜索，从任意W开始，进入DFS，在DFS中把八联通的邻接部分都’.’代替，若八连通区域中又有一个”W”，进入下一层DFS，直到当前的连通分支不再有W，总共DFS的次数就是答案。八连通对应着8个方向的状态转移，每个格子至多调用一次DFS，所以复杂度是$O(8\times N \times M) = O(N \times M)$。</p>
 <a id="more"></a>
 
 <h3 id="2-1-6-特殊状态的枚举"><a href="#2-1-6-特殊状态的枚举" class="headerlink" title="2.1.6 特殊状态的枚举"></a>2.1.6 特殊状态的枚举</h3><p>C++的algorithm库中提供了next_permutation这一函数，可以把n给元素共n!种不同的排列生成出来。</p>
@@ -394,6 +395,9 @@
 <p>此时最佳的切割方式为：<strong>最短的板与次短的板的节点应当是兄弟节点</strong></p>
 <p>不妨将$L_i$按大小顺序排列，那么最短的板$L_1$与次短的板$L_2$应当为兄弟节点，因为切割是自由的不妨当作$L_1$和$L_2$是最后切开的，那么这次切割之前就有：</p>
 <p>$$ (L_1+L_2), L_3, L_4, … ,L_N$$</p>
+<p>这样的N-1块木板存在。之后递归第将这N-1块木板的问题求解，每次加上最短的板与次短的板的长度之和即得解。时间复杂度为$O(N^2)$。事实上最佳的复杂度为$O(NlogN)$，之后将会学到。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> N;</span><br><span class="line"><span class="keyword">int</span> L[<span class="number">50010</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">cin</span>&gt;&gt;N;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cin</span>&gt;&gt;L[i];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">long</span> <span class="keyword">long</span> ans = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(N&gt;<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">int</span> mii1 = <span class="number">0</span>, mii2 = <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">if</span>(L[mii1]&gt;L[mii2])swap(mii1,mii2);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;N;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(L[i]&lt;L[mii1])</span><br><span class="line">			&#123;</span><br><span class="line">				mii2 = mii1;</span><br><span class="line">				mii1 = i;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(L[i]&lt;L[mii2])</span><br><span class="line">			&#123;</span><br><span class="line">				mii2 = i;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">int</span> t = L[mii1] + L[mii2];</span><br><span class="line">		ans += t;</span><br><span class="line">		<span class="keyword">if</span>(mii1==N<span class="number">-1</span>)swap(mii1,mii2);</span><br><span class="line">		L[mii1] = t;</span><br><span class="line">		L[mii2] = L[N<span class="number">-1</span>];</span><br><span class="line">		N--;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
