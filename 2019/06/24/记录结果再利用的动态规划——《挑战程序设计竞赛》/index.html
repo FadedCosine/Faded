@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="Zhixian Yang">
 <meta property="og:description" content="2.3.1 记忆化搜索与动态规划 01 背包问题有n个重量和价值分别为$w_i, v_i$的物品。从这些物品中挑选出总重量不超过W的物品，求所有挑选方案中价值总和的最大值。  循序渐进，先用最朴素的递归方法，针对每个物品是否放入背包进行搜索试试看。123456789101112131415161718192021222324252627int n, W;const int MAX_N = 1001">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-24T14:18:06.555Z">
+<meta property="og:updated_time" content="2019-06-24T14:20:37.970Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记录结果再利用的动态规划——《挑战程序设计竞赛》">
 <meta name="twitter:description" content="2.3.1 记忆化搜索与动态规划 01 背包问题有n个重量和价值分别为$w_i, v_i$的物品。从这些物品中挑选出总重量不超过W的物品，求所有挑选方案中价值总和的最大值。  循序渐进，先用最朴素的递归方法，针对每个物品是否放入背包进行搜索试试看。123456789101112131415161718192021222324252627int n, W;const int MAX_N = 1001">
@@ -407,7 +407,10 @@ dp[i+1][j] = \left\{
 <p>便可顺理成章地得到递推关系式：</p>
 <script type="math/tex; mode=display">
 dp[i+1][j] = \min(dp[i][j],dp[i][j-v[i]]+w[i])</script><p>利用这一推式可得最终的答案就是令$dp[n][j] \le W$的最大的j。此时，这种DP方式的复杂度即为$O(b\sum_i v_i)$。</p>
-<p>此类的改变DP对象，改变DP递推关系式的方法在DP问题中十分常见。</p>
+<p>此类的改变DP对象，改变DP递推关系式的方法在DP问题中十分常见。再如多重部分和问题：</p>
+<blockquote>
+<p>有n种不同大小的数字$a_i$，每种各$m_i$个，判断是否可以从这些数字之中选出若干使它们的和恰好为K。</p>
+</blockquote>
 
       
     </div>
