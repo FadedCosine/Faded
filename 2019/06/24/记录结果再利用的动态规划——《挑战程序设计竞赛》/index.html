@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="Zhixian Yang">
 <meta property="og:description" content="2.3.1 记忆化搜索与动态规划 01 背包问题有n个重量和价值分别为$w_i, v_i$的物品。从这些物品中挑选出总重量不超过W的物品，求所有挑选方案中价值总和的最大值。  循序渐进，先用最朴素的递归方法，针对每个物品是否放入背包进行搜索试试看。 123456789101112131415161718192021222324252627int n, W;const int MAX_N = 100">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-24T13:06:16.000Z">
+<meta property="og:updated_time" content="2019-06-24T13:41:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记录结果再利用的动态规划——《挑战程序设计竞赛》">
 <meta name="twitter:description" content="2.3.1 记忆化搜索与动态规划 01 背包问题有n个重量和价值分别为$w_i, v_i$的物品。从这些物品中挑选出总重量不超过W的物品，求所有挑选方案中价值总和的最大值。  循序渐进，先用最朴素的递归方法，针对每个物品是否放入背包进行搜索试试看。 123456789101112131415161718192021222324252627int n, W;const int MAX_N = 100">
@@ -386,7 +386,8 @@
 <h3 id="2-3-2-进一步探索递推关系"><a href="#2-3-2-进一步探索递推关系" class="headerlink" title="2.3.2 进一步探索递推关系"></a>2.3.2 进一步探索递推关系</h3><blockquote>
 <p><strong>完全背包问题</strong><br>有n个重量和价值分别为$w_i, v_i$的物品。从这些物品中挑选出总重量不超过W的物品，求所有挑选方案中价值总和的最大值，在这里，每种物品可以挑选任意多件</p>
 </blockquote>
-<p>给出递推关系，很容易得到：<br>dp[0][j] = 0<br>dp[i+1][j] = max{dp[i][j-k$\times$w[i]]+k$\times$v[i] | 0 $\le$ k}<br>这个递推关系中出现了一个新变量k，故如果按照这个递推关系来写代码的话，在dp二维数组的两层循环下还需加一层k的循环，k$\times$w[i] $\le$ j。三层循环的复杂度为$O(NW^2)$</p>
+<p>给出递推关系，很容易得到：<br>dp[0][j] = 0<br>dp[i+1][j] = max{dp[i][j-k$\times$w[i]]+k$\times$v[i] | 0 $\le$ k}<br>这个递推关系中出现了一个新变量k，故如果按照这个递推关系来写代码的话，在dp二维数组的两层循环下还需加一层k的循环，k$\times$w[i] $\le$ j。三层循环的复杂度为$O(NW^2)$。</p>
+<p>$$<br>\begin{align}<br>&amp; \max{ dp[i][j-k\times w[i]+k\times v[i]|0 \le k]}\<br>&amp; =\max({ dp[i][j],\max{dp[i][j-k\times w[i]]+k\times v[i]|1 \le k})\<br>&amp; =\max({ dp[i][j],\max{dp[i][(j-w[i])-k\times w[i]]+v[i]+k\times v[i]|0 \le k})\<br>&amp; = \max(dp[i][j], dp[i+1][j-w[i]]+v[i]) \<br>\end{align}<br>$$</p>
 
       
     </div>
@@ -1093,7 +1094,7 @@
         }
       });
     </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
