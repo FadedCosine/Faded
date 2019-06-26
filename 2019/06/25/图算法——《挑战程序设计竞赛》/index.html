@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="Zhixian Yang">
 <meta property="og:description" content="2.5.2 图的表示邻接表可以直接用如下代码表示： 123456vector&amp;lt;int&amp;gt; graph[MAX_V] 来表示邻接表 /*边上有属性的情况：	struct edge &amp;#123;int to, cost;&amp;#125;	vector&amp;lt;edge&amp;gt; G[MAX_V];*/">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-25T09:24:22.072Z">
+<meta property="og:updated_time" content="2019-06-25T14:44:50.917Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="图算法——《挑战程序设计竞赛》">
 <meta name="twitter:description" content="2.5.2 图的表示邻接表可以直接用如下代码表示： 123456vector&amp;lt;int&amp;gt; graph[MAX_V] 来表示邻接表 /*边上有属性的情况：	struct edge &amp;#123;int to, cost;&amp;#125;	vector&amp;lt;edge&amp;gt; G[MAX_V];*/">
@@ -367,13 +367,17 @@
 <script type="math/tex; mode=display">
 d[i] = \min\{d[j]+(从j到i的边的权值| e=(j,i)\in E\}</script><p>设初值d[s]=0, d[i]=INF，再不断使用这条递推关系式更新d的值。<strong>只要图中不存在负圈，这样的更新操作就是有限的。</strong></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">edge</span> &#123;</span><span class="keyword">int</span> from, to, cost&#125;;</span><br><span class="line">edge es[MAX_E]; <span class="comment">//边</span></span><br><span class="line"><span class="keyword">int</span> d[MAX_V];</span><br><span class="line"><span class="keyword">int</span> V, E;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">shortest_path</span><span class="params">(<span class="keyword">int</span> s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;V;i++) d[i] = INF;</span><br><span class="line">	d[s] = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(<span class="literal">true</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">bool</span> update = <span class="literal">false</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;E;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			edge e = es[i];</span><br><span class="line">			<span class="keyword">if</span>(d[e.from]!=INF &amp;&amp; d[e.to]&gt;d[e.from]+e.cost)</span><br><span class="line">			&#123;</span><br><span class="line">				d[e.to] = d[e.from] + e.cost;</span><br><span class="line">				update = <span class="literal">true</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(!update) <span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如果图中不存在负圈，最短路径不会经过同一个顶点两次，while(true)最多执行|V|-1次，因此复杂度为 $O(|V|\times|E|)$。反之如果存在负圈，那么第|V|次循环种也会更新d的值，因此可以通过判断第V次是否仍更新了判断是否存在负圈。</p>
+<p>如果图中不存在负圈，最短路径不会经过同一个顶点两次，while(true)最多执行|V|-1次（|V|个顶点，|V|-1条边），因此复杂度为 $O(|V|\times|E|)$。反之如果存在负圈，那么第|V|次循环种也会更新d的值，因此可以通过判断第V次是否仍更新了判断是否存在负圈。</p>
 <p><strong>Dijkstra算法</strong><br>在没有负边的情况下，上述Bellman-Ford算法复杂度高很大一部分原因是，如果d[i]还不是最短距离即使进行d[j]=d[i]+(从i到j的边的权值)的更新，d[j]也不会是最短距离，而且即使d[i]没有变化，每一次循坏也要检查一遍从i出发的所有边，很浪费时间。因此可以对算法做出如下修改：</p>
 <ul>
 <li>找到最短距离已经确定的顶点，从它出发更新相邻顶点的最短距离</li>
 <li>此后不用再关心1中的“最短距离已经确定的顶点”</li>
 </ul>
 <p>下面是使用STL的priority_queue的实现。在每次更新时往堆里插入当前最短距离和顶点的值对，当取出的最小值不是最短距离时，就丢弃这个值。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">edge</span>&#123;</span><span class="keyword">int</span> to, cost;&#125;;</span><br><span class="line"><span class="keyword">typedef</span> pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; P;</span><br><span class="line"><span class="keyword">int</span> V;</span><br><span class="line"><span class="built_in">vector</span>&lt;edge&gt; G[MAX_V];</span><br><span class="line"><span class="keyword">int</span> d[MAX_V];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dijkstra</span><span class="params">(<span class="keyword">int</span> s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	priority_queue&lt;P, <span class="built_in">vector</span>&lt;P&gt;, greater&lt;P&gt; &gt; que;</span><br><span class="line">	fill(d,d+V,INF);</span><br><span class="line">	d[s] = <span class="number">0</span>;</span><br><span class="line">	que.push(P(<span class="number">0</span>,s));</span><br><span class="line">	<span class="keyword">while</span>(!que.empty())</span><br><span class="line">	&#123;</span><br><span class="line">		P p = que.top(); que.pop();</span><br><span class="line">		<span class="keyword">int</span> v = p.second;</span><br><span class="line">		<span class="keyword">if</span>(d[v] &lt; p.first) <span class="keyword">continue</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;G[v].size();i++)</span><br><span class="line">		&#123;</span><br><span class="line">			edge e = G[v][i];</span><br><span class="line">			<span class="keyword">if</span>(d[e.to] &gt; d[v]+e.cost)</span><br><span class="line">			&#123;</span><br><span class="line">				d[e.to] = d[v]+e.cost;</span><br><span class="line">				que.push(P(d[e.to],e.to));</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-5-6-图算法的应用"><a href="#2-5-6-图算法的应用" class="headerlink" title="2.5.6 图算法的应用"></a>2.5.6 图算法的应用</h3><blockquote>
+<p>一共有n头牛，按编号顺序排成一排，有ml个关系好的牛的信息，有md个关系不好的牛的信息，对应输入的第一行的三个元素，接下来ml行，每行三个元素A,B,D，表示A牛和B牛相距不希望超过D，接下来md行，每行三个元素A,B,D表示A牛和B牛的相距至少要有D才行。求1号牛和n号牛的最大距离，如果距离无限大输出-2，如果无解输出-1。</p>
+</blockquote>
+<p>记第i头牛的位置是d[i]。首先，牛是按照编号顺序排列的，所以有$d[i] \le d[i+1]$。</p>
 
       
     </div>
@@ -413,6 +417,10 @@ d[i] = \min\{d[j]+(从j到i的边的权值| e=(j,i)\in E\}</script><p>设初值d
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/26/数学问题的解题窍门——《挑战程序设计竞赛》/" rel="prev" title="数学问题的解题窍门——《挑战程序设计竞赛》">
+                数学问题的解题窍门——《挑战程序设计竞赛》 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -491,7 +499,7 @@ d[i] = \min\{d[j]+(从j到i的边的权值| e=(j,i)\in E\}</script><p>设初值d
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -537,7 +545,7 @@ d[i] = \min\{d[j]+(从j到i的边的权值| e=(j,i)\in E\}</script><p>设初值d
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-2-图的表示"><span class="nav-number">1.</span> <span class="nav-text">2.5.2 图的表示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-4-最短路问题"><span class="nav-number">2.</span> <span class="nav-text">2.5.4 最短路问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-单源最短路问题"><span class="nav-number">2.1.</span> <span class="nav-text">1. 单源最短路问题</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-2-图的表示"><span class="nav-number">1.</span> <span class="nav-text">2.5.2 图的表示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-4-最短路问题"><span class="nav-number">2.</span> <span class="nav-text">2.5.4 最短路问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-单源最短路问题"><span class="nav-number">2.1.</span> <span class="nav-text">1. 单源最短路问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-6-图算法的应用"><span class="nav-number">3.</span> <span class="nav-text">2.5.6 图算法的应用</span></a></li></ol></div>
             
 
           </div>
