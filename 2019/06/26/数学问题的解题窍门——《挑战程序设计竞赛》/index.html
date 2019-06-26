@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="Algorithm,">
 
 
 
@@ -77,14 +77,18 @@
 
 
 
+<meta name="description" content="2.6.2 有关素数的基础算法埃氏筛法  素数的个数：给定整数n，请问n以内有多少个素数？  首先将2到n范围内的所有整数写下来，其中最小的数字2是素数，将表中所有2的倍数都划去，表中剩余的最小数字是3，它不能被更小的数整除，所以是素数，再将所有3的倍数划去。以此类推：123456789101112131415161718int prime[MAX_N]; //第i个素数bool is_prime">
+<meta name="keywords" content="Algorithm">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数学问题的解题窍门——《挑战程序设计竞赛》">
 <meta property="og:url" content="http://yoursite.com/2019/06/26/数学问题的解题窍门——《挑战程序设计竞赛》/index.html">
 <meta property="og:site_name" content="Zhixian Yang">
+<meta property="og:description" content="2.6.2 有关素数的基础算法埃氏筛法  素数的个数：给定整数n，请问n以内有多少个素数？  首先将2到n范围内的所有整数写下来，其中最小的数字2是素数，将表中所有2的倍数都划去，表中剩余的最小数字是3，它不能被更小的数整除，所以是素数，再将所有3的倍数划去。以此类推：123456789101112131415161718int prime[MAX_N]; //第i个素数bool is_prime">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-26T02:48:19.902Z">
+<meta property="og:updated_time" content="2019-06-26T03:46:45.001Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数学问题的解题窍门——《挑战程序设计竞赛》">
+<meta name="twitter:description" content="2.6.2 有关素数的基础算法埃氏筛法  素数的个数：给定整数n，请问n以内有多少个素数？  首先将2到n范围内的所有整数写下来，其中最小的数字2是素数，将表中所有2的倍数都划去，表中剩余的最小数字是3，它不能被更小的数整除，所以是素数，再将所有3的倍数划去。以此类推：123456789101112131415161718int prime[MAX_N]; //第i个素数bool is_prime">
 
 
 
@@ -356,7 +360,13 @@
       
 
       
-        
+        <h3 id="2-6-2-有关素数的基础算法"><a href="#2-6-2-有关素数的基础算法" class="headerlink" title="2.6.2 有关素数的基础算法"></a>2.6.2 有关素数的基础算法</h3><p>埃氏筛法</p>
+<blockquote>
+<p>素数的个数：<br>给定整数n，请问n以内有多少个素数？</p>
+</blockquote>
+<p>首先将2到n范围内的所有整数写下来，其中最小的数字2是素数，将表中所有2的倍数都划去，表中剩余的最小数字是3，它不能被更小的数整除，所以是素数，再将所有3的倍数划去。以此类推：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> prime[MAX_N]; <span class="comment">//第i个素数</span></span><br><span class="line"><span class="keyword">bool</span> is_prime[MAX_N + <span class="number">1</span>];</span><br><span class="line"><span class="comment">//返回n以内素数的个数</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sieve</span><span class="params">(<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> p = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n;i++)is_prime[i]=<span class="literal">true</span>;</span><br><span class="line">	is_prime[<span class="number">0</span>] = is_prime[<span class="number">1</span>] = <span class="literal">false</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=n;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(is_prime[i])</span><br><span class="line">		&#123;</span><br><span class="line">			prime[p++] = i;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">2</span>*i;j&lt;=n;j+=i) is_prime[j] = <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>埃氏筛法的复杂度仅有$O(n\log\log n)$。</p>
+
       
     </div>
     
@@ -370,6 +380,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+          
+        </div>
       
 
       
@@ -440,8 +456,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -494,6 +519,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-2-有关素数的基础算法"><span class="nav-number">1.</span> <span class="nav-text">2.6.2 有关素数的基础算法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

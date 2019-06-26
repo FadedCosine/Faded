@@ -3,7 +3,10 @@
   <entry>
     <title><![CDATA[数学问题的解题窍门——《挑战程序设计竞赛》]]></title>
     <url>%2F2019%2F06%2F26%2F%E6%95%B0%E5%AD%A6%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E9%A2%98%E7%AA%8D%E9%97%A8%E2%80%94%E2%80%94%E3%80%8A%E6%8C%91%E6%88%98%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%AB%9E%E8%B5%9B%E3%80%8B%2F</url>
-    <content type="text"></content>
+    <content type="text"><![CDATA[2.6.2 有关素数的基础算法埃氏筛法 素数的个数：给定整数n，请问n以内有多少个素数？ 首先将2到n范围内的所有整数写下来，其中最小的数字2是素数，将表中所有2的倍数都划去，表中剩余的最小数字是3，它不能被更小的数整除，所以是素数，再将所有3的倍数划去。以此类推：123456789101112131415161718int prime[MAX_N]; //第i个素数bool is_prime[MAX_N + 1];//返回n以内素数的个数int sieve(int n)&#123; int p = 0; for(int i=0;i&lt;=n;i++)is_prime[i]=true; is_prime[0] = is_prime[1] = false; for(int i=2;i&lt;=n;i++) &#123; if(is_prime[i]) &#123; prime[p++] = i; for(int j=2*i;j&lt;=n;j+=i) is_prime[j] = false; &#125; &#125; return p;&#125; 埃氏筛法的复杂度仅有$O(n\log\log n)$。]]></content>
+      <tags>
+        <tag>Algorithm</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[图算法——《挑战程序设计竞赛》]]></title>
