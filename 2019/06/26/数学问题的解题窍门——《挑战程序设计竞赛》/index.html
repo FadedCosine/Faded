@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="Zhixian Yang">
 <meta property="og:description" content="2.6.2 有关素数的基础算法埃氏筛法  素数的个数：给定整数n，请问n以内有多少个素数？  首先将2到n范围内的所有整数写下来，其中最小的数字2是素数，将表中所有2的倍数都划去，表中剩余的最小数字是3，它不能被更小的数整除，所以是素数，再将所有3的倍数划去。以此类推：123456789101112131415161718int prime[MAX_N]; //第i个素数bool is_prime">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-26T03:46:45.001Z">
+<meta property="og:updated_time" content="2019-06-26T04:21:48.197Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数学问题的解题窍门——《挑战程序设计竞赛》">
 <meta name="twitter:description" content="2.6.2 有关素数的基础算法埃氏筛法  素数的个数：给定整数n，请问n以内有多少个素数？  首先将2到n范围内的所有整数写下来，其中最小的数字2是素数，将表中所有2的倍数都划去，表中剩余的最小数字是3，它不能被更小的数整除，所以是素数，再将所有3的倍数划去。以此类推：123456789101112131415161718int prime[MAX_N]; //第i个素数bool is_prime">
@@ -366,6 +366,19 @@
 </blockquote>
 <p>首先将2到n范围内的所有整数写下来，其中最小的数字2是素数，将表中所有2的倍数都划去，表中剩余的最小数字是3，它不能被更小的数整除，所以是素数，再将所有3的倍数划去。以此类推：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> prime[MAX_N]; <span class="comment">//第i个素数</span></span><br><span class="line"><span class="keyword">bool</span> is_prime[MAX_N + <span class="number">1</span>];</span><br><span class="line"><span class="comment">//返回n以内素数的个数</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sieve</span><span class="params">(<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> p = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n;i++)is_prime[i]=<span class="literal">true</span>;</span><br><span class="line">	is_prime[<span class="number">0</span>] = is_prime[<span class="number">1</span>] = <span class="literal">false</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=n;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(is_prime[i])</span><br><span class="line">		&#123;</span><br><span class="line">			prime[p++] = i;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">2</span>*i;j&lt;=n;j+=i) is_prime[j] = <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>埃氏筛法的复杂度仅有$O(n\log\log n)$。</p>
+<a id="more"></a>
+<h3 id="2-6-4快速幂运算"><a href="#2-6-4快速幂运算" class="headerlink" title="2.6.4快速幂运算"></a>2.6.4快速幂运算</h3><p>[<a href="https://onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=12&amp;page=show_problem&amp;problem=947" target="_blank" rel="noopener">https://onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=12&amp;page=show_problem&amp;problem=947</a>]:     “Carmicheal Numbers”</p>
+<blockquote>
+<p>我们把对任意的1&lt;x&lt;n都有$x^n\equiv x(mod n)$成立的合数n称为Carmichael Numbers。对于给定的整数n，判断它是不是Carmichael Number。</p>
+</blockquote>
+<p>考虑加速幂运算的方法，如果$n=x^k$，可以将其表示为</p>
+<script type="math/tex; mode=display">
+x^n = ((x^2)^2) \cdots</script><p>只要做k次平方运算就可以轻松求得。因此我们可以先将n表示成2的幂次的和：</p>
+<script type="math/tex; mode=display">
+n = 2^{k_1} + 2^{k_2} + 2^{k_2} + \cdots</script><p>就有：</p>
+<script type="math/tex; mode=display">
+x^n = x^{2^{k_1}}x^{2^{k_2}}x^{2^{k_3}}\cdots</script><p>只要依此求$x^{2^{k_i}}$，最终可以得到$O(\log n)$的计算幂运算的复杂度。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="function">ll <span class="title">mod_pow</span><span class="params">(ll x, ll n, ll mod)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	ll res = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span>(n&gt;<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(n&amp;<span class="number">1</span>) res = res * x % mod;</span><br><span class="line">		x = x * x % mod;</span><br><span class="line">		n &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在遍历n，即可得解，复杂度为$O(n\log n)$。</p>
 
       
     </div>
@@ -529,7 +542,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-2-有关素数的基础算法"><span class="nav-number">1.</span> <span class="nav-text">2.6.2 有关素数的基础算法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-2-有关素数的基础算法"><span class="nav-number">1.</span> <span class="nav-text">2.6.2 有关素数的基础算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-4快速幂运算"><span class="nav-number">2.</span> <span class="nav-text">2.6.4快速幂运算</span></a></li></ol></div>
             
 
           </div>
