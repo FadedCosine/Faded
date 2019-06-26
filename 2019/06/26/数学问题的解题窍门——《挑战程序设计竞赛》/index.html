@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="Zhixian Yang">
 <meta property="og:description" content="2.6.2 有关素数的基础算法埃氏筛法  素数的个数：给定整数n，请问n以内有多少个素数？  首先将2到n范围内的所有整数写下来，其中最小的数字2是素数，将表中所有2的倍数都划去，表中剩余的最小数字是3，它不能被更小的数整除，所以是素数，再将所有3的倍数划去。以此类推：123456789101112131415161718int prime[MAX_N]; //第i个素数bool is_prime">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-26T04:21:48.197Z">
+<meta property="og:updated_time" content="2019-06-26T14:14:45.212Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数学问题的解题窍门——《挑战程序设计竞赛》">
 <meta name="twitter:description" content="2.6.2 有关素数的基础算法埃氏筛法  素数的个数：给定整数n，请问n以内有多少个素数？  首先将2到n范围内的所有整数写下来，其中最小的数字2是素数，将表中所有2的倍数都划去，表中剩余的最小数字是3，它不能被更小的数整除，所以是素数，再将所有3的倍数划去。以此类推：123456789101112131415161718int prime[MAX_N]; //第i个素数bool is_prime">
@@ -379,6 +379,7 @@ n = 2^{k_1} + 2^{k_2} + 2^{k_2} + \cdots</script><p>就有：</p>
 <script type="math/tex; mode=display">
 x^n = x^{2^{k_1}}x^{2^{k_2}}x^{2^{k_3}}\cdots</script><p>只要依此求$x^{2^{k_i}}$，最终可以得到$O(\log n)$的计算幂运算的复杂度。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="function">ll <span class="title">mod_pow</span><span class="params">(ll x, ll n, ll mod)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	ll res = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span>(n&gt;<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(n&amp;<span class="number">1</span>) res = res * x % mod;</span><br><span class="line">		x = x * x % mod;</span><br><span class="line">		n &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>在遍历n，即可得解，复杂度为$O(n\log n)$。</p>
+<hr>
 
       
     </div>
