@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="Algorithm, DP,">
 
 
 
@@ -77,14 +77,18 @@
 
 
 
+<meta name="description" content="3.4.1 状态压缩DP可能在一些DP的递推关系式中，下表不是普通的整数，但是我们可以把它编码成一个整数，或者给它们定义一个全序关系并用二叉搜索树存储，从而可以记忆化搜索来求解。  旅行商问题：给定一个n个顶点组成的带权有向图的距离矩阵d(I,j)（INF表示没有边）。要求从顶点0出发，经过每个顶点恰好一次后再回到顶点0。问所经过的边的总权值的最小值是多少？$2\le n \le 15$$0\le">
+<meta name="keywords" content="Algorithm, DP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="熟练掌握动态规划——《挑战程序设计竞赛》">
 <meta property="og:url" content="https://fadedcosine.github.io/2019/06/28/熟练掌握动态规划——《挑战程序设计竞赛》/index.html">
 <meta property="og:site_name" content="Zhixian Yang">
+<meta property="og:description" content="3.4.1 状态压缩DP可能在一些DP的递推关系式中，下表不是普通的整数，但是我们可以把它编码成一个整数，或者给它们定义一个全序关系并用二叉搜索树存储，从而可以记忆化搜索来求解。  旅行商问题：给定一个n个顶点组成的带权有向图的距离矩阵d(I,j)（INF表示没有边）。要求从顶点0出发，经过每个顶点恰好一次后再回到顶点0。问所经过的边的总权值的最小值是多少？$2\le n \le 15$$0\le">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-28T11:59:16.251Z">
+<meta property="og:updated_time" content="2019-06-28T13:52:58.202Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="熟练掌握动态规划——《挑战程序设计竞赛》">
+<meta name="twitter:description" content="3.4.1 状态压缩DP可能在一些DP的递推关系式中，下表不是普通的整数，但是我们可以把它编码成一个整数，或者给它们定义一个全序关系并用二叉搜索树存储，从而可以记忆化搜索来求解。  旅行商问题：给定一个n个顶点组成的带权有向图的距离矩阵d(I,j)（INF表示没有边）。要求从顶点0出发，经过每个顶点恰好一次后再回到顶点0。问所经过的边的总权值的最小值是多少？$2\le n \le 15$$0\le">
 
 
 
@@ -356,7 +360,22 @@
       
 
       
-        
+        <h3 id="3-4-1-状态压缩DP"><a href="#3-4-1-状态压缩DP" class="headerlink" title="3.4.1 状态压缩DP"></a>3.4.1 状态压缩DP</h3><p>可能在一些DP的递推关系式中，下表不是普通的整数，但是我们可以把它编码成一个整数，或者给它们定义一个全序关系并用二叉搜索树存储，从而可以记忆化搜索来求解。</p>
+<blockquote>
+<p><strong>旅行商问题：</strong><br>给定一个n个顶点组成的带权有向图的距离矩阵d(I,j)（INF表示没有边）。要求从顶点0出发，经过每个顶点恰好一次后再回到顶点0。问所经过的边的总权值的最小值是多少？<br>$2\le n \le 15$<br>$0\le d(i,j) \le 1000$</p>
+</blockquote>
+<p>所有可能的路线共有(n-1)!种，就算此题的n很小也不能列举。</p>
+<p>假设现在已经访问过的顶点的集合（起点0当作还未访问过的顶点）为S，当前所在的顶点为v，用dp[s][v]表示从v出发访问剩余所有顶点最终返回顶点0这一段路径的权值总和的最小值，则有如下的递推关系式：</p>
+<script type="math/tex; mode=display">
+dp[V][0] = 0 \\
+dp[S][v] = \min\{dp[S\cup\{u\}][u]+d(v,u)|u\notin S\}</script><p>这个递归式中，S是一个集合而不是普通的整数，对于集合我们可以把每一个元素的选取与否对应到一个二进制位里，从而把状态压缩到一个整数。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//输入</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INF 0x3f3f3f3f</span></span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">int</span> d[MAX_N][MAX_N];</span><br><span class="line"><span class="keyword">int</span> dp[<span class="number">1</span>&lt;&lt;MAX_N][MAX_N];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rec</span><span class="params">(<span class="keyword">int</span> S,<span class="keyword">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(dp[S][v] &gt;= <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> dp[S][v];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(S==(<span class="number">1</span>&lt;&lt;n)<span class="number">-1</span> &amp;&amp; v==<span class="number">0</span>)<span class="comment">//已经访问过所有节点并回到0号点，所以剩余的权值为0</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> dp[S][v] = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> res = INF;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> u=<span class="number">0</span>;u&lt;n;u++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(!(S&gt;&gt;u &amp; <span class="number">1</span>))</span><br><span class="line">		&#123;</span><br><span class="line">			res = min(res,rec(S|<span class="number">1</span>&lt;&lt;u,u)+d[v][u]);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> dp[S][v] = res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">memset</span>(dp,<span class="number">-1</span>,<span class="keyword">sizeof</span>(dp));</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d\n"</span>,rec(<span class="number">0</span>,<span class="number">0</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另外可以不用递归而从全序排列字典序倒叙来循环求解。而像这样针对集合的DP我们一般叫状态压缩DP。</p>
+<hr>
+<blockquote>
+<p><strong>铺砖问题</strong><br>给定$n\times m$的格子，每个格子被染成了黑色或者白色。现在要用$1\times 2$的砖块覆盖这些格子，要求块与块之间不互相重叠，且覆盖了所有白色的格子，但不覆盖任意一个黑色格子。求一共有多少种覆盖方法，输出方案数对M取余后的结果。</p>
+</blockquote>
+
       
     </div>
     
@@ -370,6 +389,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Algorithm-DP/" rel="tag"># Algorithm, DP</a>
+          
+        </div>
       
 
       
@@ -440,8 +465,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -471,7 +505,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -494,6 +528,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-1-状态压缩DP"><span class="nav-number">1.</span> <span class="nav-text">3.4.1 状态压缩DP</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
