@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="Algorithm,">
 
 
 
@@ -77,13 +77,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Zhixian Yang">
-<meta property="og:url" content="http://yoursite.com/archives/2019/index.html">
+<meta name="description" content="树状数组(Binary Indexed Tree(B.I.T), Fenwick Tree)是一个查询和修改复杂度都为log(n)的数据结构。给一个初始值全为0的数列，$a_1, a_2, \cdots, a_n$，树状数组可以进行如下操作：  给定i，计算$a_1+a_2+\cdots+a_i$ 给定i和x，执行$a_i+=x$">
+<meta name="keywords" content="Algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="树状数组——《挑战程序设计竞赛》">
+<meta property="og:url" content="http://yoursite.com/2019/06/28/树状数组——《挑战程序设计竞赛》/index.html">
 <meta property="og:site_name" content="Zhixian Yang">
+<meta property="og:description" content="树状数组(Binary Indexed Tree(B.I.T), Fenwick Tree)是一个查询和修改复杂度都为log(n)的数据结构。给一个初始值全为0的数列，$a_1, a_2, \cdots, a_n$，树状数组可以进行如下操作：  给定i，计算$a_1+a_2+\cdots+a_i$ 给定i和x，执行$a_i+=x$">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-28T04:25:19.571Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Zhixian Yang">
+<meta name="twitter:title" content="树状数组——《挑战程序设计竞赛》">
+<meta name="twitter:description" content="树状数组(Binary Indexed Tree(B.I.T), Fenwick Tree)是一个查询和修改复杂度都为log(n)的数据结构。给一个初始值全为0的数列，$a_1, a_2, \cdots, a_n$，树状数组可以进行如下操作：  给定i，计算$a_1+a_2+\cdots+a_i$ 给定i和x，执行$a_i+=x$">
 
 
 
@@ -113,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2019/">
+  <link rel="canonical" href="http://yoursite.com/2019/06/28/树状数组——《挑战程序设计竞赛》/">
 
 
 
 
 
-  <title>归档 | Zhixian Yang</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>树状数组——《挑战程序设计竞赛》 | Zhixian Yang</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -138,7 +143,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-archive">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -274,352 +279,155 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/28/树状数组——《挑战程序设计竞赛》/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhixian Yang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Zoe.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhixian Yang">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">树状数组——《挑战程序设计竞赛》</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-28T11:46:32+08:00">
+                2019-06-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 9 篇日志。 继续努力。
-      </span>
 
-      
-
-        
-        
-        
-
-        
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2019">2019</h1>
-          </div>
-        
-        
+            
+          
 
-        
+          
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/06/28/分桶法和平方分割——《挑战程序设计竞》/" itemprop="url">
-              
-                <span itemprop="name">分桶法和平方分割——《挑战程序设计竞》</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-28T12:23:38+08:00" content="2019-06-28">
-          06-28
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+        </div>
+      </header>
+    
 
-
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/06/28/树状数组——《挑战程序设计竞赛》/" itemprop="url">
-              
-                <span itemprop="name">树状数组——《挑战程序设计竞赛》</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-28T11:46:32+08:00" content="2019-06-28">
-          06-28
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/06/27/线段树——《挑战程序设计竞赛》/" itemprop="url">
-              
-                <span itemprop="name">线段树——《挑战程序设计竞赛》</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-27T22:07:52+08:00" content="2019-06-27">
-          06-27
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>树状数组(Binary Indexed Tree(B.I.T), Fenwick Tree)是一个查询和修改复杂度都为log(n)的数据结构。给一个初始值全为0的数列，$a_1, a_2, \cdots, a_n$，树状数组可以进行如下操作：</p>
+<ul>
+<li>给定i，计算$a_1+a_2+\cdots+a_i$</li>
+<li>给定i和x，执行$a_i+=x$ </li>
+</ul>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/06/27/常用技巧精选——《挑战程序设计竞赛》/" itemprop="url">
-              
-                <span itemprop="name">常用技巧精选——《挑战程序设计竞赛》</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-27T11:31:23+08:00" content="2019-06-27">
-          06-27
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/06/26/数学问题的解题窍门——《挑战程序设计竞赛》/" itemprop="url">
-              
-                <span itemprop="name">数学问题的解题窍门——《挑战程序设计竞赛》</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-26T10:48:19+08:00" content="2019-06-26">
-          06-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/06/25/图算法——《挑战程序设计竞赛》/" itemprop="url">
-              
-                <span itemprop="name">图算法——《挑战程序设计竞赛》</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-25T16:37:59+08:00" content="2019-06-25">
-          06-25
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/06/25/加工并存储数据的数据结构——《挑战程序设计竞赛》/" itemprop="url">
-              
-                <span itemprop="name">加工并存储数据的数据结构——《挑战程序设计竞赛》</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-25T11:16:33+08:00" content="2019-06-25">
-          06-25
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/06/24/记录结果再利用的动态规划——《挑战程序设计竞赛》/" itemprop="url">
-              
-                <span itemprop="name">记录结果再利用的动态规划——《挑战程序设计竞赛》</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-24T12:00:51+08:00" content="2019-06-24">
-          06-24
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/06/23/最基础的穷竭搜索——《挑战程序设计竞赛》/" itemprop="url">
-              
-                <span itemprop="name">最基础的穷竭搜索——《挑战程序设计竞赛》</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-23T12:03:18+08:00" content="2019-06-23">
-          06-23
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/27/线段树——《挑战程序设计竞赛》/" rel="next" title="线段树——《挑战程序设计竞赛》">
+                <i class="fa fa-chevron-left"></i> 线段树——《挑战程序设计竞赛》
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/28/分桶法和平方分割——《挑战程序设计竞》/" rel="prev" title="分桶法和平方分割——《挑战程序设计竞》">
+                分桶法和平方分割——《挑战程序设计竞》 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -627,6 +435,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -841,6 +653,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
