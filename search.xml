@@ -3,7 +3,10 @@
   <entry>
     <title><![CDATA[网络流解决问题——《挑战程序设计竞赛》]]></title>
     <url>%2F2019%2F07%2F01%2F%E7%BD%91%E7%BB%9C%E6%B5%81%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98%E2%80%94%E2%80%94%E3%80%8A%E6%8C%91%E6%88%98%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%AB%9E%E8%B5%9B%E3%80%8B%2F</url>
-    <content type="text"></content>
+    <content type="text"><![CDATA[3.5.1 最大流Ford-Fulkerson算法的邻接表实现的例子如下：1234567891011121314151617181920212223242526272829303132333435363738394041424344454647#include&lt;iostream&gt;#include&lt;queue&gt;#include&lt;vector&gt;#define MAX_V 10000#define INF 0x3f3f3f3fusing namespace std;//求解最大流问题的基础代码struct edge&#123;int to, cap, rev;&#125;;vector&lt;edge&gt; G[MAX_V]; //邻接表bool used[MAX_V];void add_edge(int from, int to, int cap)&#123; //第三个参数反向边是在G[to]中来自from边（反向边）的index。 G[from].push_back((edge)&#123;to,cap,G[to&#125;.size()&#125;); //因为刚刚from的邻接表中加了一个元素，所以要得到正确的反向边的index，就要减一 G[to].push_back((edge)&#123;from,0,G[from&#125;.size()-1&#125;) &#125;int dfs(int v,int t,int f)&#123; if(v == t)return f; used[v] = true; for(int i=0;i&lt;G[v].size();i++) &#123; edge &amp;e = G[v][i]; if(!used[e.to] &amp;&amp; e.cap &gt; 0) &#123; int d = dfs(e.to, t, min(f.e.cap)); G[e.to][e.rev].cap += d; return d; &#125; &#125; return 0;&#125;int max_flow(int s, int t)&#123; int flow = 0; for(;;) &#123; memset(used, 0, sizeof(used)); int f = dfs(s, t, INF); if(f == 0) return flow; flow += f; &#125;&#125; 记最大流的流量为F，那么该算法最多进行F次深度优先搜索，所以其复杂度为$O(F|E|)$。不过，这是一个很松的上界，达到这种最坏复杂度的情况几乎不存在。 3.5.7 应用问题（其中的应用多转化为二分图的最大匹配问题） Asteroids 有一个N*N的网格,该网格有K个小行星.你有一把武器,每次你使用武器发射光束可以攻击该网格特定行或列，从而清除行或列上的所有小行星.问你最少需要使用多少次武器能清除网格的所有小行星? 要破坏某个小行星，只能通过对应水平方向或者竖直方向的光束的攻击。利用攻击方法只有两种这一点，我们可以将问题按如下方法转换为图。 把光束当作图的顶点，而把小行星当作连接对应光束的边。这样转换之后，光束的攻击方案即对应一个顶点集合S，而要求攻击方案能够摧毁所有小行星，也就是图中的每条边都至少有一个属于S的端点，这样，这个问题就转化为了最小顶点覆盖问题。因为攻击方法只有两种，水平方向光束和竖直方向光束，那么这是一个二分图。最小覆盖问题通常是NP困难的，不过在二分图中等价于最大匹配问题，因而可以通过最大流算法高效地求解。]]></content>
+      <tags>
+        <tag>Algorithm</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[熟练掌握动态规划——《挑战程序设计竞赛》]]></title>
