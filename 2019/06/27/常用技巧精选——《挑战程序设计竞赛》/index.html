@@ -80,14 +80,14 @@
 <meta name="description" content="3.2 常用技巧精选（一）3.2.1 尺取法 给出N个数字：$a0, a_1, \cdots, a{n-1}$，每个数字不大于10000，给出一个整数S，在N个数字中挑选出连续子序列，使这个子序列和大于或等于S。请问这个连续的子序列长度的最小值。">
 <meta name="keywords" content="Algorithm">
 <meta property="og:type" content="article">
-<meta property="og:title" content="常用技巧精选——《挑战程序设计竞赛》">
+<meta property="og:title" content="常用技巧精选(-)——《挑战程序设计竞赛》">
 <meta property="og:url" content="https://fadedcosine.github.io/2019/06/27/常用技巧精选——《挑战程序设计竞赛》/index.html">
 <meta property="og:site_name" content="Zhixian Yang">
 <meta property="og:description" content="3.2 常用技巧精选（一）3.2.1 尺取法 给出N个数字：$a0, a_1, \cdots, a{n-1}$，每个数字不大于10000，给出一个整数S，在N个数字中挑选出连续子序列，使这个子序列和大于或等于S。请问这个连续的子序列长度的最小值。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-28T13:53:53.230Z">
+<meta property="og:updated_time" content="2019-07-02T07:53:53.969Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="常用技巧精选——《挑战程序设计竞赛》">
+<meta name="twitter:title" content="常用技巧精选(-)——《挑战程序设计竞赛》">
 <meta name="twitter:description" content="3.2 常用技巧精选（一）3.2.1 尺取法 给出N个数字：$a0, a_1, \cdots, a{n-1}$，每个数字不大于10000，给出一个整数S，在N个数字中挑选出连续子序列，使这个子序列和大于或等于S。请问这个连续的子序列长度的最小值。">
 
 
@@ -124,7 +124,7 @@
 
 
 
-  <title>常用技巧精选——《挑战程序设计竞赛》 | Zhixian Yang</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>常用技巧精选(-)——《挑战程序设计竞赛》 | Zhixian Yang</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -310,7 +310,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">常用技巧精选——《挑战程序设计竞赛》</h1>
+          <h1 class="post-title" itemprop="name headline">常用技巧精选(-)——《挑战程序设计竞赛》</h1>
         
 
         <div class="post-meta">
@@ -390,7 +390,8 @@ f[i]:=区间[i,i+K-1]进行了反转的话则为1，否则为0</script><p>这样
 <p>w*h的格子上画了n条垂直或水平的宽度为1的直线。求出这些线将格子划分成了多少个区域。<br>1&lt;=w,h&lt;=1000000.     1&lt;=n&lt;=500<br>样例：<br>w = 10, h = 10, n = 5<br>x1 = {1, 1, 4, 9, 10}<br>x2 = {6, 10, 4, 9, 10}<br>y1 = {4, 8, 1, 1, 6}<br>y2 ={4, 8, 10, 5, 10}</p>
 </blockquote>
 <p>理解了半天这个样例，意思是( (x1, y1), (x2, y2) )是一条直线。一般求解被分割出的区域的个数使用图的遍历如DFS和BFS算法，需要$w\times h$，但是这个问题中w和h最大为1000000，所以没办法创建出$w\times h$的数组，所以需要使用坐标离散化技巧。</p>
-<p>数组里只需要存储有直线的行列以及前后的行列就足够了，这样的话大小最多$6n \times 6n$就足够了（x1的自己、前后，3个，x2的自己、前后，3个，因此则有 $6n \times 6n$）。创建出数组并利用搜索求出区域的个数。<strong>（区域可能很大，所以用递归函数实现的话可能会栈溢出）</strong></p>
+<p>数组里只需要存储有直线的行列以及前后的行列就足够了，这样的话大小最多$6n \times 6n$就足够了（x1的自己、前后，3个，x2的自己、前后，3个，因此则有 $6n \times 6n$）。创建出数组并利用搜索求出区域的个数。<strong>（区域可能很大，所以用递归函数实现的话可能会栈溢出，所以在下列代码实现中不用DFS而用BFS）</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//输入</span></span><br><span class="line"><span class="keyword">int</span> W, H, N</span><br><span class="line"><span class="keyword">int</span> X1[MAX_N], X2[MAX_N], Y1[MAX_N], Y2[MAX_N];</span><br><span class="line"></span><br><span class="line"><span class="keyword">bool</span> fld[MAX_N*<span class="number">6</span>][MAX_N*<span class="number">6</span>];</span><br><span class="line"><span class="keyword">int</span> dx[<span class="number">4</span>]=&#123;<span class="number">-1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>&#125;, dy[<span class="number">4</span>]=&#123;<span class="number">0</span>,<span class="number">-1</span>,<span class="number">1</span>,<span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">compress</span><span class="params">(<span class="keyword">int</span> *x1, <span class="keyword">int</span> *x2; <span class="keyword">int</span> w)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; xs;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> d = <span class="number">-1</span>;d&lt;=<span class="number">1</span>;d++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">int</span> tx1 = x1[i] + d, tx2 = x2[i] + d;</span><br><span class="line">			<span class="keyword">if</span>(<span class="number">1</span>&lt;=tx1 &amp;&amp; tx1&lt;=w) xs.push_back(tx1);</span><br><span class="line">			<span class="keyword">if</span>(<span class="number">1</span>&lt;=tx2 &amp;&amp; tx2&lt;=w) xs.push_back(tx2);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	sort(xs.begin(),xs,end());</span><br><span class="line">	xs.erase(unique(x.begin(),xs.end()),xs.end()); <span class="comment">//去重</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N;i++) <span class="comment">//重新建立x1, x2的值</span></span><br><span class="line">	&#123;</span><br><span class="line">		x1[i] = find(xs.begin(),xs.end(),x1[i]) - xs.begin();</span><br><span class="line">		x2[i] = find(xs.begin(),xs.end(),x2[i]) - xs.begin();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> xs.size(); <span class="comment">//因为有去重，所以不慌</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	W = compress(X1,X2,W);</span><br><span class="line">	H = compress(Y1,Y2,H);</span><br><span class="line">	</span><br><span class="line">	<span class="built_in">memset</span>(fld, <span class="number">0</span>, <span class="keyword">sizeof</span>(fld));</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> y=Y1[i];y&lt;=Y2[i];y++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> x=X1[i];x&lt;=X2[i];x++)</span><br><span class="line">			&#123;</span><br><span class="line">				fld[y][x] = <span class="literal">true</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> y=<span class="number">0</span>;y&lt;H;y++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> x=<span class="number">0</span>;x&lt;W;x++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(fld[y][x]) <span class="keyword">continue</span>;</span><br><span class="line">			ans++;</span><br><span class="line">			</span><br><span class="line">			<span class="built_in">queue</span>&lt;pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; &gt; que;</span><br><span class="line">			que.push(make_pair(x,y));</span><br><span class="line">			<span class="keyword">while</span>(!que.empty())</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">int</span> sx = que.front().first(), sy = que.front().second();</span><br><span class="line">				que.pop();</span><br><span class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="keyword">int</span> tx = sx + dx[i], ty = sy + dy[i];</span><br><span class="line">					que.push(make_pair(tx,ty));</span><br><span class="line">					fld[ty][tx] = <span class="literal">true</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d\n"</span>, ans);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -524,10 +525,10 @@ f[i]:=区间[i,i+K-1]进行了反转的话则为1，否则为0</script><p>这样
               
               
               <div class="site-state-item site-state-tags">
-                
+                <a href="/tags/index.html">
                   <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">标签</span>
-                
+                </a>
               </div>
             
 
