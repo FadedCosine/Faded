@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="Zhixian Yang">
 <meta property="og:description" content="3.4.1 状态压缩DP可能在一些DP的递推关系式中，下表不是普通的整数，但是我们可以把它编码成一个整数，或者给它们定义一个全序关系并用二叉搜索树存储，从而可以记忆化搜索来求解。  旅行商问题：给定一个n个顶点组成的带权有向图的距离矩阵d(I,j)（INF表示没有边）。要求从顶点0出发，经过每个顶点恰好一次后再回到顶点0。问所经过的边的总权值的最小值是多少？$2\le n \le 15$$0\le">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-02T13:33:37.548Z">
+<meta property="og:updated_time" content="2019-07-02T14:49:15.953Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="熟练掌握动态规划——《挑战程序设计竞赛》">
 <meta name="twitter:description" content="3.4.1 状态压缩DP可能在一些DP的递推关系式中，下表不是普通的整数，但是我们可以把它编码成一个整数，或者给它们定义一个全序关系并用二叉搜索树存储，从而可以记忆化搜索来求解。  旅行商问题：给定一个n个顶点组成的带权有向图的距离矩阵d(I,j)（INF表示没有边）。要求从顶点0出发，经过每个顶点恰好一次后再回到顶点0。问所经过的边的总权值的最小值是多少？$2\le n \le 15$$0\le">
@@ -333,6 +333,28 @@
           </span>
 
           
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/三更有梦书为枕/" itemprop="url" rel="index">
+                    <span itemprop="name">三更有梦书为枕</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -364,6 +386,7 @@
 <blockquote>
 <p><strong>旅行商问题：</strong><br>给定一个n个顶点组成的带权有向图的距离矩阵d(I,j)（INF表示没有边）。要求从顶点0出发，经过每个顶点恰好一次后再回到顶点0。问所经过的边的总权值的最小值是多少？<br>$2\le n \le 15$<br>$0\le d(i,j) \le 1000$</p>
 </blockquote>
+<a id="more"></a>
 <p>所有可能的路线共有(n-1)!种，就算此题的n很小也不能列举。</p>
 <p>假设现在已经访问过的顶点的集合（起点0当作还未访问过的顶点）为S，当前所在的顶点为v，用dp[s][v]表示从v出发访问剩余所有顶点最终返回顶点0这一段路径的权值总和的最小值，则有如下的递推关系式：</p>
 <script type="math/tex; mode=display">
@@ -375,6 +398,9 @@ dp[S][v] = \min\{dp[S\cup\{u\}][u]+d(v,u)|u\notin S\}</script><p>这个递归式
 <blockquote>
 <p><strong>铺砖问题</strong><br>给定$n\times m$的格子，每个格子被染成了黑色或者白色。现在要用$1\times 2$的砖块覆盖这些格子，要求块与块之间不互相重叠，且覆盖了所有白色的格子，但不覆盖任意一个黑色格子。求一共有多少种覆盖方法，输出方案数对M取余后的结果。</p>
 </blockquote>
+<p>这道题的想法有点难理解昂。</p>
+<p>索性不强行理解了，咱们根据代码来理解。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">bool</span> M[<span class="number">17</span>][<span class="number">17</span>]; <span class="comment">//存初始化格子的颜色</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">dp[used]:=(这个used是第二个参数，m个格子的枚举)从起始位置到当前的m个格子，都被覆盖的所有可能性</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">int</span> dp[<span class="number">2</span>][<span class="number">1</span>&lt;&lt;<span class="number">15</span>]; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n,m,mod;</span><br><span class="line">	<span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;n&gt;&gt;m &amp;&amp;n&amp;&amp;m)&#123;</span><br><span class="line">		<span class="built_in">cin</span>&gt;&gt;mod;</span><br><span class="line">		<span class="built_in">memset</span>(dp,<span class="number">0</span>,<span class="keyword">sizeof</span>(dp));</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123; <span class="comment">//从0开始后面会好操作一点 </span></span><br><span class="line">				<span class="keyword">char</span> input; <span class="built_in">cin</span>&gt;&gt;input;</span><br><span class="line">				<span class="keyword">if</span>(input==<span class="string">'.'</span>) M[i][j]=<span class="number">0</span>; <span class="comment">//0:白 1：黑，将0全变为1 </span></span><br><span class="line">				<span class="keyword">else</span> M[i][j]=<span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">int</span> *now=dp[<span class="number">0</span>],*nex=dp[<span class="number">1</span>];</span><br><span class="line">		now[<span class="number">0</span>]=<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=n<span class="number">-1</span>;i&gt;=<span class="number">0</span>;i--)&#123; <span class="comment">//从n-1 开始会方便二进制表示状态，我也不知道为什么就方便起来了</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=m<span class="number">-1</span>;j&gt;=<span class="number">0</span>;j--)&#123;</span><br><span class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> used=<span class="number">0</span>;used&lt; (<span class="number">1</span>&lt;&lt;m) ;used++)&#123; <span class="comment">//遍历状态,这里反过来表示  </span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">为什么要遍历呢？看下面竖着放的代码有一个： res+=now[used|1&lt;&lt;j];</span></span><br><span class="line"><span class="comment">横着放也是一样，是从当前used的状态中新置1一个比特，因此需要！</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">					<span class="keyword">if</span>(used&gt;&gt;j &amp; <span class="number">1</span> || M[i][j])&#123; <span class="comment">//假如这个位置被用了或者是1 不用填 就是不需要被覆盖呢，那么下一个处理的格子的可能性就等于这一个格子的可能性，这个格子的可能性也就对于这个格子没被覆盖的可能性，毕竟要递推过来的嘛。</span></span><br><span class="line">						nex[used]=now[used &amp; ~(<span class="number">1</span>&lt;&lt;j)];  <span class="comment">//把第j这个位置上的比特置为0，也就是这个格子没被覆盖的意思</span></span><br><span class="line">					&#125; </span><br><span class="line">					<span class="keyword">else</span>&#123;</span><br><span class="line">						<span class="keyword">int</span> res=<span class="number">0</span>;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">对于一个白色格子，那么覆盖它的可能性就等于横放的可能性（右边和它一起被覆盖）+竖放可能性（下边和它一起被覆盖）。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">						<span class="keyword">if</span>(j+<span class="number">1</span>&lt;m &amp;&amp; !(used&gt;&gt;(j+<span class="number">1</span>)&amp;<span class="number">1</span>) &amp;&amp; !M[i][j+<span class="number">1</span>])&#123; <span class="comment">//横着放 </span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">j+1的原因是上面for循环是j--，   &lt;- 这个方向遍历的；</span></span><br><span class="line"><span class="comment">这个if的!(used&gt;&gt;(j+1)&amp;1) 条件是说j+1这个位置，也就是右边这个格子，在当前枚举的这种状态下没有被覆盖，因为只有右边这个格子没被覆盖，这下横着放，占了右边格子和当前格子才行，那为什么不能是j-1呢？因为j-1还没处理到，我的理解是不能影响后面还未处理的格子。那么这种可能性就等于右边和它一起被覆盖的可能性。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">							res+=now[used|<span class="number">1</span>&lt;&lt;(j+<span class="number">1</span>)];</span><br><span class="line">						&#125;</span><br><span class="line">						<span class="keyword">if</span>(i+<span class="number">1</span>&lt;n &amp;&amp; !M[i+<span class="number">1</span>][j] )&#123; <span class="comment">//竖着放， 同理了，那么这种可能性就等于下边的格子和它一起被覆盖的可能性。</span></span><br><span class="line">							res+=now[used|<span class="number">1</span>&lt;&lt;j];</span><br><span class="line">						&#125;</span><br><span class="line">						nex[used]=res%mod;</span><br><span class="line">					&#125; </span><br><span class="line">					</span><br><span class="line">				&#125;</span><br><span class="line">				swap(now,nex);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">cout</span>&lt;&lt;now[<span class="number">0</span>]&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">3 3 100</span></span><br><span class="line"><span class="comment">. . .</span></span><br><span class="line"><span class="comment">. X .</span></span><br><span class="line"><span class="comment">. . .</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -504,6 +530,15 @@ dp[S][v] = \min\{dp[S\cup\{u\}][u]+d(v,u)|u\notin S\}</script><p>这个递归式
               </div>
             
 
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
             
 
             
