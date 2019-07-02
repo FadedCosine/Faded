@@ -77,18 +77,18 @@
 
 
 
-<meta name="description" content="3.2 常用技巧精选（一）3.2.1 尺取法Subsequence  给出N个数字：$a0, a_1, \cdots, a{n-1}$，每个数字不大于10000，给出一个整数S，在N个数字中挑选出连续子序列，使这个子序列和大于或等于S。请问这个连续的子序列长度的最小值。  我们设以$as$开始总和最初大于S时的连续子序列为$a_s+\cdots+a{t-1}$，这时  a_{s+1}+\cdots">
+<meta name="description" content="3.2 常用技巧精选（一）3.2.1 尺取法Subsequence  给出N个数字：a_0, a_1, \cdots, a_{n-1}，每个数字不大于10000，给出一个整数S，在N个数字中挑选出连续子序列，使这个子序列和大于或等于S。请问这个连续的子序列长度的最小值。  我们设以a_s开始总和最初大于S时的连续子序列为a_s+\cdots+a_{t-1}，这时  a_{s+1}+\cdots+a">
 <meta name="keywords" content="Algorithm,尺取法,开关问题,坐标离散化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="常用技巧精选(一)——《挑战程序设计竞赛》">
 <meta property="og:url" content="https://fadedcosine.github.io/2019/06/27/常用技巧精选——《挑战程序设计竞赛》/index.html">
 <meta property="og:site_name" content="Zhixian Yang">
-<meta property="og:description" content="3.2 常用技巧精选（一）3.2.1 尺取法Subsequence  给出N个数字：$a0, a_1, \cdots, a{n-1}$，每个数字不大于10000，给出一个整数S，在N个数字中挑选出连续子序列，使这个子序列和大于或等于S。请问这个连续的子序列长度的最小值。  我们设以$as$开始总和最初大于S时的连续子序列为$a_s+\cdots+a{t-1}$，这时  a_{s+1}+\cdots">
+<meta property="og:description" content="3.2 常用技巧精选（一）3.2.1 尺取法Subsequence  给出N个数字：a_0, a_1, \cdots, a_{n-1}，每个数字不大于10000，给出一个整数S，在N个数字中挑选出连续子序列，使这个子序列和大于或等于S。请问这个连续的子序列长度的最小值。  我们设以a_s开始总和最初大于S时的连续子序列为a_s+\cdots+a_{t-1}，这时  a_{s+1}+\cdots+a">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-02T13:09:28.902Z">
+<meta property="og:updated_time" content="2019-07-02T13:32:43.664Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="常用技巧精选(一)——《挑战程序设计竞赛》">
-<meta name="twitter:description" content="3.2 常用技巧精选（一）3.2.1 尺取法Subsequence  给出N个数字：$a0, a_1, \cdots, a{n-1}$，每个数字不大于10000，给出一个整数S，在N个数字中挑选出连续子序列，使这个子序列和大于或等于S。请问这个连续的子序列长度的最小值。  我们设以$as$开始总和最初大于S时的连续子序列为$a_s+\cdots+a{t-1}$，这时  a_{s+1}+\cdots">
+<meta name="twitter:description" content="3.2 常用技巧精选（一）3.2.1 尺取法Subsequence  给出N个数字：a_0, a_1, \cdots, a_{n-1}，每个数字不大于10000，给出一个整数S，在N个数字中挑选出连续子序列，使这个子序列和大于或等于S。请问这个连续的子序列长度的最小值。  我们设以a_s开始总和最初大于S时的连续子序列为a_s+\cdots+a_{t-1}，这时  a_{s+1}+\cdots+a">
 
 
 
@@ -362,11 +362,11 @@
       
         <h2 id="3-2-常用技巧精选（一）"><a href="#3-2-常用技巧精选（一）" class="headerlink" title="3.2 常用技巧精选（一）"></a>3.2 常用技巧精选（一）</h2><h3 id="3-2-1-尺取法"><a href="#3-2-1-尺取法" class="headerlink" title="3.2.1 尺取法"></a>3.2.1 尺取法</h3><p><a href="http://poj.org/problem?id=3061" target="_blank" rel="noopener">Subsequence</a></p>
 <blockquote>
-<p>给出N个数字：$a<em>0, a_1, \cdots, a</em>{n-1}$，每个数字不大于10000，给出一个整数S，在N个数字中挑选出连续子序列，使这个子序列和大于或等于S。请问这个连续的子序列长度的最小值。</p>
+<p>给出N个数字：<script type="math/tex">a_0, a_1, \cdots, a_{n-1}</script>，每个数字不大于10000，给出一个整数S，在N个数字中挑选出连续子序列，使这个子序列和大于或等于S。请问这个连续的子序列长度的最小值。</p>
 </blockquote>
-<p>我们设以$a<em>s$开始总和最初大于S时的连续子序列为$a_s+\cdots+a</em>{t-1}$，这时</p>
+<p>我们设以<script type="math/tex">a_s</script>开始总和最初大于S时的连续子序列为<script type="math/tex">a_s+\cdots+a_{t-1}</script>，这时</p>
 <script type="math/tex; mode=display">
-a_{s+1}+\cdots+a_{t-2} < a_s+\cdots+a_{t-2} < S</script><p>所以从$a<em>{s+1}$开始总和最初超过S的连续子序列如果是$a</em>{s+1}+\cdots+a_{t\prime-1}$的话，必然有$t\le t\prime$。利用这一性质便可以设计如下算法：<br>(1) 以s=t=sum=0初始化。<br>(2) 只要依然有sum&lt;S，就不断将sum增加$a_t$，并将t增加1.<br>(3) 如果(2)中无法满足sum$\ge$S则终止。否则的话，更新res=min(res,t-s)。<br>(4) 将sum减去$a_s$，s增加1然后回到(2)。</p>
+a_{s+1}+\cdots+a_{t-2} < a_s+\cdots+a_{t-2} < S</script><p>所以从$a_{s+1}$开始总和最初超过S的连续子序列如果是$a_{s+1}+\cdots+a_{t\prime-1}$的话，必然有$t\le t\prime$。利用这一性质便可以设计如下算法：<br>(1) 以s=t=sum=0初始化。<br>(2) 只要依然有sum&lt;S，就不断将sum增加$a_t$，并将t增加1.<br>(3) 如果(2)中无法满足sum$\ge$S则终止。否则的话，更新res=min(res,t-s)。<br>(4) 将sum减去$a_s$，s增加1然后回到(2)。</p>
 <p>对于这个算法，因为t最多变化n次，因此只需O(n)的复杂度就可以求解这个问题了。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> a[<span class="number">100010</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> t;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--&gt;<span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> n,S;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;n&gt;&gt;S;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">cin</span>&gt;&gt;a[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> res = n + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> s = <span class="number">0</span>, t = <span class="number">0</span>, sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(;;)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span>(t&lt;n &amp;&amp; sum&lt;S)</span><br><span class="line">            &#123;</span><br><span class="line">                sum += a[t++];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(sum &lt; S) <span class="keyword">break</span>;</span><br><span class="line">            res = min(res,t-s);</span><br><span class="line">            sum -= a[s++];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(res &gt; n)</span><br><span class="line">        &#123;</span><br><span class="line">            res = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;res&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <h3 id="3-2-2-反转（开关问题）"><a href="#3-2-2-反转（开关问题）" class="headerlink" title="3.2.2 反转（开关问题）"></a>3.2.2 反转（开关问题）</h3><p><a href="http://poj.org/problem?id=3276" target="_blank" rel="noopener">Face The Right Way</a></p>
@@ -389,7 +389,7 @@ f[i]:=区间[i,i+K-1]进行了反转的话则为1，否则为0</script><p>这样
 <p>回顾一下前情，在之前POJ3276问题中，让最左边的牛反转的方法只有1种，可以直接判断当前的方案是否可行。然而，同样的方法在此题中不能行得通。不妨看最左上角的格子，这里除了翻转(1,1)之外，翻转(1,2)和(2,1)都可以把这个格子翻转，所以之前的直接确定的方法在此行不通。</p>
 <p>值得注意的一点是这题中的m，n特别小，简直就是在明示可以有某种枚举的方法。因为本题格子间的状态都是互相影响的，只能通过枚举第一行，逐行往下搜，如何搜索：如果从上到下搜索，<strong>当前行是否需要反转取决于上一行的状态，通过翻转当前行使上一行为0，而不是通过上一行翻转为0后，看当前行的状态判断自己是否需要翻转，否则还会继续影响上一行。</strong>意思就是不是在当前行中的翻转操作不是为了让当前行中的所有格子都为0，而是要让上一行的所有格子都为0。所以我们可以通过枚举第一行所有的状态，从第二行开始确定翻转状态，直到最后一行结束，如果可以保证最后一行都是0，那么方案可行，否则重新定义第一行的状态，继续搜索，找出使反转次数最少的方案。</p>
 <h3 id="3-2-4-折半枚举（双向搜索）"><a href="#3-2-4-折半枚举（双向搜索）" class="headerlink" title="3.2.4 折半枚举（双向搜索）"></a>3.2.4 折半枚举（双向搜索）</h3><blockquote>
-<p><strong>超大背包问题</strong><br>有重量和价值分别为$w_i, v_i$的n个物品，从这些物品中挑选总重量不超过W的物品，求所有挑选方案中价值总和的最大值<br>限制条件：$1 \le n \le 40, 1\le w_i, v_i \le 10^15, 1 \le W \le 10^15 $</p>
+<p><strong>超大背包问题</strong><br>有重量和价值分别为$w_i, v_i$的n个物品，从这些物品中挑选总重量不超过W的物品，求所有挑选方案中价值总和的最大值<br>限制条件：$1 \le n \le 40, 1\le w_i, v_i \le 10^{15}, 1 \le W \le 10^{15} $</p>
 </blockquote>
 <p>所谓超大背包问题，W的最大值是$10^15$，使用DP来求解背包问题的复杂度是$O(nW)$，因此不能解决这里的问题。但是n比较小，依此寻求枚举解法。</p>
 <p>从所有物品里挑选的全排列的数量为$2^n$中，在这里虽然n很小，但是$2^40$依然顶不住，所以我们想到折半枚举，把物品拆成两半再枚举。我们把前半部分中枚举出的重量和价值总和记为$w_1、 v_1$。这样在后半部分寻找总重$w_2\le W-w_1$时使$v_2$最大的选取方法就好了。</p>
@@ -541,7 +541,7 @@ f[i]:=区间[i,i+K-1]进行了反转的话则为1，否则为0</script><p>这样
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
