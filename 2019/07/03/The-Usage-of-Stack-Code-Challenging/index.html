@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="Algorithm,栈,">
 
 
 
@@ -77,13 +77,20 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Zhixian Yang">
-<meta property="og:url" content="https://fadedcosine.github.io/tags/树状数组/index.html">
+<meta name="description" content="POJ 2559 Largest Rectangle in a Histogram  给定从左到右n个矩形，已知这此矩形的宽度都为1，长度不完全相等，为$h_1,h_2, \cdots, h_n$。这些矩形相连排成一排，求在这些矩形包括的范围内能得到的面积最大的矩形，打印出该面积。所求矩形可以横跨多个矩形，但不能超出原有矩形所确定的范围。1\len\le 100000输入7 2 1 4 5 1 3">
+<meta name="keywords" content="Algorithm,栈">
+<meta property="og:type" content="article">
+<meta property="og:title" content="栈的运用——《挑战程序设计竞赛》">
+<meta property="og:url" content="https://fadedcosine.github.io/2019/07/03/The-Usage-of-Stack-Code-Challenging/index.html">
 <meta property="og:site_name" content="Zhixian Yang">
+<meta property="og:description" content="POJ 2559 Largest Rectangle in a Histogram  给定从左到右n个矩形，已知这此矩形的宽度都为1，长度不完全相等，为$h_1,h_2, \cdots, h_n$。这些矩形相连排成一排，求在这些矩形包括的范围内能得到的面积最大的矩形，打印出该面积。所求矩形可以横跨多个矩形，但不能超出原有矩形所确定的范围。1\len\le 100000输入7 2 1 4 5 1 3">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://fadedcosine.github.io/2019/07/03/The-Usage-of-Stack-Code-Challenging/2559_1.jpg">
+<meta property="og:updated_time" content="2019-07-03T03:29:14.063Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Zhixian Yang">
+<meta name="twitter:title" content="栈的运用——《挑战程序设计竞赛》">
+<meta name="twitter:description" content="POJ 2559 Largest Rectangle in a Histogram  给定从左到右n个矩形，已知这此矩形的宽度都为1，长度不完全相等，为$h_1,h_2, \cdots, h_n$。这些矩形相连排成一排，求在这些矩形包括的范围内能得到的面积最大的矩形，打印出该面积。所求矩形可以横跨多个矩形，但不能超出原有矩形所确定的范围。1\len\le 100000输入7 2 1 4 5 1 3">
+<meta name="twitter:image" content="https://fadedcosine.github.io/2019/07/03/The-Usage-of-Stack-Code-Challenging/2559_1.jpg">
 
 
 
@@ -113,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://fadedcosine.github.io/tags/树状数组/">
+  <link rel="canonical" href="https://fadedcosine.github.io/2019/07/03/The-Usage-of-Stack-Code-Challenging/">
 
 
 
 
 
-  <title>标签: 树状数组 | Zhixian Yang</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>栈的运用——《挑战程序设计竞赛》 | Zhixian Yang</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -138,7 +145,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left ">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -274,52 +281,178 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>树状数组<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://fadedcosine.github.io/2019/07/03/The-Usage-of-Stack-Code-Challenging/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhixian Yang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Zoe.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhixian Yang">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/06/28/树状数组——《挑战程序设计竞赛》/" itemprop="url">
-              
-                <span itemprop="name">树状数组——《挑战程序设计竞赛》</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">栈的运用——《挑战程序设计竞赛》</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-28T11:46:32+08:00" content="2019-06-28">
-          06-28
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-03T11:14:46+08:00">
+                2019-07-03
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/三更有梦书为枕/" itemprop="url" rel="index">
+                    <span itemprop="name">三更有梦书为枕</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="http://poj.org/problem?id=2559" target="_blank" rel="noopener">POJ 2559 Largest Rectangle in a Histogram</a></p>
+<blockquote>
+<p>给定从左到右n个矩形，已知这此矩形的宽度都为1，长度不完全相等，为$h_1,h_2, \cdots, h_n$。这些矩形相连排成一排，求在这些矩形包括的范围内能得到的面积最大的矩形，打印出该面积。所求矩形可以横跨多个矩形，但不能超出原有矩形所确定的范围。<br>1\len\le 100000<br><strong>输入</strong><br>7 2 1 4 5 1 3 3<br><strong>输出</strong><br>8</p>
+</blockquote>
+<a id="more"></a>
+<p><img src="//fadedcosine.github.io/2019/07/03/The-Usage-of-Stack-Code-Challenging/2559_1.jpg" alt></p>
+<p>从微软面试时学到的道理，拿到一个题目想想出最简单的算法，并能让这个算法能够成功地work。首先如果确定了长方形的左端点L和右端点R，那么最大可能的高度就是$\min{h_i | L \le i &lt;R }$。这样我们遍历L和R，在$[L,R)$中找最小的$h_i$这样naive的算法是$O(n^3)$的复杂度。对于区间的最小值做优化，比如说用尺取法那么就可以把复杂度降为$O(n^2)$。即使这样还是不能满足这道题的数据范围。</p>
+<p>假设最大的长方形的左端是L，右端是R（左闭右开），高度是H，那么一定有<script type="math/tex">h_{L-1} <H</script>和$h_R&lt;H$。</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+          
+            <a href="/tags/栈/" rel="tag"># 栈</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/01/网络流解决问题——《挑战程序设计竞赛》/" rel="next" title="网络流解决问题——《挑战程序设计竞赛》">
+                <i class="fa fa-chevron-left"></i> 网络流解决问题——《挑战程序设计竞赛》
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -327,6 +460,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -550,6 +687,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
