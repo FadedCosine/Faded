@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://fadedcosine.github.io/"/>
-  <updated>2019-07-03T03:29:14.063Z</updated>
+  <updated>2019-07-03T03:39:30.317Z</updated>
   <id>https://fadedcosine.github.io/</id>
   
   <author>
@@ -21,15 +21,15 @@
     <link href="https://fadedcosine.github.io/2019/07/03/The-Usage-of-Stack-Code-Challenging/"/>
     <id>https://fadedcosine.github.io/2019/07/03/The-Usage-of-Stack-Code-Challenging/</id>
     <published>2019-07-03T03:14:46.000Z</published>
-    <updated>2019-07-03T03:29:14.063Z</updated>
+    <updated>2019-07-03T03:39:30.317Z</updated>
     
-    <content type="html"><![CDATA[<p><a href="http://poj.org/problem?id=2559" target="_blank" rel="noopener">POJ 2559 Largest Rectangle in a Histogram</a></p><blockquote><p>给定从左到右n个矩形，已知这此矩形的宽度都为1，长度不完全相等，为$h_1,h_2, \cdots, h_n$。这些矩形相连排成一排，求在这些矩形包括的范围内能得到的面积最大的矩形，打印出该面积。所求矩形可以横跨多个矩形，但不能超出原有矩形所确定的范围。<br>1\len\le 100000<br><strong>输入</strong><br>7 2 1 4 5 1 3 3<br><strong>输出</strong><br>8</p></blockquote><a id="more"></a><p><img src="//fadedcosine.github.io/2019/07/03/The-Usage-of-Stack-Code-Challenging/2559_1.jpg" alt></p><p>从微软面试时学到的道理，拿到一个题目想想出最简单的算法，并能让这个算法能够成功地work。首先如果确定了长方形的左端点L和右端点R，那么最大可能的高度就是$\min{h_i | L \le i &lt;R }$。这样我们遍历L和R，在$[L,R)$中找最小的$h_i$这样naive的算法是$O(n^3)$的复杂度。对于区间的最小值做优化，比如说用尺取法那么就可以把复杂度降为$O(n^2)$。即使这样还是不能满足这道题的数据范围。</p><p>假设最大的长方形的左端是L，右端是R（左闭右开），高度是H，那么一定有<script type="math/tex">h_{L-1} <H</script>和$h_R&lt;H$。</p>]]></content>
+    <content type="html"><![CDATA[<p><a href="http://poj.org/problem?id=2559" target="_blank" rel="noopener">POJ 2559: Largest Rectangle in a Histogram</a></p><blockquote><p>给定从左到右n个矩形，已知这此矩形的宽度都为1，长度不完全相等，为$h_1,h_2, \cdots, h_n$。这些矩形相连排成一排，求在这些矩形包括的范围内能得到的面积最大的矩形，打印出该面积。所求矩形可以横跨多个矩形，但不能超出原有矩形所确定的范围。<br>$1\le n \le 100000$<br><strong>输入</strong><br>7 2 1 4 5 1 3 3<br><strong>输出</strong><br>8</p></blockquote><a id="more"></a><p><img src="/2019/07/03/The-Usage-of-Stack-Code-Challenging/2559_1.jpg" alt></p><p>从微软面试时学到的道理，拿到一个题目想想出最简单的算法，并能让这个算法能够成功地work。首先如果确定了长方形的左端点L和右端点R，那么最大可能的高度就是<script type="math/tex">\min \{ h_i | L \le i <R \}</script>。这样我们遍历L和R，在$[L,R)$中找最小的$h_i$这样naive的算法是$O(n^3)$的复杂度。对于区间的最小值做优化，比如说用尺取法那么就可以把复杂度降为$O(n^2)$。即使这样还是不能满足这道题的数据范围。</p><p>假设最大的长方形的左端是L，右端是R（左闭右开），高度是H，那么一定有<script type="math/tex">h_{L-1} <H</script>和$h_R&lt;H$，并且高度<script type="math/tex">H = \min \{h_i | L \le i < R \}</script>。因此，我们可以每次固定i，找到L和R，最后再遍历一遍找到$(R-L)\times H$的最大值。即我们维护两个数组L[i]和R[i],</p><ul><li>L[i] 是从i向左找，找到第一个小于h[i]的index，而后将这个index+1的值</li><li>R[i]是从i向右找，找到第一个小于h[i]的index （因为右边是开的，所以这个index不用减一）</li></ul><p>使用单调栈可以非常高效地求解这个问题。</p>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;a href=&quot;http://poj.org/problem?id=2559&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;POJ 2559 Largest Rectangle in a Histogram&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;a href=&quot;http://poj.org/problem?id=2559&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;POJ 2559: Largest Rectangle in a Histogram&lt;/a&gt;&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;给定从左到右n个矩形，已知这此矩形的宽度都为1，长度不完全相等，为$h_1,h_2, \cdots, h_n$。这些矩形相连排成一排，求在这些矩形包括的范围内能得到的面积最大的矩形，打印出该面积。所求矩形可以横跨多个矩形，但不能超出原有矩形所确定的范围。&lt;br&gt;1\len\le 100000&lt;br&gt;&lt;strong&gt;输入&lt;/strong&gt;&lt;br&gt;7 2 1 4 5 1 3 3&lt;br&gt;&lt;strong&gt;输出&lt;/strong&gt;&lt;br&gt;8&lt;/p&gt;
+&lt;p&gt;给定从左到右n个矩形，已知这此矩形的宽度都为1，长度不完全相等，为$h_1,h_2, \cdots, h_n$。这些矩形相连排成一排，求在这些矩形包括的范围内能得到的面积最大的矩形，打印出该面积。所求矩形可以横跨多个矩形，但不能超出原有矩形所确定的范围。&lt;br&gt;$1\le n \le 100000$&lt;br&gt;&lt;strong&gt;输入&lt;/strong&gt;&lt;br&gt;7 2 1 4 5 1 3 3&lt;br&gt;&lt;strong&gt;输出&lt;/strong&gt;&lt;br&gt;8&lt;/p&gt;
 &lt;/blockquote&gt;
     
     </summary>
