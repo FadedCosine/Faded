@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="Algorithm,DP,">
+  <meta name="keywords" content="Algorithm,DP,背包问题,">
 
 
 
@@ -78,14 +78,14 @@
 
 
 <meta name="description" content="2.3.1 记忆化搜索与动态规划 01 背包问题有n个重量和价值分别为$w_i, v_i$的物品。从这些物品中挑选出总重量不超过W的物品，求所有挑选方案中价值总和的最大值。  循序渐进，先用最朴素的递归方法，针对每个物品是否放入背包进行搜索试试看。123456789101112131415161718192021222324252627int n, W;const int MAX_N = 1001">
-<meta name="keywords" content="Algorithm,DP">
+<meta name="keywords" content="Algorithm,DP,背包问题">
 <meta property="og:type" content="article">
 <meta property="og:title" content="记录结果再利用的动态规划——《挑战程序设计竞赛》">
 <meta property="og:url" content="https://fadedcosine.github.io/2019/06/24/记录结果再利用的动态规划——《挑战程序设计竞赛》/index.html">
 <meta property="og:site_name" content="Zhixian Yang">
 <meta property="og:description" content="2.3.1 记忆化搜索与动态规划 01 背包问题有n个重量和价值分别为$w_i, v_i$的物品。从这些物品中挑选出总重量不超过W的物品，求所有挑选方案中价值总和的最大值。  循序渐进，先用最朴素的递归方法，针对每个物品是否放入背包进行搜索试试看。123456789101112131415161718192021222324252627int n, W;const int MAX_N = 1001">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-02T14:54:57.897Z">
+<meta property="og:updated_time" content="2019-07-04T09:11:29.487Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记录结果再利用的动态规划——《挑战程序设计竞赛》">
 <meta name="twitter:description" content="2.3.1 记忆化搜索与动态规划 01 背包问题有n个重量和价值分别为$w_i, v_i$的物品。从这些物品中挑选出总重量不超过W的物品，求所有挑选方案中价值总和的最大值。  循序渐进，先用最朴素的递归方法，针对每个物品是否放入背包进行搜索试试看。123456789101112131415161718192021222324252627int n, W;const int MAX_N = 1001">
@@ -451,6 +451,19 @@ dp[i+1][j] = \left\{
 
 \end{equation}</script><p>这样，只要看最终是否满足$dp[n][K] \ge 0$就知道答案了。这个递推式可以在O(nK)时间内计算出结果，再利用数组重复利用，可以得到以下代码：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> dp[MAX_K+<span class="number">1</span>];</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">memset</span>(dp,<span class="number">-1</span>,<span class="keyword">sizeof</span>(dp));</span><br><span class="line">	dp[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;K;j++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(dp[j]&gt;=<span class="number">0</span>) dp[j]=m[i];</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(j&lt;a[i]|| dp[j-a[i]] &lt;= <span class="number">0</span>) dp[j] = <span class="number">-1</span>;</span><br><span class="line">			<span class="keyword">else</span> dp[j] = dp[j-a[i]] - <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> dp[K]&gt;= <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>多重背包问题</strong></p>
+<blockquote>
+<p>有n种物品，它们的重量和价值分别是$w_i$和$v_i$。现在要从中选出一些物品使得总重量不超过W，并且价值的和最大。第i种物品最多取$m_i$个。</p>
+</blockquote>
+<p>对于01背包和完全背包问题，我们都能在$O(nW)$的时间内求解，如果用同样的方法求解本题，则状态转移方程为：<br>&emsp; <script type="math/tex">dp[i][j]:=到第i个物品为止总重量不超过j的所有选法中最大可能的价值</script><br>&emsp; <script type="math/tex">dp[i+1][j]:=\max \{ dp[i][j-k\times w[i]]+k\times v[i] | 0 \le k \le m_i 且 j-k\times w[i] \ge 0\}</script><br>如果使用这个转移方程，复杂度就是O(nmW)，无法在规定时间内求出解。</p>
+<p>先看一个例子：取m[i] = 2, v[i] = v, w[i] = w, W &gt; 9 * v，<br>并假设 f(j) = dp[i - 1][j]，观察状态转移方程右边要求最大值的几项：</p>
+<p>&emsp; j = 6$\times$ w:   f(6$\times$w)、f(5$\times$w)+v、f(4$\times$w)+2$\times$v 这三个中的最大值<br>&emsp; j = 5$\times$w:   f(5$\times$w)、f(4$\times$w)+v、f(3$\times$w)+2$\times$v 这三个中的最大值<br>&emsp; j = 4$\times$w:   f(4$\times$w)、f(3$\times$w)+v、f(2$\times$w)+2$\times$v 这三个中的最大值</p>
+<p>显然，状态转移方程右边求最大值的几项随j值改变而改变。但如果将j = 6$\times$w时，每项减去6$\times$v，j=5$\times$w时，每项减去5$\times$v，j=4$\times$w时，每项减去4$\times$v（这个减去k$\times$v没有实际意义，只是举例说明存在很大重复项，可以使用双端队列降低计算复杂度，后在代码中有体现这个思想），就得到：</p>
+<p>&emsp; j = 6$\times$ w:   f(6$\times$w)-6$\times$v、f(5$\times$w)-5$\times$v、f(4$\times$w)-4$\times$v 这三个中的最大值<br>&emsp; j = 5$\times$w:   f(5$\times$w)-5$\times$v、f(4$\times$w)-4$\times$v、f(3$\times$w)-3$\times$v 这三个中的最大值<br>&emsp; j = 4$\times$w:   f(4$\times$w)-4$\times$v、f(3$\times$w)-3$\times$v、f(2$\times$w)-2$\times$v 这三个中的最大值</p>
+<p>很明显，要求最大值的那些项，有很多重复。根据这个思路，可以对原来的公式进行如下调整：假设d = w[i]，a = j / d，b = j % d，即 j = a * d + b，代入状态转移方程，并用k替换a - k得：</p>
+<script type="math/tex; mode=display">
+dp[i][j] = \max { dp[i - 1][b + k \times d] - k \times v[i] } + a \times v[i]   (a – m[i] \le k \le a)</script><p>意思就是求j前面的$m[i]+1$ 个 数对应的 <script type="math/tex">dp[i - 1][b + k \times d] - k \times v[i]</script>的最大值，然后加上 $a\times v[i]$就是<script type="math/tex">dp[i][j]</script>。这个求最大值的过程便可以使用双端队列求解。这样算法的复杂度即降到$O(nW)$，代码如下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//输入</span></span><br><span class="line"><span class="keyword">int</span> n, W;</span><br><span class="line"><span class="keyword">int</span> w[MAX_N], v[MAX_N], m[MAX_N];</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> dp[MAX_W + <span class="number">1</span>]; <span class="comment">//DP数组（循环使用）</span></span><br><span class="line"><span class="keyword">int</span> deq[MAX_W + <span class="number">1</span>]; <span class="comment">//双端队列（保存数组下标）</span></span><br><span class="line"><span class="keyword">int</span> deqv[MAX_W + <span class="number">1</span>]; <span class="comment">//双端队列（保存值）</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> a=<span class="number">0</span>;a&lt;w[i];a++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">int</span> s=<span class="number">0</span>, t=<span class="number">0</span>; <span class="comment">//双端队列的头部和尾部</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j*w[i]+a&lt;=W;j++)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">int</span> val = dp[j*w[i]+a] - j*v[i];<span class="comment">//这里就是上面那个举例的思想，减去k*v[i],之后保存到双端队列中重复利用</span></span><br><span class="line">				<span class="keyword">while</span>(s&lt;t &amp;&amp; deqv[t<span class="number">-1</span>]&lt;=val) t--;</span><br><span class="line">				deq[t] = j;</span><br><span class="line">				deqv[t++] = val;</span><br><span class="line">				dp[j*w[i]+a] = deqv[s] + j*v[i]; <span class="comment">//加回来</span></span><br><span class="line">				<span class="keyword">if</span>(deq[s] == j - m[i])</span><br><span class="line">				&#123;</span><br><span class="line">					s++;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d\n"</span>, dp[W]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h3 id="2-3-3-区间DP"><a href="#2-3-3-区间DP" class="headerlink" title="2.3.3 区间DP"></a>2.3.3 区间DP</h3><p>[<a href="https://code.google.com/codejam/contest/189252/dashboard#s=p2" target="_blank" rel="noopener">https://code.google.com/codejam/contest/189252/dashboard#s=p2</a>]:     “Bribe the Prisoners”</p>
 <blockquote>
 <p>有t 组测试数据，每组数据中有n个人在监狱，想要放出m个人，每放出一个人，他周围的人（两边连续的直到碰到空的监狱或者尽头）都要贿赂1块钱，没放出一个人就对应地空出一个空监狱。问最少的总花费。</p>
@@ -482,6 +495,8 @@ dp[i][j] = \min(dp[i][k]+dp[k][j]| 1<k<j) + A[j]-A[i]-2</script><p>为了方便�
             <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
           
             <a href="/tags/DP/" rel="tag"># DP</a>
+          
+            <a href="/tags/背包问题/" rel="tag"># 背包问题</a>
           
         </div>
       
@@ -607,7 +622,7 @@ dp[i][j] = \min(dp[i][k]+dp[k][j]| 1<k<j) + A[j]-A[i]-2</script><p>为了方便�
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
