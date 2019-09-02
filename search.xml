@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[Divide and Conquer-Code Challenging]]></title>
+    <title><![CDATA[划分、解决、合并：分治法——《挑战程序设计竞赛》]]></title>
     <url>%2F2019%2F07%2F04%2FDivide-and-Conquer-Code-Challenging%2F</url>
-    <content type="text"></content>
+    <content type="text"><![CDATA[4.6.1 数列上的分治法 给定一个1~n的排列a_0,a_1,\cdots, a_{n-1}，求这个数列中的逆序数对。 我们可以把一个大的数列A分成左右两个子数列B、C，那么数列A中所有的逆序对必定来自于以下三者其一：(1) i,j都属于左子数列B的逆序对(i,j);(2) i,j都属于右子数列C的逆序对(i,j);(3) i属于B而j属于C 对于这(1)和(2)，可以通过递归求得，对于(3)，我们可以对数列C中的每个数字，统计数列B中比它大的数字的个数，再把结果加起来就好。代码如下，复杂度为$O(n\log n)。12345678910111213141516171819202122232425262728293031323334typedef long long ll;//输入vector&lt;int&gt; A;ll merge_count(vector&lt;int&gt; &amp;a)&#123; int n = a.size(); if(n&lt;=1) return 0; ll cnt = 0; vector&lt;int&gt; b(a.begin(), a.begin()+n/2); vector&lt;int&gt; c(a.begin() + n/2, a.end()); cnt += merge_count(b); //(1) cnt += merge_count(c); //(2) //此时b和c就已经分别排好序了 //(3) int ai = 0, bi = 0, ci = 0; while(ai &lt; n)s &#123; if(bi &lt; b.size() &amp;&amp; (ci == c.size() || b[bi] &lt;= c[ci])) //ci == c.size()这个判断是，如果c数列已经全部找完了，剩下的全是b数列里的树，就不能看在有逆序数的存在 &#123; a[ai++] = b[bi++]; &#125; else &#123; cnt += (n/2 -bi); a[ai++] = c[ci++]; &#125; &#125; return cnt;&#125;void solve()&#123; printf("%lld\n", merge_count(A));&#125; 4.6.3 平面上的分治法]]></content>
+      <categories>
+        <category>三更有梦书为枕</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>分治法</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[双端队列的运用——《挑战程序设计竞赛》]]></title>
