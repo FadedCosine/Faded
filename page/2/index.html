@@ -289,6 +289,159 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://fadedcosine.github.io/2019/06/27/常用技巧精选——《挑战程序设计竞赛》/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhixian Yang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Zoe.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhixian Yang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/27/常用技巧精选——《挑战程序设计竞赛》/" itemprop="url">常用技巧精选(一)——《挑战程序设计竞赛》</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-27T11:31:23+08:00">
+                2019-06-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/三更有梦书为枕/" itemprop="url" rel="index">
+                    <span itemprop="name">三更有梦书为枕</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="3-2-常用技巧精选（一）"><a href="#3-2-常用技巧精选（一）" class="headerlink" title="3.2 常用技巧精选（一）"></a>3.2 常用技巧精选（一）</h2><h3 id="3-2-1-尺取法"><a href="#3-2-1-尺取法" class="headerlink" title="3.2.1 尺取法"></a>3.2.1 尺取法</h3><p><a href="http://poj.org/problem?id=3061" target="_blank" rel="noopener">Subsequence</a></p>
+<blockquote>
+<p>给出N个数字：<script type="math/tex">a_0, a_1, \cdots, a_{n-1}</script>，每个数字不大于10000，给出一个整数S，在N个数字中挑选出连续子序列，使这个子序列和大于或等于S。请问这个连续的子序列长度的最小值。</p>
+</blockquote>
+<p>我们设以<script type="math/tex">a_s</script>开始总和最初大于S时的连续子序列为<script type="math/tex">a_s+\cdots+a_{t-1}</script>，这时</p>
+<script type="math/tex; mode=display">
+a_{s+1}+\cdots+a_{t-2} < a_s+\cdots+a_{t-2} < S</script><p>所以从$a_{s+1}$开始总和最初超过S的连续子序列如果是$a_{s+1}+\cdots+a_{t\prime-1}$的话，必然有$t\le t\prime$。利用这一性质便可以设计如下算法：<br>(1) 以s=t=sum=0初始化。<br>(2) 只要依然有sum&lt;S，就不断将sum增加$a_t$，并将t增加1.<br>(3) 如果(2)中无法满足sum$\ge$S则终止。否则的话，更新res=min(res,t-s)。<br>(4) 将sum减去$a_s$，s增加1然后回到(2)。</p>
+<p>对于这个算法，因为t最多变化n次，因此只需O(n)的复杂度就可以求解这个问题了。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> a[<span class="number">100010</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> t;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--&gt;<span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> n,S;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;n&gt;&gt;S;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">cin</span>&gt;&gt;a[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> res = n + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> s = <span class="number">0</span>, t = <span class="number">0</span>, sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(;;)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span>(t&lt;n &amp;&amp; sum&lt;S)</span><br><span class="line">            &#123;</span><br><span class="line">                sum += a[t++];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(sum &lt; S) <span class="keyword">break</span>;</span><br><span class="line">            res = min(res,t-s);</span><br><span class="line">            sum -= a[s++];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(res &gt; n)</span><br><span class="line">        &#123;</span><br><span class="line">            res = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;res&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/06/27/常用技巧精选——《挑战程序设计竞赛》/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://fadedcosine.github.io/2019/06/26/数学问题的解题窍门——《挑战程序设计竞赛》/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1073,7 +1226,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
