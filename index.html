@@ -386,7 +386,7 @@
 <p>在一条直线坐标轴上有V个村庄，P个邮局，邮局建在村庄上，求一种建法，让V个村庄到最近邮局的距离之和最小。<br>输入：第一行包括两个整数， 1 &lt;= V &lt;= 300，1 &lt;= P &lt;= 30；第二行输入有序的村庄的位置a[i]<br>输出：输出最小的V个村庄到最近邮局的距离之和<br><strong>输入</strong><br>10 5<br>1 2 3 6 7 9 11 22 44 50<br><strong>输出</strong><br>8</p>
 </blockquote>
 <p>首先需要考虑到，如果对$[0, \cdots , i]$的村庄只建一座邮局，那一定是把邮局建在中央的村庄[i/2]中使得到邮局的距离和最小。以下给出证明：<br>设对于$[0, \cdots , i]$的村庄，将邮局建在$[i/2]$中得到的距离和为S，下标为i的村庄的位置为a[i]。假设只建一座邮局时，邮局建筑的最优位置为$[j]（j \ne i）$，则邮局建在[j]的距离和为$S+ abs(a[i/2] - a[j]) \times (i - i/2  -  j)$，因为 $S+ abs(a[i/2] - a[j]) \times (i - i/2  -  j)  &gt; S$，与 [j]为最优位置矛盾，所以 j = i / 2，即得证。<br>我们可以设置$dp[i][j] := [0, \cdots , i]$村庄中建j座村庄的距离和最小值。由之前证得的定理很容易得到状态转移方程：(min_distance(i,j)表示在$[i, \cdots, j]$建一座邮局的距离和最小值)</p>
-<script type="math/tex; mode=display">dp\[i\][j] = \min \{ dp\[m\][j-1] + min_distance(m+1, i)\} | 0 \le m <  i</script>
+<script type="math/tex; mode=display">dp\[i\]\[j\] = \min \{ dp\[m\][j-1] + min\_distance(m+1, i)\} | 0 \le m <  i</script>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2020/02/12/The-Odyssey-of-DP-2/#more" rel="contents">
