@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="Algorithm,双端队列,">
+  <meta name="keywords" content="NLP,预训练模型,论文笔记,">
 
 
 
@@ -77,18 +77,18 @@
 
 
 
-<meta name="description" content="滑动最小值给定一个长度为n的数列a_0, a_1, \cdots, a_{n-1}和一个整数k。求数列$bi = \min{a_i,a{i+1},\cdots,a_{i+k-1} }(i=0,1,\cdots,n-k)。限制条件：$1\le k \le n \le 10^6$, $0 \le a_i \le 10^9$  使用双端队列可以在O(n)时间内解决这个问题。最开始时双端队列为空，然后不">
-<meta name="keywords" content="Algorithm,双端队列">
+<meta name="description" content="Pre-trained Models for Natural Language Processing: A SurveySummary关于预训练模型的一篇很好的Survey，总结了从word2vec时代静态的文本表征到目前后BERT时代，PTMs提取出的动态文本表征。PTMs的不同主要体现在模型所用的上下文encoder不同、预训练模型的任务不同、以及PTMs所针对的下游任务等。">
+<meta name="keywords" content="NLP,预训练模型,论文笔记">
 <meta property="og:type" content="article">
-<meta property="og:title" content="双端队列的运用——《挑战程序设计竞赛》">
-<meta property="og:url" content="https://fadedcosine.github.io/2019/07/04/The-Usage-of-Deque-Code-Challenging/index.html">
+<meta property="og:title" content="论文笔记：Pre-trained Models for Natural Language Processing：A Survey">
+<meta property="og:url" content="https://fadedcosine.github.io/2020/04/30/Pre-trained-Models-for-Natural-Language-Processing-A-Survey/index.html">
 <meta property="og:site_name" content="Zhixian Yang">
-<meta property="og:description" content="滑动最小值给定一个长度为n的数列a_0, a_1, \cdots, a_{n-1}和一个整数k。求数列$bi = \min{a_i,a{i+1},\cdots,a_{i+k-1} }(i=0,1,\cdots,n-k)。限制条件：$1\le k \le n \le 10^6$, $0 \le a_i \le 10^9$  使用双端队列可以在O(n)时间内解决这个问题。最开始时双端队列为空，然后不">
+<meta property="og:description" content="Pre-trained Models for Natural Language Processing: A SurveySummary关于预训练模型的一篇很好的Survey，总结了从word2vec时代静态的文本表征到目前后BERT时代，PTMs提取出的动态文本表征。PTMs的不同主要体现在模型所用的上下文encoder不同、预训练模型的任务不同、以及PTMs所针对的下游任务等。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-04T09:45:03.524Z">
+<meta property="og:updated_time" content="2020-05-05T07:27:51.089Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="双端队列的运用——《挑战程序设计竞赛》">
-<meta name="twitter:description" content="滑动最小值给定一个长度为n的数列a_0, a_1, \cdots, a_{n-1}和一个整数k。求数列$bi = \min{a_i,a{i+1},\cdots,a_{i+k-1} }(i=0,1,\cdots,n-k)。限制条件：$1\le k \le n \le 10^6$, $0 \le a_i \le 10^9$  使用双端队列可以在O(n)时间内解决这个问题。最开始时双端队列为空，然后不">
+<meta name="twitter:title" content="论文笔记：Pre-trained Models for Natural Language Processing：A Survey">
+<meta name="twitter:description" content="Pre-trained Models for Natural Language Processing: A SurveySummary关于预训练模型的一篇很好的Survey，总结了从word2vec时代静态的文本表征到目前后BERT时代，PTMs提取出的动态文本表征。PTMs的不同主要体现在模型所用的上下文encoder不同、预训练模型的任务不同、以及PTMs所针对的下游任务等。">
 
 
 
@@ -118,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="https://fadedcosine.github.io/2019/07/04/The-Usage-of-Deque-Code-Challenging/">
+  <link rel="canonical" href="https://fadedcosine.github.io/2020/04/30/Pre-trained-Models-for-Natural-Language-Processing-A-Survey/">
 
 
 
 
 
-  <title>双端队列的运用——《挑战程序设计竞赛》 | Zhixian Yang</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>论文笔记：Pre-trained Models for Natural Language Processing：A Survey | Zhixian Yang</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -293,7 +293,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://fadedcosine.github.io/2019/07/04/The-Usage-of-Deque-Code-Challenging/">
+    <link itemprop="mainEntityOfPage" href="https://fadedcosine.github.io/2020/04/30/Pre-trained-Models-for-Natural-Language-Processing-A-Survey/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhixian Yang">
@@ -310,7 +310,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">双端队列的运用——《挑战程序设计竞赛》</h1>
+          <h1 class="post-title" itemprop="name headline">论文笔记：Pre-trained Models for Natural Language Processing：A Survey</h1>
         
 
         <div class="post-meta">
@@ -322,8 +322,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-04T16:56:12+08:00">
-                2019-07-04
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-30T15:48:18+08:00">
+                2020-04-30
               </time>
             
 
@@ -345,8 +345,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/三更有梦书为枕/" itemprop="url" rel="index">
-                    <span itemprop="name">三更有梦书为枕</span>
+                  <a href="/categories/千里怀思月在峰/" itemprop="url" rel="index">
+                    <span itemprop="name">千里怀思月在峰</span>
                   </a>
                 </span>
 
@@ -382,12 +382,89 @@
       
 
       
-        <blockquote>
-<p>滑动最小值<br>给定一个长度为n的数列<script type="math/tex">a_0, a_1, \cdots, a_{n-1}</script>和一个整数k。求数列$b<em>i = \min{a_i,a</em>{i+1},\cdots,a_{i+k-1} }(i=0,1,\cdots,n-k)。<br>限制条件：<br>$1\le k \le n \le 10^6$, $0 \le a_i \le 10^9$</p>
-</blockquote>
-<p>使用双端队列可以在O(n)时间内解决这个问题。最开始时双端队列为空，然后不断维护双端队列使它按照下面的顺序，存储用于计算后面的最小值a的元素的下标。</p>
+        <h1 id="Pre-trained-Models-for-Natural-Language-Processing-A-Survey"><a href="#Pre-trained-Models-for-Natural-Language-Processing-A-Survey" class="headerlink" title="Pre-trained Models for Natural Language Processing: A Survey"></a>Pre-trained Models for Natural Language Processing: A Survey</h1><h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>关于预训练模型的一篇很好的Survey，总结了从word2vec时代静态的文本表征到目前后BERT时代，PTMs提取出的动态文本表征。PTMs的不同主要体现在模型所用的上下文encoder不同、预训练模型的任务不同、以及PTMs所针对的下游任务等。</p>
+<a id="more"></a>
+<h2 id="Research-Objective"><a href="#Research-Objective" class="headerlink" title="Research Objective"></a>Research Objective</h2><p>关于语言预训练模型的一个survey</p>
+<h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><h3 id="Neural-Contextual-Encoders"><a href="#Neural-Contextual-Encoders" class="headerlink" title="Neural Contextual Encoders"></a>Neural Contextual Encoders</h3><p>神经网络的上下文编码器：</p>
+<ul>
+<li>Covolutional model：通过卷积操作提取局部的上下文信息。优点是非常容易训练，并且能够获取局部信息</li>
+<li>Sequential models：序列模型如RNNs，bi-RNN用于提取上下文信息，但是序列模型的表现经常受到文本中的长距离依赖因素的影响。</li>
+<li>Graph-based model：基于图的模型通常把文本看作是节点，使用一些语言学的结构，如语义结构、句法结构来训练上下文表征。<font color="red"> 注意相应的参考文献：《Exploiting<br>semantics in neural machine translation with graph<br>convolutional networks》值得一读。 </font><br>缺点是得到这样的一个语言学结构特别困难，而且也非常依赖一些其他的解析器，如句法依存分析的解析器。实际上的做法是用self-attention，比如Transformer，让model自己去学习这些潜在的语言学结构信息，也就是并不用一些其他显式的做法。</li>
+</ul>
+<p>虽然Transformer通过对每个词之间的dependency建模，解决了卷积方法和序列方法的长距离依赖问题，但这又导致Transformer需要很大的训练集，如果训练集小了又容易过拟合。</p>
+<h2 id="Overview-of-PTMs"><a href="#Overview-of-PTMs" class="headerlink" title="Overview of PTMs"></a>Overview of PTMs</h2><p>不同的PTM的区别主要在contextual encoders、pre-training tasks, and purposes，之前的Neural Contextual Encoder一节已经简单介绍过了contextual encoders。</p>
+<h3 id="Pre-training-Tasks"><a href="#Pre-training-Tasks" class="headerlink" title="Pre-training Tasks"></a>Pre-training Tasks</h3><p>在CV领域的预训练模型通常是在大规模的监督学习数据集中训练的，如ImageNet。而在NLP领域，除了在machine translation有大规模的有监督数据集，其他nlp领域有监督的数据集匮乏。而其实也有基于MT领域的有监督数据集训练的预训练语言模型<a href="https://arxiv.org/abs/1708.00107" target="_blank" rel="noopener">CoVe</a>。</p>
+<ol>
+<li>Language Model</li>
+</ol>
 <script type="math/tex; mode=display">
-设双端队列从头部开始的元素的值为x_i，则x_i < x_{i+1}且a_i < a_{i+1}</script><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 输入</span></span><br><span class="line"><span class="keyword">int</span> n, k;</span><br><span class="line"><span class="keyword">int</span> a[MAX_N];</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> b[MAX_N]; <span class="comment">//保存答案的数组</span></span><br><span class="line"><span class="keyword">int</span> deq[MAX_N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> s = <span class="number">0</span>, t = <span class="number">0</span>; <span class="comment">//双端队列的头部和尾部</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">while</span>(s&lt;t &amp;&amp; a[deq[t<span class="number">-1</span>]] &gt;= a[i]) t--;</span><br><span class="line">		deq[t++] = i;</span><br><span class="line">		<span class="keyword">if</span>(i-k+<span class="number">1</span> &gt;= <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			b[i-k+<span class="number">1</span>] = a[deq[s]];</span><br><span class="line">			<span class="keyword">if</span>(deq[s] == i-k+<span class="number">1</span>)</span><br><span class="line">			&#123;<span class="comment">//从双端队列的头部删除元素</span></span><br><span class="line">				s++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n-k;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%d%c"</span>,b[i],i==n-k?<span class="string">'\n'</span>:<span class="string">' '</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+p(x_t|x_{0:t-1}) = g_{LM}(f_{enc}x_{0:t-1})</script><p>表示$x<em>{0:t-1}$用neural encoder$f</em>{enc}(·)$做了上下文嵌入，经过prediction层$g_{LM}(·)$得到下一个单词$x_t$的条件概率。</p>
+<ol>
+<li>Masked Language Modeling（MLM)</li>
+</ol>
+<p>BERT的MLM的做法是：<br>随机mask语料中15%的token，然后预测masked token，那么masked token 位置输出的final hidden vectors喂给softmax网络即可得到masked token的预测结果。</p>
+<p>这样操作存在一个问题，fine-tuning的时候没有[MASK] token，因此存在pre-training和fine-tuning之间的mismatch，为了解决这个问题，采用了下面的策略：</p>
+<p>80%的时间中：将选中的词用[MASK]token来代替，例如</p>
+<blockquote>
+<p>my dog is hairy → my dog is [MASK]</p>
+</blockquote>
+<p>10%的时间中：将选中的词用任意的词来进行代替，例如</p>
+<blockquote>
+<p>my dog is hairy → my dog is apple</p>
+</blockquote>
+<p>10%的时间中：选中的词不发生变化，例如</p>
+<blockquote>
+<p>my dog is hairy → my dog is hairy</p>
+</blockquote>
+<p>这样存在另一个问题在于在训练过程中只有15%的token被预测，正常的语言模型实际上是预测每个token的，因此Masked LM相比正常LM会收敛地慢一些，后面的实验也的确证实了这一点。</p>
+<p>MLM也存在一些变种，如Seq2Seq MLM，主要的预训练模型包括<a href="https://arxiv.org/abs/1905.02450" target="_blank" rel="noopener">MASS</a>和<a href="https://arxiv.org/abs/1910.10683" target="_blank" rel="noopener">T5</a>，显而易见，这个Seq2Seq的MLM所训练出来的预训练模型在Seq2Seq的下游任务肯定会有提升，比如说QA，summarization和MT。<br>Enhanced Masked Language Modeling (E-MLM)：RoBERTa把静态的Masking改成了动态的，即一开始把预训练的数据复制10份，每一份都随机选择15%的Tokens进行Masking，也就是说，同样的一句话有10种不同的mask方式。然后每份数据都训练N/10个epoch。这就相当于在这N个epoch的训练中，每个序列的被mask的tokens是会变化的。<a href="https://arxiv.org/abs/1907.12412" target="_blank" rel="noopener">ERNIE</a>的改进是不是mask一个单词，而是mask一些短语或者说命名实体（我觉得这样的预训练方式可能会对answer-span类型的QA有所改进）</p>
+<ol>
+<li><p>Permuted Language Modeling (PLM)<br>因为MLM在训练时的一些特殊token如[MASK]在下游任务用于预测的实际文本中是不存在的，这就导致在train和fine-turning之间可能会出现差距。那PLM的做法就是，给定一个句子，从这个句子中随机采样一个排列，接着将排列序列中的一些 token 选定为目标，同时训练模型以根据其余 token 和目标的正常位置（natural position）来预测这些目标。</p>
+</li>
+<li><p>Denoising Autoencoder (DAE)<br>去噪自编码器（denoising autoencoder，DAE）接受部分损坏的输入，并以重建这些未失真的原始输入为目标。在自然语言处理的下游任务中，常用Transformer来重建文本。在构建训练文本时有一些不同的制造噪声的方式。</p>
+</li>
+<li><p>Contrastive Learning (CTL)<br>一些文本对在语义上比随机取样的文本更为接近。CTL 背后的原理是「在对比中学习」。相较于语言建模，CTL 的计算复杂度更低，因而在预训练中是理想的替代训练标准。CTL包括</p>
+</li>
+</ol>
+<ul>
+<li>Replaced Token Detection (RTD) </li>
+</ul>
+<p>与Noise-Contrastive Estimation (NCE就相当于word2vec中的负采样) 相同，但RTD会根据上下文语境来预测当前的token是否是被替换过的token。<br><a href="https://arxiv.org/pdf/2003.10555.pdf" target="_blank" rel="noopener">ELECTRA</a>就是这样一个牛批的预训练模型。ELECTRA在以RTD为训练目标的同时还用了生成对抗模型的思想。ELECTRA和BERT最大的不同应该是在于两个方面：masked(replaced) tokens的选择和training objective。</p>
+<p>第一，masked token的选择在BERT中是随机的，这意味着什么呢？比如句子“我想吃苹果”，BERT可以mask为“我想吃苹[MASK]”，这样一来实际上去学它就很简单，如果mask为“我[MASK]吃苹果”，那么去学这个“想”就相对困难了。换句话说，BERT的mask可能会有很多简单的token，去学这些token就算是简单的bilstm都可以做的。这样一来，自然而然的一个想法是，我们不随机mask，去专门选那些对模型来说学习困难的token。怎么做呢？这就是ELECTRA非常牛逼的地方了，ELECTRA有一个生成器和鉴别器，生成器将用来把输入文本做部分词的替换，而鉴别器判断输入句子中的每个词是否被替换。也就是说，这里的生成器的作用是为自动选择tokens来替换成其他token，并且经过训练，生成器会越来越选择 一些比较难的token替换，希望骗过鉴别器。在鉴别器方面，用一个二分类去判断每个token是否已经被换过了。这就把原来BERT的一个DAE（或者LM）任务转换为了一个分类任务（或者序列标注）。这有两个好处：（1）每个token都能contribute to some extent，即每个token对模型都有所贡献；（2）极大程度减少了计算复杂度，原来BERT的复杂度是O(d*V)，d是输入文本长度，V是词表大小，那ELECTRA的复杂度就是O(d*2)。</p>
+<ul>
+<li>Next Sentence Prediction (NSP)</li>
+</ul>
+<p>训练模型以区分两个输入句子是否为训练语料库中的连续片段。正例是同一个文档的两个连续片段，负例是语料库中的随机两个文档。实际上这个训练目标并不是特别好，因为很容易根据两个句子的主题判断是否是连续的片段，从而可能会错误地引导模型去做主题预测的工作。</p>
+<ul>
+<li>Sentence Order Prediction (SOP)</li>
+</ul>
+<p>SOP 使用同一文档中的两个连续片段作为正样本，而相同的两个连续片段互换顺序作为负样本。这样就不存在主题不同的问题了。</p>
+<h3 id="Model-Analysis"><a href="#Model-Analysis" class="headerlink" title="Model Analysis"></a>Model Analysis</h3><ul>
+<li>Linguistic Knowledege  (语言知识)</li>
+</ul>
+<p>BERT在句法任务中的表现很好，但却在语义和细粒度的句法任务上表现不佳。</p>
+<ul>
+<li>World Knowledge</li>
+</ul>
+<p>BERT能够提取文本中的World Knowledge，如一些关系信息和常识。</p>
+<h2 id="Extensions-of-PTMs"><a href="#Extensions-of-PTMs" class="headerlink" title="Extensions of PTMs"></a>Extensions of PTMs</h2><ul>
+<li>Knowledge-Enriched PTMs</li>
+</ul>
+<p>加入了一些额外的信息增强了预训练模型。如改进MLM，在每个词上整合这个词的情感词性所提出的SentiLR；K-BERT显式地把从知识图谱中提取出的关系实体嵌入到BERT当中，使得以一个树形的数据作为BERT的输入；K-Adapter通过对不同的预训练任务训练不同的adapter来对不多种额外的信息做一个合适的整合，等等。</p>
+<ul>
+<li><p>Multi-Modal PTMs<br>暂且不看</p>
+</li>
+<li><p>Model Compression</p>
+</li>
+</ul>
+<h2 id="Adapting-PTMs-to-Downstream-Tasks"><a href="#Adapting-PTMs-to-Downstream-Tasks" class="headerlink" title="Adapting PTMs to Downstream Tasks"></a>Adapting PTMs to Downstream Tasks</h2><p>尽管预训练模型能够捕获文本的general knowlegde，但怎么样高效的适用于下游任务已让是一个关键的问题。</p>
+<p>把PTM适用于下游任务是一个顺序的迁移学习任务，即顺序地学习任务，并且目标任务是带有标签的。</p>
+<p>那么如何做预训练模型到下游任务的迁移呢？</p>
+<ol>
+<li>选择一个合适的预训练任务、模型架构和下游任务训练语料库。</li>
+<li>选择合适的网络层。可以选择只用BERT的第一层Embedding层，也可以直接在BERT的输出上加一层Top Layer，也可以把每一层的输入做一个加权，作为Encoder的输出。</li>
+<li>fine-tuning的技巧：mult-task learning、使用额外的适配模块进行fine-tuning、gradual unfreezing</li>
+</ol>
 
       
     </div>
@@ -405,9 +482,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
           
-            <a href="/tags/双端队列/" rel="tag"># 双端队列</a>
+            <a href="/tags/预训练模型/" rel="tag"># 预训练模型</a>
+          
+            <a href="/tags/论文笔记/" rel="tag"># 论文笔记</a>
           
         </div>
       
@@ -420,8 +499,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/03/The-Usage-of-Stack-Code-Challenging/" rel="next" title="栈的运用——《挑战程序设计竞赛》">
-                <i class="fa fa-chevron-left"></i> 栈的运用——《挑战程序设计竞赛》
+              <a href="/2020/04/16/The-Entrance-Test-and-Interview-of-Pinduoduo/" rel="next" title="2020拼多多算法实习生笔试、面试记录">
+                <i class="fa fa-chevron-left"></i> 2020拼多多算法实习生笔试、面试记录
               </a>
             
           </div>
@@ -430,8 +509,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/07/04/Divide-and-Conquer-Code-Challenging/" rel="prev" title="划分、解决、合并：分治法——《挑战程序设计竞赛》">
-                划分、解决、合并：分治法——《挑战程序设计竞赛》 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/05/05/Neural-Machine-Reading-Comprehension-Methods-and-Trends/" rel="prev" title="论文笔记：Neural Machine Reading Comprehension：Methods and Trends">
+                论文笔记：Neural Machine Reading Comprehension：Methods and Trends <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -484,8 +563,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -547,6 +635,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Pre-trained-Models-for-Natural-Language-Processing-A-Survey"><span class="nav-number">1.</span> <span class="nav-text">Pre-trained Models for Natural Language Processing: A Survey</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Summary"><span class="nav-number">1.1.</span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Research-Objective"><span class="nav-number">1.2.</span> <span class="nav-text">Research Objective</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Background"><span class="nav-number">1.3.</span> <span class="nav-text">Background</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Neural-Contextual-Encoders"><span class="nav-number">1.3.1.</span> <span class="nav-text">Neural Contextual Encoders</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Overview-of-PTMs"><span class="nav-number">1.4.</span> <span class="nav-text">Overview of PTMs</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Pre-training-Tasks"><span class="nav-number">1.4.1.</span> <span class="nav-text">Pre-training Tasks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model-Analysis"><span class="nav-number">1.4.2.</span> <span class="nav-text">Model Analysis</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Extensions-of-PTMs"><span class="nav-number">1.5.</span> <span class="nav-text">Extensions of PTMs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Adapting-PTMs-to-Downstream-Tasks"><span class="nav-number">1.6.</span> <span class="nav-text">Adapting PTMs to Downstream Tasks</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
