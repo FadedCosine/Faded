@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="NLP,论文笔记,机器阅读理解,">
+  <meta name="keywords" content="论文笔记,NLP,机器阅读理解,">
 
 
 
@@ -78,14 +78,14 @@
 
 
 <meta name="description" content="Neural Machine Reading Comprehension: Methods and TrendsSummary这篇综述十分详尽地介绍了机器阅读理解（MRC）问题的问题背景，以及经典的MRC，并将大体的模型架构分模块，对每个模块都进行了详尽的方法介绍。然而，我觉得这篇文章并没有涉及预训练语言模型在MRC问题当中的应用，实属可惜。">
-<meta name="keywords" content="NLP,论文笔记,机器阅读理解">
+<meta name="keywords" content="论文笔记,NLP,机器阅读理解">
 <meta property="og:type" content="article">
 <meta property="og:title" content="论文笔记：Neural Machine Reading Comprehension：Methods and Trends">
 <meta property="og:url" content="https://fadedcosine.github.io/2020/05/05/Neural-Machine-Reading-Comprehension-Methods-and-Trends/index.html">
 <meta property="og:site_name" content="Zhixian Yang">
 <meta property="og:description" content="Neural Machine Reading Comprehension: Methods and TrendsSummary这篇综述十分详尽地介绍了机器阅读理解（MRC）问题的问题背景，以及经典的MRC，并将大体的模型架构分模块，对每个模块都进行了详尽的方法介绍。然而，我觉得这篇文章并没有涉及预训练语言模型在MRC问题当中的应用，实属可惜。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-05-05T07:27:52.147Z">
+<meta property="og:updated_time" content="2020-05-06T16:36:53.020Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="论文笔记：Neural Machine Reading Comprehension：Methods and Trends">
 <meta name="twitter:description" content="Neural Machine Reading Comprehension: Methods and TrendsSummary这篇综述十分详尽地介绍了机器阅读理解（MRC）问题的问题背景，以及经典的MRC，并将大体的模型架构分模块，对每个模块都进行了详尽的方法介绍。然而，我觉得这篇文章并没有涉及预训练语言模型在MRC问题当中的应用，实属可惜。">
@@ -364,6 +364,11 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
 
           
 
@@ -402,7 +407,7 @@
 </li>
 </ol>
 <p><em>不同任务的比较：</em> 文章从construction, understanding, flexibility, evaluation and application五个方面对以上四类MRC任务做出了对比。</p>
-<p>完形填空测试任务是最容易构建和评估数据集的。但是，由于填空的形式仅限于原始上下文中的单个单词或名称实体，所以完形填空不能很好地测试对机器的理解，与实际应用不符。多项选择题为每个问题提供候选答案，因此即使答案不局限于最初的上下文，也可以很容易地对它们进行评估。建立这个任务的数据集并不难，因为语言考试中的多项选择题很容易利用。然而，候选答案导致了合成数据集和实际应用之间的差距。相比之下，答案抽取式任务是一种适中的选择，因为数据集易于构造和评估。此外，它们可以在某种程度上测试机器对文本的理解。所有这些优点都有助于对这些任务进行大量的研究。答案抽取式任务的缺点是其结果受限于原始上下文的子序列，这与现实世界还有一定的距离。自由应答任务在理解性、灵活性和应用维度上表现出优越性，最接近于实际应用。然而，任何事物都有两面性。由于其答案形式的灵活性，在一定程度上很难构建数据集，如何有效地评估这些任务的性能仍然是一个独特的挑战。</p>
+<p>完形填空测试任务是最容易构建和评估数据集的。但是，由于填空的形式仅限于原始上下文中的单个单词或名称实体，所以完形填空不能很好地测试机器对自然语言的理解，与实际应用不符。多项选择题为每个问题提供候选答案，因此即使答案不局限于最初的上下文，也可以很容易地对它们进行评估。建立这个任务的数据集并不难，因为语言考试中的多项选择题很容易利用。然而，候选答案导致了合成数据集和实际应用之间的差距。相比之下，答案抽取式任务是一种适中的选择，因为数据集易于构造和评估。此外，它们可以在某种程度上测试机器对文本的理解。所有这些优点都有助于对这些任务进行大量的研究。答案抽取式任务的缺点是其结果受限于原始上下文的子序列，这与现实世界还有一定的距离。自由应答任务在理解性、灵活性和应用维度上表现出优越性，最接近于实际应用。然而，任何事物都有两面性。由于其答案形式的灵活性，在一定程度上很难构建数据集，如何有效地评估这些任务的性能仍然是一个独特的挑战。</p>
 <h3 id="Evaluation-Metrics（评价指标）"><a href="#Evaluation-Metrics（评价指标）" class="headerlink" title="Evaluation Metrics（评价指标）"></a>Evaluation Metrics（评价指标）</h3><p>针对完形填空类和多项选择类的问题常用accuracy也就是准确率，答案抽取类的问题常用Exact Match，精确匹配度，也就是预测结果和ground truth完全相同的比例。</p>
 <p>另外，F1 Score也常被用于答案抽取类的任务当中。此时F1的TP、FP、TN、FN定义如下：</p>
 <div class="table-container">
@@ -502,9 +507,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/NLP/" rel="tag"># NLP</a>
-          
             <a href="/tags/论文笔记/" rel="tag"># 论文笔记</a>
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
           
             <a href="/tags/机器阅读理解/" rel="tag"># 机器阅读理解</a>
           
@@ -705,6 +710,26 @@
 
 
         
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
 
 
 
