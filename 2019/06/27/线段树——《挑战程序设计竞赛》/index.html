@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/doughnut.svg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/doughnut32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/doughnut16x16.png?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="Algorithm,线段树,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="3.3.1 线段树线段树是一种二叉搜索树，它将一个区间划分成一些单元区间，每个单元区间对应线段树中的一个叶结点（并非完全二叉树！！！）。实际应用时一般还要开4N的数组以免越界。 线段树的构造代码如下： 1234567891011121314151617181920212223242526272829303132#include &amp;lt;iostream&amp;gt;using namespace std">
+<meta name="keywords" content="Algorithm,线段树">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线段树——《挑战程序设计竞赛》">
+<meta property="og:url" content="https://fadedcosine.github.io/2019/06/27/线段树——《挑战程序设计竞赛》/index.html">
+<meta property="og:site_name" content="Cosine">
+<meta property="og:description" content="3.3.1 线段树线段树是一种二叉搜索树，它将一个区间划分成一些单元区间，每个单元区间对应线段树中的一个叶结点（并非完全二叉树！！！）。实际应用时一般还要开4N的数组以免越界。 线段树的构造代码如下： 1234567891011121314151617181920212223242526272829303132#include &amp;lt;iostream&amp;gt;using namespace std">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://fadedcosine.github.io/2019/06/27/线段树——《挑战程序设计竞赛》/rotation.png">
+<meta property="og:updated_time" content="2019-07-02T14:55:10.348Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="线段树——《挑战程序设计竞赛》">
+<meta name="twitter:description" content="3.3.1 线段树线段树是一种二叉搜索树，它将一个区间划分成一些单元区间，每个单元区间对应线段树中的一个叶结点（并非完全二叉树！！！）。实际应用时一般还要开4N的数组以免越界。 线段树的构造代码如下： 1234567891011121314151617181920212223242526272829303132#include &amp;lt;iostream&amp;gt;using namespace std">
+<meta name="twitter:image" content="https://fadedcosine.github.io/2019/06/27/线段树——《挑战程序设计竞赛》/rotation.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://fadedcosine.github.io/2019/06/27/线段树——《挑战程序设计竞赛》/">
+
+
+
+
+
+  <title>线段树——《挑战程序设计竞赛》 | Cosine</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Cosine</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://fadedcosine.github.io/2019/06/27/线段树——《挑战程序设计竞赛》/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cosine">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Zoe.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cosine">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">线段树——《挑战程序设计竞赛》</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-27T22:07:52+08:00">
+                2019-06-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/三更有梦书为枕/" itemprop="url" rel="index">
+                    <span itemprop="name">三更有梦书为枕</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+
+          
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="3-3-1-线段树"><a href="#3-3-1-线段树" class="headerlink" title="3.3.1 线段树"></a>3.3.1 线段树</h3><p>线段树是一种二叉搜索树，它将一个区间划分成一些单元区间，每个单元区间对应线段树中的一个叶结点（并非完全二叉树！！！）。实际应用时一般还要开4N的数组以免越界。</p>
+<p>线段树的构造代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxind = <span class="number">256</span>;</span><br><span class="line"><span class="keyword">int</span> segTree[maxind * <span class="number">4</span> + <span class="number">10</span>];</span><br><span class="line"><span class="keyword">int</span> <span class="built_in">array</span>[maxind]; </span><br><span class="line"><span class="comment">/* 构造函数，得到线段树 */</span></span><br><span class="line"><span class="comment">//区间为[begin, end]</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">(<span class="keyword">int</span> node, <span class="keyword">int</span> begin, <span class="keyword">int</span> end)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="keyword">if</span> (begin == end)  </span><br><span class="line">        segTree[node] = <span class="built_in">array</span>[begin]; <span class="comment">/* 只有一个元素,节点记录该单元素 */</span></span><br><span class="line">    <span class="keyword">else</span>  </span><br><span class="line">    &#123;   </span><br><span class="line">    	<span class="comment">/* 递归构造左右子树 */</span> </span><br><span class="line">        build(<span class="number">2</span>*node, begin, (begin+end)/<span class="number">2</span>);  </span><br><span class="line">        build(<span class="number">2</span>*node+<span class="number">1</span>, (begin+end)/<span class="number">2</span>+<span class="number">1</span>, end); </span><br><span class="line">		 </span><br><span class="line">		<span class="comment">/* 回溯时得到当前node节点的线段信息，保存最小值 */</span>  </span><br><span class="line">	    <span class="keyword">if</span> (segTree[<span class="number">2</span> * node] &lt;= segTree[<span class="number">2</span> * node + <span class="number">1</span>])  </span><br><span class="line">	        segTree[node] = segTree[<span class="number">2</span> * node];  </span><br><span class="line">	    <span class="keyword">else</span>  </span><br><span class="line">	        segTree[node] = segTree[<span class="number">2</span> * node + <span class="number">1</span>];  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">array</span>[<span class="number">0</span>] = <span class="number">1</span>, <span class="built_in">array</span>[<span class="number">1</span>] = <span class="number">2</span>,<span class="built_in">array</span>[<span class="number">2</span>] = <span class="number">2</span>, <span class="built_in">array</span>[<span class="number">3</span>] = <span class="number">4</span>, <span class="built_in">array</span>[<span class="number">4</span>] = <span class="number">1</span>, <span class="built_in">array</span>[<span class="number">5</span>] = <span class="number">3</span>;</span><br><span class="line">	build(<span class="number">1</span>, <span class="number">0</span>, <span class="number">5</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>线段树的主要操作包括区间查询（查询给定区间的最小值）和给定节点的更新。</p>
+<p><strong>区间查询</strong> int query(int node, int begin, int end, int left, int right);<br>时间复杂度$O(\log n)$。<br>（其中node为当前查询节点，begin,end为当前节点存储的区间，left,right为此次query所要查询的区间，实际上我们只想要查询[left, right)的最小值其他的参数是为了计算方便传入的）<br>线段树区间查询的主要思想是把所要查询的区间[a,b]划分为线段树上的节点，然后将这些节点代表的区间合并起来得到所需信息：（对于节点存储对应区间最小值的线段树来说）</p>
+<ul>
+<li>如果所查询区间和当前节点对应的区间完全没有交集，那么就返回一个不影响答案的值</li>
+<li>如果所查询的区间包含了当前节点对应的区间，那么就返回当前节点的值</li>
+<li>以上两种情况都不满足的话，就对两个儿子递归处理，返回两个结果中的较小值<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">query</span><span class="params">(<span class="keyword">int</span> node, <span class="keyword">int</span> begin, <span class="keyword">int</span> end, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span>  </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">    <span class="keyword">int</span> p1, p2;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">/*  查询区间和要求的区间没有交集  */</span></span><br><span class="line">    <span class="keyword">if</span> (left &gt; end || right &lt; begin)  </span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">/*  if the current interval is included in  */</span>  </span><br><span class="line">    <span class="comment">/*  the query interval return segTree[node]  */</span></span><br><span class="line">    <span class="keyword">if</span> (begin &gt;= left &amp;&amp; end &lt;= right)  </span><br><span class="line">        <span class="keyword">return</span> segTree[node];  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">/*  compute the minimum position in the  */</span></span><br><span class="line">    <span class="comment">/*  left and right part of the interval  */</span> </span><br><span class="line">    p1 = query(<span class="number">2</span> * node, begin, (begin + end) / <span class="number">2</span>, left, right); </span><br><span class="line">    p2 = query(<span class="number">2</span> * node + <span class="number">1</span>, (begin + end) / <span class="number">2</span> + <span class="number">1</span>, end, left, right);  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">/*  return the expect value  */</span> </span><br><span class="line">    <span class="keyword">if</span> (p1 == <span class="number">-1</span>)  </span><br><span class="line">        <span class="keyword">return</span> p2;  </span><br><span class="line">    <span class="keyword">if</span> (p2 == <span class="number">-1</span>)  </span><br><span class="line">        <span class="keyword">return</span> p1;  </span><br><span class="line">    <span class="keyword">if</span> (p1 &lt;= p2)  </span><br><span class="line">        <span class="keyword">return</span>  p1;  </span><br><span class="line">    <span class="keyword">return</span>  p2;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>单节点更新</strong><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Updata</span><span class="params">(<span class="keyword">int</span> node, <span class="keyword">int</span> begin, <span class="keyword">int</span> end, <span class="keyword">int</span> ind, <span class="keyword">int</span> add)</span><span class="comment">/*单节点更新*/</span> </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="keyword">if</span>( begin == end )  </span><br><span class="line">    &#123;  </span><br><span class="line">        segTree[node] += add;  </span><br><span class="line">        <span class="keyword">return</span> ;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">int</span> m = ( left + right ) &gt;&gt; <span class="number">1</span>;  </span><br><span class="line">    <span class="keyword">if</span>(ind &lt;= m)  </span><br><span class="line">        Updata(node * <span class="number">2</span>,left, m, ind, add);  </span><br><span class="line">    <span class="keyword">else</span>  </span><br><span class="line">        Updata(node * <span class="number">2</span> + <span class="number">1</span>, m + <span class="number">1</span>, right, ind, add);  </span><br><span class="line">    <span class="comment">/*回溯更新父节点*/</span>  </span><br><span class="line">    segTree[node] = min(segTree[node * <span class="number">2</span>], segTree[node * <span class="number">2</span> + <span class="number">1</span>]);   </span><br><span class="line">       </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p><a href="http://poj.org/problem?id=2991" target="_blank" rel="noopener">Crane</a></p>
+<blockquote>
+<p>有n根长度不尽相同的棍子，初始时它们首尾垂直相连，标号为1—n，第一根棍子的下端坐标为(0,0),上端坐标为(0,len[1]),其余棍子依次类推。接下来执行C此旋转，每次输入一个编号num和角度rad，使得第num根棍子和第num+1跟棍子间的逆时针角度变为rad度，求每次旋转后第n根棍子端点的坐标。</p>
+</blockquote>
+<p>解题思路源于[<a href="https://www.cnblogs.com/staginner/archive/2012/04/07/2436436.html" target="_blank" rel="noopener">https://www.cnblogs.com/staginner/archive/2012/04/07/2436436.html</a>]</p>
+<p>如果我们将其中某一个线段旋转β角，那么这个线段上方的所有线段都会旋转β角，这就很类似线段树中的对区间加上一个常数的问题了，于是不妨向着线段树的思路去想。</p>
+<p>接下来一个问题就是β角是相对于谁的，换句话说我们所谓的每个线段都会旋转β角，那么是绕谁旋转的？实际上，如果我们局限于把线段的旋转就会看成是绕某个定点的，这个点就是我们旋转的线段和它下面那个不动的线段的交点，再这样想下去我们就没法处理了，因为每个旋转操作所绕的定点不是唯一的，我们没办法把所有的旋转操作都统一到一起，那么我们就没办法把旋转操作叠加，这样就没法使用线段树了。</p>
+<p>但如果换个思路的话，实际上β角还等于这个线段旋转后所在的直线和未旋转前所在的直线的夹角，而直线的夹角是可以用向量的夹角表示的，如果我们把线段看成一个向量的话那么β角就是这个向量旋转的角度。如果这么看的话，所有的旋转操作就可以统一到一起了，也可以叠加了，因为这样不会局限于绕哪个定点，只需要把向量自身旋转一下就OK。</p>
+<p>那么我们维护下面两个值：</p>
+<ul>
+<li>把对应线段集合转到垂直方向（也就是整体旋转，让第一条线段垂直之后，注意并不是单独旋转第一条线段），从第一条线段的起点指向最后一条线段的终点的向量。</li>
+<li>（如果该节点有儿子节点）两个儿子节点对应的部分连接之后，右儿子需要转动的角度（因为s和s+1的角度改变，如果s在左儿子中，那么在全局坐标系内，右儿子也会相应的需要旋转改变坐标）</li>
+</ul>
+<p>也就是说，如果节点i表示的向量是$vx_i, vy_i$，角度是$ang_i$，两个儿子节点是chl和chr，那么就有：</p>
+<script type="math/tex; mode=display">
+vx_i = vx_{chl}+(\cos(ang_i)\times vx_{chr} - \sin(ang_i)\times vy_{chr}) \\
+vy_i = vy_{chl}+(\sin(ang_i)\times vx_{chr} + \cos(ang_i)\times vy_{chr})</script><p>对向量旋转的解释可参照[<a href="https://www.2cto.com/kf/201610/556382.html" target="_blank" rel="noopener">https://www.2cto.com/kf/201610/556382.html</a>]</p>
+<p><img src="//fadedcosine.github.io/2019/06/27/线段树——《挑战程序设计竞赛》/rotation.png" alt></p>
+<p>这样每次更新可在$O(\log n)$的时间内完成。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxind = <span class="number">10010</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">double</span> PI = <span class="built_in">acos</span>(<span class="number">-1.0</span>);</span><br><span class="line"><span class="keyword">int</span> <span class="built_in">array</span>[maxind];</span><br><span class="line"><span class="keyword">int</span> S[maxind], A[maxind];</span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span> vx[maxind * <span class="number">4</span> + <span class="number">10</span>], vy[maxind * <span class="number">4</span> + <span class="number">10</span>];</span><br><span class="line"><span class="keyword">double</span> ang[maxind * <span class="number">4</span> + <span class="number">10</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span> prv[maxind];</span><br><span class="line"><span class="comment">/* 构造函数，得到线段树 */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">(<span class="keyword">int</span> node, <span class="keyword">int</span> begin, <span class="keyword">int</span> end)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">	ang[node] = vx[node] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (begin == end)  </span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;vy[node];</span><br><span class="line">    <span class="keyword">else</span>  </span><br><span class="line">    &#123;   </span><br><span class="line">    	<span class="comment">/* 递归构造左右子树 */</span> </span><br><span class="line">        build(<span class="number">2</span>*node, begin, (begin+end)/<span class="number">2</span>);  </span><br><span class="line">        build(<span class="number">2</span>*node+<span class="number">1</span>, (begin+end)/<span class="number">2</span>+<span class="number">1</span>, end); </span><br><span class="line">		<span class="comment">/* 回溯时得到当前node节点的线段信息，保存最小值 */</span>  </span><br><span class="line">	    vy[node] = vy[<span class="number">2</span>*node] + vy[<span class="number">2</span>*node+<span class="number">1</span>];</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">change</span><span class="params">(<span class="keyword">int</span> s, <span class="keyword">double</span> a, <span class="keyword">int</span> node, <span class="keyword">int</span> begin, <span class="keyword">int</span> end)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(s&lt;begin) <span class="keyword">return</span>;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(begin == s &amp;&amp; begin == end) <span class="comment">//区间只用一个棍子的情况</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(s &lt; end)&#123; </span><br><span class="line">		<span class="keyword">int</span> chl = node*<span class="number">2</span>, chr = node*<span class="number">2</span>+<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">int</span> mid = (begin+end)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">		change(s,a,chl,begin,mid);</span><br><span class="line">		change(s,a,chr,mid+<span class="number">1</span>,end);</span><br><span class="line">		<span class="keyword">if</span>(s&lt;=mid) ang[node]+=a; <span class="comment">//(1, pi/2, 1, 1, 2) 这时mid就为1，s也为1，是最细粒度的情况，需要给ang赋值 </span></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        s&lt;=m，s在左儿子中，那么右边的线段也会因为s和s+1的角度改变而全局的坐标发生改变，当前这个节点node左右儿子之间的角度也会发生变化（变化a），所以是if(s&lt;=mid) ang[node]+=a，之后根据变化后的角度，改变当前node维护的vx和vy</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">		<span class="keyword">double</span> sine = <span class="built_in">sin</span>(ang[node]), cosine = <span class="built_in">cos</span>(ang[node]);</span><br><span class="line">		<span class="comment">//cout&lt;&lt;"sine is "&lt;&lt;sine&lt;&lt;", cosine is "&lt;&lt;cosine&lt;&lt;endl;</span></span><br><span class="line">		vx[node] = vx[chl] + (cosine * vx[chr] - sine * vy[chr]);</span><br><span class="line">		vy[node] = vy[chl] + (sine * vx[chr] + cosine * vy[chr]); </span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> N, C;</span><br><span class="line">	<span class="keyword">int</span> t=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">"%d%d"</span>, &amp;N, &amp;C) == <span class="number">2</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        	</span><br><span class="line">		build(<span class="number">1</span>,<span class="number">1</span>,N);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;C;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">cin</span>&gt;&gt;S[i]&gt;&gt;A[i];</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	</span><br><span class="line">        <span class="keyword">if</span>(t++)</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">        </span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=N;i++) prv[i] = PI;</span><br><span class="line">	</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;C;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">int</span> s = S[i];</span><br><span class="line">			<span class="keyword">double</span> a = A[i] / <span class="number">180.0</span> *PI;</span><br><span class="line">			</span><br><span class="line">			change(s,a-prv[s], <span class="number">1</span>, <span class="number">1</span>, N);</span><br><span class="line">			prv[s] = a;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"%.2f %.2f\n"</span>, vx[<span class="number">1</span>], vy[<span class="number">1</span>]);</span><br><span class="line">			</span><br><span class="line">		&#125;</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>线段树区间更新</strong><br><a href="http://poj.org/problem?id=3468" target="_blank" rel="noopener">A Simple Problem with Integers</a></p>
+<blockquote>
+<p>给N个数$A_1, A_2, … , A_n$. 你需要处理两种操作，一种操作是在一个区间上每个数都增加一个数，别一种操作是查询一个区间所有数的和</p>
+</blockquote>
+<p>以目前仅有的单节点更新很难高效滴实现对一个区间同时加一个值，所以我们改进线段树，对每个节点我们维护一下两个数据：</p>
+<ul>
+<li>a. 给这个节点对应的区间内的所有元素共同加上的值</li>
+<li>b. 在这个节点对应的区间中除去a（a就是上面那个a）之外所有其他值的和<br>如果对于父节点同时加上了一个值，那么这个值就不会在儿子节点被重复考虑，而是在递归计算和的时候再把这一部分的值加到结果中。这样无论是同时加一个值还是查询一段的和复杂度都是$O(\log n)$。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn=<span class="number">100000</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;</span><br><span class="line"></span><br><span class="line">LL sum[maxn&lt;&lt;<span class="number">2</span>], add[maxn&lt;&lt;<span class="number">2</span>];</span><br><span class="line"><span class="keyword">int</span> a[maxn];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PushUp</span><span class="params">(<span class="keyword">int</span> root)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	sum[root] = sum[root&lt;&lt;<span class="number">1</span>] + sum[root&lt;&lt;<span class="number">1</span>|<span class="number">1</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Build</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> r, <span class="keyword">int</span> root)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	add[root] = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">if</span>(l == r)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">"%I64d"</span>,&amp;sum[root]);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> m=(l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">	Build(l,m,root&lt;&lt;<span class="number">1</span>);</span><br><span class="line">	Build(m+<span class="number">1</span>,r,root&lt;&lt;<span class="number">1</span>|<span class="number">1</span>);</span><br><span class="line">	PushUp(root);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PushDown</span><span class="params">(<span class="keyword">int</span> root,<span class="keyword">int</span> m)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(add[root])</span><br><span class="line">    &#123;</span><br><span class="line">        add[root&lt;&lt;<span class="number">1</span>]+=add[root];</span><br><span class="line">        add[root&lt;&lt;<span class="number">1</span>|<span class="number">1</span>]+=add[root];</span><br><span class="line">        sum[root&lt;&lt;<span class="number">1</span>]+=(m-(m&gt;&gt;<span class="number">1</span>))*add[root];</span><br><span class="line">        sum[root&lt;&lt;<span class="number">1</span>|<span class="number">1</span>]+=(m&gt;&gt;<span class="number">1</span>)*add[root];</span><br><span class="line">        add[root]=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span><span class="params">(<span class="keyword">int</span> L,<span class="keyword">int</span> R,<span class="keyword">int</span> c,<span class="keyword">int</span> l,<span class="keyword">int</span> r, <span class="keyword">int</span> root)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(L&lt;=l&amp;&amp;R&gt;=r)</span><br><span class="line">    &#123;</span><br><span class="line">        add[root]+=c;</span><br><span class="line">        sum[root]+=(LL)c*(r-l+<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    PushDown(root,r-l+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">int</span> m=(l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(L&lt;=m)</span><br><span class="line">        Update(L,R,c,l,m,root&lt;&lt;<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span>(R&gt;m)</span><br><span class="line">        Update(L,R,c,m+<span class="number">1</span>,r,root&lt;&lt;<span class="number">1</span>|<span class="number">1</span>);</span><br><span class="line">    PushUp(root);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">LL <span class="title">Query</span><span class="params">(<span class="keyword">int</span> L,<span class="keyword">int</span> R,<span class="keyword">int</span> l, <span class="keyword">int</span> r,<span class="keyword">int</span> root)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(L&lt;=l &amp;&amp; R&gt;=r)</span><br><span class="line">		<span class="keyword">return</span> sum[root];</span><br><span class="line">	PushDown(root,r-l+<span class="number">1</span>); <span class="comment">//在查询和的时候在调用PushDown，把保存在add数组中的值加到sum数组的结果之中。</span></span><br><span class="line">	<span class="keyword">int</span> m=(l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">	LL res = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">if</span>(L&lt;=m) res += Query(L,R,l,m,root&lt;&lt;<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">if</span>(R&gt;m) res += Query(L,R,m+<span class="number">1</span>,r,root&lt;&lt;<span class="number">1</span>|<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">return</span> res;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> m,n;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;n,&amp;m);</span><br><span class="line">    Build(<span class="number">1</span>,n,<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">while</span>(m--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">char</span> s[<span class="number">5</span>];</span><br><span class="line">        <span class="keyword">int</span> a,b,c;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%s"</span>,s);</span><br><span class="line">        <span class="keyword">if</span>(s[<span class="number">0</span>]==<span class="string">'Q'</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;a,&amp;b);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%I64d\n"</span>,Query(a,b,<span class="number">1</span>,n,<span class="number">1</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">"%d%d%d"</span>,&amp;a,&amp;b,&amp;c);</span><br><span class="line">            Update(a,b,c,<span class="number">1</span>,n,<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-3-3-分桶法和平方分割"><a href="#3-3-3-分桶法和平方分割" class="headerlink" title="3.3.3 分桶法和平方分割"></a>3.3.3 分桶法和平方分割</h3><p>分桶法是把一排物品或者平面分成桶，每个桶分别维护自己内部的信息，以达到高效计算的目的。</p>
+<p>其中平方分割是把排成一排的n个元素每个$\sqrt{n}$个分在一个桶内进行维护的方法的统称。这样的分割方法可以使区间的操作的复杂度降至$O(\sqrt{n})$。</p>
+<p>水平分割法相比于线段树实现上要简单，单多数情况下线段树会比水平分割快。</p>
+<p><a href="http://poj.org/problem?id=2104" target="_blank" rel="noopener">K-th Number</a></p>
+<blockquote>
+<p>给出一个长度为n的序列a，给出m次查询，每次查询区间[l,r]中第k大的数是什么</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+          
+            <a href="/tags/线段树/" rel="tag"># 线段树</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/27/常用技巧精选——《挑战程序设计竞赛》/" rel="next" title="常用技巧精选(一)——《挑战程序设计竞赛》">
+                <i class="fa fa-chevron-left"></i> 常用技巧精选(一)——《挑战程序设计竞赛》
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/28/树状数组——《挑战程序设计竞赛》/" rel="prev" title="树状数组——《挑战程序设计竞赛》">
+                树状数组——《挑战程序设计竞赛》 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/Zoe.jpg" alt="Cosine">
+            
+              <p class="site-author-name" itemprop="name">Cosine</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-1-线段树"><span class="nav-text">3.3.1 线段树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-3-分桶法和平方分割"><span class="nav-text">3.3.3 分桶法和平方分割</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cosine</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问次数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
