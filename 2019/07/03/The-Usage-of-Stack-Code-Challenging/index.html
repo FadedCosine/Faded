@@ -385,7 +385,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,724
+                  1,724 字
                 </span>
               
 
@@ -401,7 +401,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  7
+                  7 分钟
                 </span>
               
             </div>
@@ -427,7 +427,7 @@
 <p>给定从左到右n个矩形，已知这此矩形的宽度都为1，长度不完全相等，为$h_1,h_2, \cdots, h_n$。这些矩形相连排成一排，求在这些矩形包括的范围内能得到的面积最大的矩形，打印出该面积。所求矩形可以横跨多个矩形，但不能超出原有矩形所确定的范围。<br>$1\le n \le 100000$<br><strong>输入</strong><br>7 2 1 4 5 1 3 3<br><strong>输出</strong><br>8</p>
 </blockquote>
 <a id="more"></a>
-<p><img src="/2019/07/03/The-Usage-of-Stack-Code-Challenging/2559_1.jpg" alt></p>
+<p><img src="//fadedcosine.github.io/2019/07/03/The-Usage-of-Stack-Code-Challenging/2559_1.jpg" alt></p>
 <p>从微软面试时学到的道理，拿到一个题目想想出最简单的算法，并能让这个算法能够成功地work。首先如果确定了长方形的左端点L和右端点R，那么最大可能的高度就是<script type="math/tex">\min \{ h_i | L \le i <R \}</script>。这样我们遍历L和R，在$[L,R)$中找最小的$h_i$这样naive的算法是$O(n^3)$的复杂度。对于区间的最小值做优化，比如说用尺取法那么就可以把复杂度降为$O(n^2)$。即使这样还是不能满足这道题的数据范围。</p>
 <p>假设最大的长方形的左端是L，右端是R（左闭右开），高度是H，那么一定有<script type="math/tex">h_{L-1} <H</script>和$h_R&lt;H$，并且高度<script type="math/tex">H = \min \{h_i | L \le i < R \}</script>。因此，我们可以每次固定i，找到L和R，最后再遍历一遍找到$(R-L)\times H$的最大值。即我们维护两个数组L[i]和R[i],</p>
 <ul>
@@ -444,7 +444,7 @@
 <blockquote>
 <p>给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。<br>输入: [0,1,0,2,1,0,1,3,2,1,2,1]<br>输出: 6</p>
 </blockquote>
-<p><img src="/2019/07/03/The-Usage-of-Stack-Code-Challenging/rainwatertrap.png" alt></p>
+<p><img src="//fadedcosine.github.io/2019/07/03/The-Usage-of-Stack-Code-Challenging/rainwatertrap.png" alt></p>
 <p>因为要积水，来自于不少于两个柱子之间的高度关系。我们在遍历数组时维护一个栈。如果当前的柱子的高度小于或等于栈顶的柱子，我们将柱子的索引入栈，意思是当前这个柱子被栈中的前一个柱子界定。如果我们发现一个柱子的高度大于栈顶的柱子，我们可以确定栈顶的柱子被当前柱子和栈顶的前一个柱子界定，因此我们可以弹出栈顶元素，并且累加由当前柱子和栈顶的前一个柱子贡献出来的积水（当前柱子和栈顶柱子的高度差乘以当前柱子和栈顶的前一个柱子的宽度）到 ans ，直到栈为空或栈顶柱子不低于当前柱子，随后把当前柱子的索引入栈。</p>
 <p>这样的做法与上述的POJ2559题目的想法有异曲同工之妙。同样是维护了一个单调栈，栈中元素上到下，对应的高度递增，像一个金字塔形。代码如下：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">trap</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; height)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; right;</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;height.size();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span>(!right.empty() &amp;&amp; height[right.top()]&lt;height[i]) </span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">int</span> top = height[right.top()];</span><br><span class="line">                right.pop();</span><br><span class="line">                <span class="keyword">if</span>(right.empty())<span class="keyword">break</span>;</span><br><span class="line">                ans += ((min(height[right.top()],height[i])-top) * (i-right.top()<span class="number">-1</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            right.push(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
@@ -453,7 +453,7 @@
 <blockquote>
 <p>给定 n 个非负整数 a1，a2，…，an，每个数代表坐标中的一个点 (i, ai) 。在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0)。找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。</p>
 </blockquote>
-<p><img src="/2019/07/03/The-Usage-of-Stack-Code-Challenging/question_11.jpg" alt></p>
+<p><img src="//fadedcosine.github.io/2019/07/03/The-Usage-of-Stack-Code-Challenging/question_11.jpg" alt></p>
 <p>因为与上两题比较类似，我把这道题列在这儿。</p>
 <p>要想围住的面积最大，需要尽量保证</p>
 <ul>
