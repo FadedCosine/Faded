@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[NLG的Decoding方法相关论文笔记（1）—— Unlikelihood Training]]></title>
     <url>%2F2020%2F06%2F09%2FNeural-Text-Degeneration-With-Unlikelihood-Training%2F</url>
-    <content type="text"><![CDATA[Neural Text Degeneration With Unlikelihood TrainingSummary文章介绍了一种新的语言模型训练方法unlikelihood training，在MLE的基础上对于设定的negative candidate中的token使用unlikelihood loss做出限制，用于解决MLE的训练方法中存在的重复和unique token少（模型很少输出富有含义的低频词）这些问题。（我私觉得文中实验的评价指标都是对文章提出的方法有利的 Research Objective文本生成中的文本退化的问题。 Problem Statement最大化log-likelihood的目标函数使得文本生成任务的模型过于单调无趣，高频词被反复地使用，而富有含义的低频词却很少被利用。最近的解决方法是用一些采样和复杂的beam search的变种，但治标不治本。 文本退化的可能原因有三：1、Transformer之类的模型更偏爱重复；2、是人类语言的内在属性，而不是模型的缺陷；3、依赖于固定的语料库，而不能考虑到语言的真实目的。 文章使用unlikehood training，对于真实的target token使用likehood update，对于非真实（其他的）token使用unlikelihood update。 Neural Text Degeneration主要的问题包括，重复和token分布的差距。 重复的问题包括sequence-level的重复和next-token预测的重复。前者体现在greedy decoding的方法n-grams相比真实数据，模型的预测很容易出现重复；后者体现在模型在做t timestep时的next-token prediction时使用前文出现的token的概率要比真实数据时t timestep的token是前文出现的token的概率高。 token分布的差距是指模型生成的文本的unique token的数目要比真实数据的少40%。 The Unlikelihood Training ObjectiveUnlikelihood Training定义一个negative candidates，unlikelihood loss的思想就是降低negative candidates出现的概率，其定义step t的unlikelihood loss为1L_&#123;UL&#125;^t(p_&#123;\theta&#125;(\cdot\mid x_&#123;&lt;t&#125;), C^t) = - \sum\limits_&#123;c\in C^t&#125;\log(1 - p_\theta(c\mid x_&#123;&lt;t&#125;) ) 定义negative candidates为上文的token：1C_&#123;prev-context&#125;^t = \&#123;x_1, \cdots, x_&#123;t-1&#125;\&#125;\backslash \&#123;x_t\&#125; 再把这个unlikelihood loss加到每一步的maximum likelihood training当中，得到以下公式：1L_&#123;UL-token&#125;^t(p_&#123;\theta&#125;(\cdot\mid x_&#123;&lt;t&#125;), C^t) = - \alpha\sum\limits_&#123;c\in C^t&#125;\log(1 - p_\theta(c\mid x_&#123;&lt;t&#125;) ) - logp_\theta(x_t \mid x_&#123;&lt;t&#125;) 上式中的第一项是文中改进的unlikelihood loss，第二项是MLE中log条件概率。这样的改进使得(i)来自上文token的重复更少，(ii)高频词出现的可能更小，因为高频词经常性地在上文中出现。 文中接着给出了关于上式的梯度分析。设定p_\theta(x_t\mid x_{]]></content>
+    <content type="text"><![CDATA[Neural Text Degeneration With Unlikelihood TrainingSummary文章介绍了一种新的语言模型训练方法unlikelihood training，在MLE的基础上对于设定的negative candidate中的token使用unlikelihood loss做出限制，用于解决MLE的训练方法中存在的重复和unique token少（模型很少输出富有含义的低频词）这些问题。（我私觉得文中实验的评价指标都是对文章提出的方法有利的 Research Objective文本生成中的文本退化的问题。 Problem Statement最大化log-likelihood的目标函数使得文本生成任务的模型过于单调无趣，高频词被反复地使用，而富有含义的低频词却很少被利用。最近的解决方法是用一些采样和复杂的beam search的变种，但治标不治本。 文本退化的可能原因有三：1、Transformer之类的模型更偏爱重复；2、是人类语言的内在属性，而不是模型的缺陷；3、依赖于固定的语料库，而不能考虑到语言的真实目的。 文章使用unlikehood training，对于真实的target token使用likehood update，对于非真实（其他的）token使用unlikelihood update。 Neural Text Degeneration主要的问题包括，重复和token分布的差距。 重复的问题包括sequence-level的重复和next-token预测的重复。前者体现在greedy decoding的方法n-grams相比真实数据，模型的预测很容易出现重复；后者体现在模型在做t timestep时的next-token prediction时使用前文出现的token的概率要比真实数据时t timestep的token是前文出现的token的概率高。 token分布的差距是指模型生成的文本的unique token的数目要比真实数据的少40%。 The Unlikelihood Training ObjectiveUnlikelihood Training定义一个negative candidates，unlikelihood loss的思想就是降低negative candidates出现的概率，其定义step t的unlikelihood loss为 L_{UL}^t(p_{\theta}(\cdot\mid x_{]]></content>
       <categories>
         <category>千里怀思月在峰</category>
       </categories>
@@ -21,8 +21,8 @@
         <category>千里怀思月在峰</category>
       </categories>
       <tags>
-        <tag>反思</tag>
         <tag>考试</tag>
+        <tag>反思</tag>
       </tags>
   </entry>
   <entry>
@@ -59,9 +59,9 @@
         <category>世若秋水一般凉</category>
       </categories>
       <tags>
+        <tag>反思</tag>
         <tag>笔试</tag>
         <tag>面经</tag>
-        <tag>反思</tag>
       </tags>
   </entry>
   <entry>

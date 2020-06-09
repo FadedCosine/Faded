@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="Faded Cosine">
 <meta property="og:description" content="Neural Text Degeneration With Unlikelihood TrainingSummary文章介绍了一种新的语言模型训练方法unlikelihood training，在MLE的基础上对于设定的negative candidate中的token使用unlikelihood loss做出限制，用于解决MLE的训练方法中存在的重复和unique token少（模型很少输出富有">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-06-09T07:31:30.128Z">
+<meta property="og:updated_time" content="2020-06-09T15:09:51.643Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NLG的Decoding方法相关论文笔记（1）—— Unlikelihood Training">
 <meta name="twitter:description" content="Neural Text Degeneration With Unlikelihood TrainingSummary文章介绍了一种新的语言模型训练方法unlikelihood training，在MLE的基础上对于设定的negative candidate中的token使用unlikelihood loss做出限制，用于解决MLE的训练方法中存在的重复和unique token少（模型很少输出富有">
@@ -381,7 +381,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,501 字
+                  1,169 字
                 </span>
               
 
@@ -397,7 +397,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  7 分钟
+                  4 分钟
                 </span>
               
             </div>
@@ -419,6 +419,7 @@
 
       
         <h1 id="Neural-Text-Degeneration-With-Unlikelihood-Training"><a href="#Neural-Text-Degeneration-With-Unlikelihood-Training" class="headerlink" title="Neural Text Degeneration With Unlikelihood Training"></a>Neural Text Degeneration With Unlikelihood Training</h1><h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>文章介绍了一种新的语言模型训练方法unlikelihood training，在MLE的基础上对于设定的negative candidate中的token使用unlikelihood loss做出限制，用于解决MLE的训练方法中存在的重复和unique token少（模型很少输出富有含义的低频词）这些问题。（我私觉得文中实验的评价指标都是对文章提出的方法有利的</p>
+<a id="more"></a>
 <h2 id="Research-Objective"><a href="#Research-Objective" class="headerlink" title="Research Objective"></a>Research Objective</h2><p>文本生成中的文本退化的问题。</p>
 <h2 id="Problem-Statement"><a href="#Problem-Statement" class="headerlink" title="Problem Statement"></a>Problem Statement</h2><p>最大化log-likelihood的目标函数使得文本生成任务的模型过于单调无趣，高频词被反复地使用，而富有含义的低频词却很少被利用。最近的解决方法是用一些采样和复杂的beam search的变种，但治标不治本。</p>
 <p>文本退化的可能原因有三：1、Transformer之类的模型更偏爱重复；2、是人类语言的内在属性，而不是模型的缺陷；3、依赖于固定的语料库，而不能考虑到语言的真实目的。</p>
@@ -426,31 +427,45 @@
 <h2 id="Neural-Text-Degeneration"><a href="#Neural-Text-Degeneration" class="headerlink" title="Neural Text Degeneration"></a>Neural Text Degeneration</h2><p>主要的问题包括，<strong>重复</strong>和<strong>token分布的差距</strong>。</p>
 <p><strong>重复</strong>的问题包括sequence-level的重复和next-token预测的重复。前者体现在greedy decoding的方法n-grams相比真实数据，模型的预测很容易出现重复；后者体现在模型在做t timestep时的next-token prediction时使用前文出现的token的概率要比真实数据时t timestep的token是前文出现的token的概率高。</p>
 <p><strong>token分布的差距</strong>是指模型生成的文本的unique token的数目要比真实数据的少40%。</p>
-<h2 id="The-Unlikelihood-Training-Objective"><a href="#The-Unlikelihood-Training-Objective" class="headerlink" title="The Unlikelihood Training Objective"></a>The Unlikelihood Training Objective</h2><h3 id="Unlikelihood-Training"><a href="#Unlikelihood-Training" class="headerlink" title="Unlikelihood Training"></a>Unlikelihood Training</h3><p>定义一个negative candidates，unlikelihood loss的思想就是降低negative candidates出现的概率，其定义step t的unlikelihood loss为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">L_&#123;UL&#125;^t(p_&#123;\theta&#125;(\cdot\mid x_&#123;&lt;t&#125;), C^t) = - \sum\limits_&#123;c\in C^t&#125;\log(1 - p_\theta(c\mid x_&#123;&lt;t&#125;) )</span><br></pre></td></tr></table></figure></p>
-<p>定义negative candidates为上文的token：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C_&#123;prev-context&#125;^t = \&#123;x_1, \cdots, x_&#123;t-1&#125;\&#125;\backslash   \&#123;x_t\&#125;</span><br></pre></td></tr></table></figure></p>
-<p>再把这个unlikelihood loss加到每一步的maximum likelihood training当中，得到以下公式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">L_&#123;UL-token&#125;^t(p_&#123;\theta&#125;(\cdot\mid x_&#123;&lt;t&#125;), C^t) = - \alpha\sum\limits_&#123;c\in C^t&#125;\log(1 - p_\theta(c\mid x_&#123;&lt;t&#125;) ) - logp_\theta(x_t \mid x_&#123;&lt;t&#125;)</span><br></pre></td></tr></table></figure></p>
-<p>上式中的第一项是文中改进的unlikelihood loss，第二项是MLE中log条件概率。这样的改进使得(i)来自上文token的重复更少，(ii)高频词出现的可能更小，因为高频词经常性地在上文中出现。</p>
-<p>文中接着给出了关于上式的梯度分析。设定<script type="math/tex">p_\theta(x_t\mid x_{<t} = softmax(a)</script>，a是模型预测的logits，为了便于分析，假定negative candidate集合只有一个token <script type="math/tex">x_{neg}</script>。那么负的token-level loss可以表示成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">L_t = \log p(x_t^\star \mid x_&#123;&lt;t&#125;) + \alpha \log(1-p(x_&#123;neg&#125; \mid x_&#123;&lt;t&#125;))</span><br></pre></td></tr></table></figure></p>
-<p>接下来计算上式对于神经网络输出的logits a的导数，这个logits a也就是神经网络预测timestep t是出现vocab中各个单词的概率，经过softmax归一化，即可得到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p_\theta(x_i\mid x_&#123;&lt;t&#125; )= softmax(a) = \frac&#123;e^&#123;a_i&#125;  &#125;&#123;\sum_&#123;i\in V&#125; e^&#123;a_i&#125;&#125;</span><br></pre></td></tr></table></figure></p>
-<p>softmax的导数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">\frac&#123;\partial p_j&#125;&#123;\partial a_i&#125; = \left\&#123;</span><br><span class="line">    \begin&#123;aligned&#125;</span><br><span class="line">    &amp;p_j(1-p_i), j=i \\</span><br><span class="line">    &amp;-p_jp_i, j != i</span><br><span class="line">    \end&#123;aligned&#125;</span><br><span class="line">    \right.</span><br></pre></td></tr></table></figure>
-<p>使用以上softmax的求导公式则有：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\frac&#123;\partial L&#125;&#123;\partial p_i&#125; \frac&#123;\partial p_i&#125;&#123;\partial a_i&#125; = (\mathbb&#123;I&#125;[i=i^\star] - p_i) - \alpha \frac&#123;p_&#123;neg&#125;&#125;&#123;1-p_&#123;neg&#125;&#125; (\mathbb&#123;I&#125;[i=i_&#123;neg&#125;] - p_i)</span><br></pre></td></tr></table></figure></p>
-<p>而和考虑i的各种情况：ground-truth的next-token；negative candidate中的token，其他的token。</p>
+<h2 id="The-Unlikelihood-Training-Objective"><a href="#The-Unlikelihood-Training-Objective" class="headerlink" title="The Unlikelihood Training Objective"></a>The Unlikelihood Training Objective</h2><h3 id="Unlikelihood-Training"><a href="#Unlikelihood-Training" class="headerlink" title="Unlikelihood Training"></a>Unlikelihood Training</h3><p>定义一个negative candidates，unlikelihood loss的思想就是降低negative candidates出现的概率，其定义step t的unlikelihood loss为</p>
+<script type="math/tex; mode=display">
+L_{UL}^t(p_{\theta}(\cdot\mid x_{<t}), C^t) = - \sum\limits_{c\in C^t}\log(1 - p_\theta(c\mid x_{<t}) )</script><p>定义negative candidates为上文的token：</p>
+<script type="math/tex; mode=display">
+C_{prev-context}^t = \{x_1, \cdots, x_{t-1}\}\backslash   \{x_t\}</script><p>再把这个unlikelihood loss加到每一步的maximum likelihood training当中，得到以下公式：</p>
+<script type="math/tex; mode=display">
+L_{UL-token}^t(p_{\theta}(\cdot\mid x_{<t}), C^t) = - \alpha\sum\limits_{c\in C^t}\log(1 - p_\theta(c\mid x_{<t}) ) - logp_\theta(x_t \mid x_{<t})</script><p>上式中的第一项是文中改进的unlikelihood loss，第二项是MLE中log条件概率。这样的改进使得(i)来自上文token的重复更少，(ii)高频词出现的可能更小，因为高频词经常性地在上文中出现。</p>
+<p>文中接着给出了关于上式的梯度分析。设定<script type="math/tex">p_\theta(x_t\mid x_{<t} = softmax(a)</script>，a是模型预测的logits，为了便于分析，假定negative candidate集合只有一个token <script type="math/tex">x_{neg}</script>。那么负的token-level loss可以表示成：</p>
+<script type="math/tex; mode=display">
+L_t = \log p(x_t^\star \mid x_{<t}) + \alpha \log(1-p(x_{neg} \mid x_{<t}))</script><p>接下来计算上式对于神经网络输出的logits a的导数，这个logits a也就是神经网络预测timestep t是出现vocab中各个单词的概率，经过softmax归一化，即可得到</p>
+<script type="math/tex; mode=display">
+p_\theta(x_i\mid x_{<t} )= softmax(a) = \frac{e^{a_i}  }{\sum_{i\in V} e^{a_i}}</script><p>softmax的导数</p>
+<script type="math/tex; mode=display">
+\frac{\partial p_j}{\partial a_i} = \left\{
+    \begin{aligned}
+    &p_j(1-p_i), j=i \\
+    &-p_jp_i, j != i
+    \end{aligned}
+    \right.</script><p>使用以上softmax的求导公式则有：</p>
+<script type="math/tex; mode=display">
+\frac{\partial L}{\partial p_i} \frac{\partial p_i}{\partial a_i} = (\mathbb{I}[i=i^\star] - p_i) - \alpha \frac{p_{neg}}{1-p_{neg}} (\mathbb{I}[i=i_{neg}] - p_i)</script><p>而和考虑i的各种情况：ground-truth的next-token；negative candidate中的token，其他的token。</p>
 <ul>
-<li><p><strong>ground-truth的next-token</strong>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\frac&#123;\partial L&#125;&#123;\partial p_\star&#125; \frac&#123;\partial p_\star&#125;&#123;\partial a_&#123;i\star&#125;&#125; = (1 - p_\star) - \alpha \frac&#123;p_&#123;neg&#125;&#125;&#123;1-p_&#123;neg&#125;&#125; (0 - p_\star) = 1 - p_\star ( 1 - \alpha \frac&#123;p_&#123;neg&#125;&#125;&#123;1 - p_&#123;neg&#125;&#125;)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>negative candidate中的token</strong>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\frac&#123;\partial L&#125;&#123;\partial p_&#123;neg&#125;&#125; \frac&#123;\partial p_&#123;neg&#125;&#125;&#123;\partial a_&#123;neg&#125;&#125; = (0 - p_&#123;neg&#125;) - \alpha \frac&#123;p_&#123;neg&#125;&#125;&#123;1-p_&#123;neg&#125;&#125; (1 - p_&#123;neg&#125;) = - p_&#123;neg&#125;(1 + \alpha )</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>其他的token</strong>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\frac&#123;\partial L&#125;&#123;\partial p_&#123;i&#125;&#125; \frac&#123;\partial p_&#123;i&#125;&#125;&#123;\partial a_&#123;i&#125;&#125; = (0 - p_&#123;i&#125;) - \alpha \frac&#123;p_&#123;neg&#125;&#125;&#123;1-p_&#123;neg&#125;&#125; (0 - p_&#123;i&#125;) = - p_&#123;i&#125;(1 - \alpha \frac&#123;p_&#123;neg&#125;&#125;&#123;1-p_&#123;neg&#125;&#125;)</span><br></pre></td></tr></table></figure>
-</li>
+<li><strong>ground-truth的next-token</strong>：<script type="math/tex; mode=display">
+\frac{\partial L}{\partial p_\star} \frac{\partial p_\star}{\partial a_{i\star}} = (1 - p_\star) - \alpha \frac{p_{neg}}{1-p_{neg}} (0 - p_\star) = 1 - p_\star ( 1 - \alpha \frac{p_{neg}}{1 - p_{neg}})</script></li>
+<li><strong>negative candidate中的token</strong>：<script type="math/tex; mode=display">
+\frac{\partial L}{\partial p_{neg}} \frac{\partial p_{neg}}{\partial a_{neg}} = (0 - p_{neg}) - \alpha \frac{p_{neg}}{1-p_{neg}} (1 - p_{neg}) = - p_{neg}(1 + \alpha )</script></li>
+<li><strong>其他的token</strong>：<script type="math/tex; mode=display">
+\frac{\partial L}{\partial p_{i}} \frac{\partial p_{i}}{\partial a_{i}} = (0 - p_{i}) - \alpha \frac{p_{neg}}{1-p_{neg}} (0 - p_{i}) = - p_{i}(1 - \alpha \frac{p_{neg}}{1-p_{neg}})</script></li>
 </ul>
-<p>于是最终可以得到论文中的结论：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">\bigtriangledown L_a = x ^\star - m \odot p, m_i = \left\&#123;</span><br><span class="line">    \begin&#123;aligned&#125;</span><br><span class="line">    &amp;(1 - \alpha \frac&#123;p_&#123;neg&#125;&#125;&#123;1-p_&#123;neg&#125;&#125;),  i != i_&#123;neg&#125; \\</span><br><span class="line">    &amp; (1+ \alpha),  i = i_&#123;neg&#125;</span><br><span class="line">    \end&#123;aligned&#125;</span><br><span class="line">    \right.</span><br></pre></td></tr></table></figure></p>
-<h3 id="Sequence-level-Unlikelihood-Training"><a href="#Sequence-level-Unlikelihood-Training" class="headerlink" title="Sequence-level Unlikelihood Training"></a>Sequence-level Unlikelihood Training</h3><p>另外，文中还有针对sequence-level的unlikelihood的训练方法，如下式所示：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">L_&#123;ULS&#125;^t(p_&#123;\theta&#125;(\cdot\mid x_&#123;&lt;t&#125;), C^t) = - \sum\limits_&#123;c\in C^t&#125;\log(1 - p_\theta(c\mid x_&#123;&lt;t&#125;) )</span><br></pre></td></tr></table></figure>
-<p>从表达式上看与next-token level的没差，但主要的区别在于关于negative candidates的定义。sequence-level的unlikelihood training是针对经过模型解码之后的decoded sequence而言，每个time step的negative candidate指可能为空或当前token <script type="math/tex">x_t</script>，当 <script type="math/tex">x_t</script>是与<script type="math/tex">x_{<t}</script>相重复的某个的n-gram的其中一个token的时候，negative candidate设为<script type="math/tex">x_t</script>。在代码实现中实际上是使用关于<script type="math/tex">p_{penalize}</script>的伯努利分布来随机设定negative candidate，随机变量取1，则当前timestep的negative candidate取<script type="math/tex">x_t</script>，否则为空。</p>
+<p>于是最终可以得到论文中的结论：</p>
+<script type="math/tex; mode=display">
+\bigtriangledown L_a = x ^\star - m \odot p, m_i = \left\{
+    \begin{aligned}
+    &(1 - \alpha \frac{p_{neg}}{1-p_{neg}}),  i != i_{neg} \\
+    & (1+ \alpha),  i = i_{neg}
+    \end{aligned}
+    \right.</script><h3 id="Sequence-level-Unlikelihood-Training"><a href="#Sequence-level-Unlikelihood-Training" class="headerlink" title="Sequence-level Unlikelihood Training"></a>Sequence-level Unlikelihood Training</h3><p>另外，文中还有针对sequence-level的unlikelihood的训练方法，如下式所示：</p>
+<script type="math/tex; mode=display">
+L_{ULS}^t(p_{\theta}(\cdot\mid x_{<t}), C^t) = - \sum\limits_{c\in C^t}\log(1 - p_\theta(c\mid x_{<t}) )</script><p>从表达式上看与next-token level的没差，但主要的区别在于关于negative candidates的定义。sequence-level的unlikelihood training是针对经过模型解码之后的decoded sequence而言，每个time step的negative candidate指可能为空或当前token <script type="math/tex">x_t</script>，当 <script type="math/tex">x_t</script>是与<script type="math/tex">x_{<t}</script>相重复的某个的n-gram的其中一个token的时候，negative candidate设为<script type="math/tex">x_t</script>。在代码实现中实际上是使用关于<script type="math/tex">p_{penalize}</script>的伯努利分布来随机设定negative candidate，随机变量取1，则当前timestep的negative candidate取<script type="math/tex">x_t</script>，否则为空。</p>
 <h2 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h2><p>文中用token的重复率：任意timestep t时刻的argmax的token在<script type="math/tex">x_{<t}</script>出现重复的占比；以及unique n-grams的占比作为评价指标，经过token-level和sequence-level的unlikelihood的训练Transformer模型，这些评价指标相较于基础的MLE训练都有较大的改进。</p>
 <p>但是，这些指标并不是常见的文本生成问题指标BLEU，而是文章针对自己解决的问题所对应的重复占比，unique占比这些指标，以及通过众包和专家对不同的策略生成文本的质量的评判。</p>
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><h3 id="改进的decoding算法"><a href="#改进的decoding算法" class="headerlink" title="改进的decoding算法"></a>改进的decoding算法</h3><ol>
