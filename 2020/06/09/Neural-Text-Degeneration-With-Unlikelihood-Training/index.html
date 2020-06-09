@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/doughnut.svg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/doughnut32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/doughnut16x16.png?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="论文笔记,NLP,文本生成,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Neural Text Degeneration With Unlikelihood TrainingSummary文章介绍了一种新的语言模型训练方法unlikelihood training，在MLE的基础上对于设定的negative candidate中的token使用unlikelihood loss做出限制，用于解决MLE的训练方法中存在的重复和unique token少（模型很少输出富有">
+<meta name="keywords" content="论文笔记,NLP,文本生成">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NLG的Decoding方法相关论文笔记（1）—— Unlikelihood Training">
+<meta property="og:url" content="https://fadedcosine.github.io/2020/06/09/Neural-Text-Degeneration-With-Unlikelihood-Training/index.html">
+<meta property="og:site_name" content="Faded Cosine">
+<meta property="og:description" content="Neural Text Degeneration With Unlikelihood TrainingSummary文章介绍了一种新的语言模型训练方法unlikelihood training，在MLE的基础上对于设定的negative candidate中的token使用unlikelihood loss做出限制，用于解决MLE的训练方法中存在的重复和unique token少（模型很少输出富有">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-06-09T07:31:30.128Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NLG的Decoding方法相关论文笔记（1）—— Unlikelihood Training">
+<meta name="twitter:description" content="Neural Text Degeneration With Unlikelihood TrainingSummary文章介绍了一种新的语言模型训练方法unlikelihood training，在MLE的基础上对于设定的negative candidate中的token使用unlikelihood loss做出限制，用于解决MLE的训练方法中存在的重复和unique token少（模型很少输出富有">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://fadedcosine.github.io/2020/06/09/Neural-Text-Degeneration-With-Unlikelihood-Training/">
+
+
+
+
+
+  <title>NLG的Decoding方法相关论文笔记（1）—— Unlikelihood Training | Faded Cosine</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Faded Cosine</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://fadedcosine.github.io/2020/06/09/Neural-Text-Degeneration-With-Unlikelihood-Training/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Faded Cosine">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Zoe.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Faded Cosine">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">NLG的Decoding方法相关论文笔记（1）—— Unlikelihood Training</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-09T15:29:31+08:00">
+                2020-06-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/千里怀思月在峰/" itemprop="url" rel="index">
+                    <span itemprop="name">千里怀思月在峰</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>  浏览次数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+
+          
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,501 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  7 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Neural-Text-Degeneration-With-Unlikelihood-Training"><a href="#Neural-Text-Degeneration-With-Unlikelihood-Training" class="headerlink" title="Neural Text Degeneration With Unlikelihood Training"></a>Neural Text Degeneration With Unlikelihood Training</h1><h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>文章介绍了一种新的语言模型训练方法unlikelihood training，在MLE的基础上对于设定的negative candidate中的token使用unlikelihood loss做出限制，用于解决MLE的训练方法中存在的重复和unique token少（模型很少输出富有含义的低频词）这些问题。（我私觉得文中实验的评价指标都是对文章提出的方法有利的</p>
+<h2 id="Research-Objective"><a href="#Research-Objective" class="headerlink" title="Research Objective"></a>Research Objective</h2><p>文本生成中的文本退化的问题。</p>
+<h2 id="Problem-Statement"><a href="#Problem-Statement" class="headerlink" title="Problem Statement"></a>Problem Statement</h2><p>最大化log-likelihood的目标函数使得文本生成任务的模型过于单调无趣，高频词被反复地使用，而富有含义的低频词却很少被利用。最近的解决方法是用一些采样和复杂的beam search的变种，但治标不治本。</p>
+<p>文本退化的可能原因有三：1、Transformer之类的模型更偏爱重复；2、是人类语言的内在属性，而不是模型的缺陷；3、依赖于固定的语料库，而不能考虑到语言的真实目的。</p>
+<p>文章使用unlikehood training，对于真实的target token使用likehood update，对于非真实（其他的）token使用unlikelihood update。</p>
+<h2 id="Neural-Text-Degeneration"><a href="#Neural-Text-Degeneration" class="headerlink" title="Neural Text Degeneration"></a>Neural Text Degeneration</h2><p>主要的问题包括，<strong>重复</strong>和<strong>token分布的差距</strong>。</p>
+<p><strong>重复</strong>的问题包括sequence-level的重复和next-token预测的重复。前者体现在greedy decoding的方法n-grams相比真实数据，模型的预测很容易出现重复；后者体现在模型在做t timestep时的next-token prediction时使用前文出现的token的概率要比真实数据时t timestep的token是前文出现的token的概率高。</p>
+<p><strong>token分布的差距</strong>是指模型生成的文本的unique token的数目要比真实数据的少40%。</p>
+<h2 id="The-Unlikelihood-Training-Objective"><a href="#The-Unlikelihood-Training-Objective" class="headerlink" title="The Unlikelihood Training Objective"></a>The Unlikelihood Training Objective</h2><h3 id="Unlikelihood-Training"><a href="#Unlikelihood-Training" class="headerlink" title="Unlikelihood Training"></a>Unlikelihood Training</h3><p>定义一个negative candidates，unlikelihood loss的思想就是降低negative candidates出现的概率，其定义step t的unlikelihood loss为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">L_&#123;UL&#125;^t(p_&#123;\theta&#125;(\cdot\mid x_&#123;&lt;t&#125;), C^t) = - \sum\limits_&#123;c\in C^t&#125;\log(1 - p_\theta(c\mid x_&#123;&lt;t&#125;) )</span><br></pre></td></tr></table></figure></p>
+<p>定义negative candidates为上文的token：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C_&#123;prev-context&#125;^t = \&#123;x_1, \cdots, x_&#123;t-1&#125;\&#125;\backslash   \&#123;x_t\&#125;</span><br></pre></td></tr></table></figure></p>
+<p>再把这个unlikelihood loss加到每一步的maximum likelihood training当中，得到以下公式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">L_&#123;UL-token&#125;^t(p_&#123;\theta&#125;(\cdot\mid x_&#123;&lt;t&#125;), C^t) = - \alpha\sum\limits_&#123;c\in C^t&#125;\log(1 - p_\theta(c\mid x_&#123;&lt;t&#125;) ) - logp_\theta(x_t \mid x_&#123;&lt;t&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>上式中的第一项是文中改进的unlikelihood loss，第二项是MLE中log条件概率。这样的改进使得(i)来自上文token的重复更少，(ii)高频词出现的可能更小，因为高频词经常性地在上文中出现。</p>
+<p>文中接着给出了关于上式的梯度分析。设定<script type="math/tex">p_\theta(x_t\mid x_{<t} = softmax(a)</script>，a是模型预测的logits，为了便于分析，假定negative candidate集合只有一个token <script type="math/tex">x_{neg}</script>。那么负的token-level loss可以表示成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">L_t = \log p(x_t^\star \mid x_&#123;&lt;t&#125;) + \alpha \log(1-p(x_&#123;neg&#125; \mid x_&#123;&lt;t&#125;))</span><br></pre></td></tr></table></figure></p>
+<p>接下来计算上式对于神经网络输出的logits a的导数，这个logits a也就是神经网络预测timestep t是出现vocab中各个单词的概率，经过softmax归一化，即可得到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p_\theta(x_i\mid x_&#123;&lt;t&#125; )= softmax(a) = \frac&#123;e^&#123;a_i&#125;  &#125;&#123;\sum_&#123;i\in V&#125; e^&#123;a_i&#125;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>softmax的导数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">\frac&#123;\partial p_j&#125;&#123;\partial a_i&#125; = \left\&#123;</span><br><span class="line">    \begin&#123;aligned&#125;</span><br><span class="line">    &amp;p_j(1-p_i), j=i \\</span><br><span class="line">    &amp;-p_jp_i, j != i</span><br><span class="line">    \end&#123;aligned&#125;</span><br><span class="line">    \right.</span><br></pre></td></tr></table></figure>
+<p>使用以上softmax的求导公式则有：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\frac&#123;\partial L&#125;&#123;\partial p_i&#125; \frac&#123;\partial p_i&#125;&#123;\partial a_i&#125; = (\mathbb&#123;I&#125;[i=i^\star] - p_i) - \alpha \frac&#123;p_&#123;neg&#125;&#125;&#123;1-p_&#123;neg&#125;&#125; (\mathbb&#123;I&#125;[i=i_&#123;neg&#125;] - p_i)</span><br></pre></td></tr></table></figure></p>
+<p>而和考虑i的各种情况：ground-truth的next-token；negative candidate中的token，其他的token。</p>
+<ul>
+<li><p><strong>ground-truth的next-token</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\frac&#123;\partial L&#125;&#123;\partial p_\star&#125; \frac&#123;\partial p_\star&#125;&#123;\partial a_&#123;i\star&#125;&#125; = (1 - p_\star) - \alpha \frac&#123;p_&#123;neg&#125;&#125;&#123;1-p_&#123;neg&#125;&#125; (0 - p_\star) = 1 - p_\star ( 1 - \alpha \frac&#123;p_&#123;neg&#125;&#125;&#123;1 - p_&#123;neg&#125;&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>negative candidate中的token</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\frac&#123;\partial L&#125;&#123;\partial p_&#123;neg&#125;&#125; \frac&#123;\partial p_&#123;neg&#125;&#125;&#123;\partial a_&#123;neg&#125;&#125; = (0 - p_&#123;neg&#125;) - \alpha \frac&#123;p_&#123;neg&#125;&#125;&#123;1-p_&#123;neg&#125;&#125; (1 - p_&#123;neg&#125;) = - p_&#123;neg&#125;(1 + \alpha )</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>其他的token</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\frac&#123;\partial L&#125;&#123;\partial p_&#123;i&#125;&#125; \frac&#123;\partial p_&#123;i&#125;&#125;&#123;\partial a_&#123;i&#125;&#125; = (0 - p_&#123;i&#125;) - \alpha \frac&#123;p_&#123;neg&#125;&#125;&#123;1-p_&#123;neg&#125;&#125; (0 - p_&#123;i&#125;) = - p_&#123;i&#125;(1 - \alpha \frac&#123;p_&#123;neg&#125;&#125;&#123;1-p_&#123;neg&#125;&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>于是最终可以得到论文中的结论：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">\bigtriangledown L_a = x ^\star - m \odot p, m_i = \left\&#123;</span><br><span class="line">    \begin&#123;aligned&#125;</span><br><span class="line">    &amp;(1 - \alpha \frac&#123;p_&#123;neg&#125;&#125;&#123;1-p_&#123;neg&#125;&#125;),  i != i_&#123;neg&#125; \\</span><br><span class="line">    &amp; (1+ \alpha),  i = i_&#123;neg&#125;</span><br><span class="line">    \end&#123;aligned&#125;</span><br><span class="line">    \right.</span><br></pre></td></tr></table></figure></p>
+<h3 id="Sequence-level-Unlikelihood-Training"><a href="#Sequence-level-Unlikelihood-Training" class="headerlink" title="Sequence-level Unlikelihood Training"></a>Sequence-level Unlikelihood Training</h3><p>另外，文中还有针对sequence-level的unlikelihood的训练方法，如下式所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">L_&#123;ULS&#125;^t(p_&#123;\theta&#125;(\cdot\mid x_&#123;&lt;t&#125;), C^t) = - \sum\limits_&#123;c\in C^t&#125;\log(1 - p_\theta(c\mid x_&#123;&lt;t&#125;) )</span><br></pre></td></tr></table></figure>
+<p>从表达式上看与next-token level的没差，但主要的区别在于关于negative candidates的定义。sequence-level的unlikelihood training是针对经过模型解码之后的decoded sequence而言，每个time step的negative candidate指可能为空或当前token <script type="math/tex">x_t</script>，当 <script type="math/tex">x_t</script>是与<script type="math/tex">x_{<t}</script>相重复的某个的n-gram的其中一个token的时候，negative candidate设为<script type="math/tex">x_t</script>。在代码实现中实际上是使用关于<script type="math/tex">p_{penalize}</script>的伯努利分布来随机设定negative candidate，随机变量取1，则当前timestep的negative candidate取<script type="math/tex">x_t</script>，否则为空。</p>
+<h2 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h2><p>文中用token的重复率：任意timestep t时刻的argmax的token在<script type="math/tex">x_{<t}</script>出现重复的占比；以及unique n-grams的占比作为评价指标，经过token-level和sequence-level的unlikelihood的训练Transformer模型，这些评价指标相较于基础的MLE训练都有较大的改进。</p>
+<p>但是，这些指标并不是常见的文本生成问题指标BLEU，而是文章针对自己解决的问题所对应的重复占比，unique占比这些指标，以及通过众包和专家对不同的策略生成文本的质量的评判。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><h3 id="改进的decoding算法"><a href="#改进的decoding算法" class="headerlink" title="改进的decoding算法"></a>改进的decoding算法</h3><ol>
+<li>不同的beam search的变体，hard or soft的beam blocking。如18年ACL的《Hierarchical neural story generation》</li>
+<li>Top k-sampling以及nucleus sampling的方法</li>
+</ol>
+<h3 id="改进的learning算法"><a href="#改进的learning算法" class="headerlink" title="改进的learning算法"></a>改进的learning算法</h3><p>改进learning算法包括energy-based model和最近的reflective likelihood，以及一个特殊的算法变体族，negative training。</p>
+<h2 id="Expression-Record"><a href="#Expression-Record" class="headerlink" title="Expression Record"></a>Expression Record</h2><p>post-hoc fixes，文章表示某个方法之后提出的一些事后修补</p>
+<p>sth indicates a discrepancy(mismatch) between the human and model</p>
+<p>These issues are not remedied by …(这些问题不能用…纠正)</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/论文笔记/" rel="tag"># 论文笔记</a>
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+            <a href="/tags/文本生成/" rel="tag"># 文本生成</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/30/The-introspection-of-the-postgraduate-entrance-examination/" rel="next" title="23岁的九局下半，一个新的起点">
+                <i class="fa fa-chevron-left"></i> 23岁的九局下半，一个新的起点
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/Zoe.jpg" alt="Faded Cosine">
+            
+              <p class="site-author-name" itemprop="name">Faded Cosine</p>
+              <p class="site-description motion-element" itemprop="description">To say goodbye is to die a little.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Neural-Text-Degeneration-With-Unlikelihood-Training"><span class="nav-text">Neural Text Degeneration With Unlikelihood Training</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Summary"><span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Research-Objective"><span class="nav-text">Research Objective</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Problem-Statement"><span class="nav-text">Problem Statement</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Neural-Text-Degeneration"><span class="nav-text">Neural Text Degeneration</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Unlikelihood-Training-Objective"><span class="nav-text">The Unlikelihood Training Objective</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Unlikelihood-Training"><span class="nav-text">Unlikelihood Training</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sequence-level-Unlikelihood-Training"><span class="nav-text">Sequence-level Unlikelihood Training</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Evaluation"><span class="nav-text">Evaluation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-text">Reference</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#改进的decoding算法"><span class="nav-text">改进的decoding算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#改进的learning算法"><span class="nav-text">改进的learning算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Expression-Record"><span class="nav-text">Expression Record</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Faded Cosine</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
