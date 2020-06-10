@@ -292,6 +292,211 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://fadedcosine.github.io/2020/06/10/The-Curious-Case-of-Neural-Text-DeGeneration/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Faded Cosine">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Zoe.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Faded Cosine">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/06/10/The-Curious-Case-of-Neural-Text-DeGeneration/" itemprop="url">NLG的Decoding方法相关论文笔记（2）—— Nucleus Sampling</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-10T16:07:18+08:00">
+                2020-06-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/千里怀思月在峰/" itemprop="url" rel="index">
+                    <span itemprop="name">千里怀思月在峰</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,378 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  5 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="The-Curious-Case-of-Neural-Text-DeGeneration"><a href="#The-Curious-Case-of-Neural-Text-DeGeneration" class="headerlink" title="The Curious Case of Neural Text DeGeneration"></a>The Curious Case of Neural Text DeGeneration</h1><h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>文章介绍了一种基于truncation的Necleus Sampling策略，通过设定概率p，动态地选取每次sampling的tokens集合。</p>
+<h2 id="Research-Objective"><a href="#Research-Objective" class="headerlink" title="Research Objective"></a>Research Objective</h2><p>文本生成中的文本退化的问题。</p>
+<h2 id="Problem-Statement"><a href="#Problem-Statement" class="headerlink" title="Problem Statement"></a>Problem Statement</h2><p>问题背景与上一篇NLG的论文笔记相同，通过MLE的训练方法所得的NLG模型很容易产生合乎语法但多样性、质量很差的文本，对此GAN方法和其他task-specific的beam search的变种不断被提出。上一篇unlikelihood training的文章是从NLG模型的训练方法上解决文本退化的问题，而本文则在decoding的方法上提出了一个新的解决方案。</p>
+<p>文中还提到许多pair-wise的文本生成问题，如机器翻译、data-to-text生成、summarization等此类任务（被称为directed generation）通常以encoder-decoder架构，decoding的方法使用beam search，而其中的output是受到input的限制的，所以output中的重复等文本退化问题都不是什么大问题。而对于想故事生成这些open-ended的文本生成问题而言，其高自由度的特性是文本退化问题的难点。</p>
+<h2 id="Method-s"><a href="#Method-s" class="headerlink" title="Method(s)"></a>Method(s)</h2><h3 id="Nucleus-Sampling"><a href="#Nucleus-Sampling" class="headerlink" title="Nucleus Sampling"></a>Nucleus Sampling</h3><p>文中提出了一个新的decoding策略：Nucleus Sampling。核心思想是以timestep t的token概率分布来决定sample tokens的集合。设定超参数p，定义top-p的sample token集为最小的<script type="math/tex">V^p \subset V</script>，使得：</p>
+<script type="math/tex; mode=display">
+\sum\limits_{x\in V^p} P(x \mid x_{<t}) \ge p</script><p>而后，在decoding时从此<script type="math/tex">V^p</script>中sample，sample的概率是<script type="math/tex">V^p</script>中token的概率的归一化结果。</p>
+<h3 id="Top-k-Sampling"><a href="#Top-k-Sampling" class="headerlink" title="Top-k Sampling"></a>Top-k Sampling</h3><p>这种sample方法顾名思义就是选取一个timestep中概率为top-k的tokens作为sample的token集合。</p>
+<p>那top-k sample中k值的选取是一个很大的问题。当k值太小，就可能会生成单调且空泛的token，而当k值太大，又可能会包含进来很多不合适的token，经过归一化之后就可能会被sample到decoded序列中，横竖就是k值的选取是个大问题，可能会影响decoded序列的质量。而使用Nucleus Sampling则sample的集合会根据不同的语境动态的变化，从而保证decoded序列的质量。</p>
+<h3 id="Samplingh-with-Temperature"><a href="#Samplingh-with-Temperature" class="headerlink" title="Samplingh with Temperature"></a>Samplingh with Temperature</h3><p>此方法通过temperature(温度)来塑造概率的分布。给定logits a和temperature t，定义带有温度t的softmax如下：</p>
+<script type="math/tex; mode=display">
+p_\theta(x_i\mid x_{<t} )=  \frac{e^{a_i / t}  }{\sum_{i\in V} e^{a_i/t}}</script><p>当<script type="math/tex">t\in [0, 1)</script>时，此softmax就会更倾向于高概率的事件，而会隐形低降低那些概率低的token的权重。此方法能够部分解决top-k sampling的问题，因此常被在top-k sampling之前用于shaping tokens的概率分布。然而，Samplingh with Temperature的方法虽说能够改进生成的质量，却降低了生成文本的多样性。</p>
+<h2 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h2><p>文章使用困惑度（Perplexity）、Zipf（齐夫定律，一个单词出现的频率与它在频率表里的排名成反比）、Self-BLEU（A lower Self-BLEU score implies higher diversity.）、repetition、HUSE（训练一个鉴别器【实际上是KNN】去区分自然文本和机器生成的文本）这些指标来衡量，Nucleus Sampling的各项指标综合最优（其实表现也并不是绝对优势，超参数p的取值很可能也与top-k sampling的k的取值存在同样的问题）。</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>文章提出了Nucleus Sampling，并与其他decoding策略做了对比，Nucleus  Sampling和Top-k Sampling都是用了truncation的策略，区别就在于选择哪些token to truncate。最后作者在结论中说，如果不用truncation的可能会造成模型从low-confidence的tail中选取token来做预测。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p>知乎上对于decoding的策略有一个比较好的专栏总结：<br><a href="https://zhuanlan.zhihu.com/p/68383015" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/68383015</a></p>
+<p>注意，decoding的策略是不用于训练的，而只限于预测阶段。在训练时，decoder是使用Teacher Forcing进行训练的。Teacher Forcing 是一种用于序列生成任务的训练技巧，与Autoregressive模式相对应，这里阐述下两者的区别：</p>
+<ul>
+<li>Autoregressive 模式下，在 timesteps t decoder模块的输入是 timesteps t-1 的输出<script type="math/tex">y_{t-1}</script> 。这时候我们称 <script type="math/tex">y_{t-1}</script> 为当前预测步的 context;</li>
+<li>Teacher-Forcing 模式下，在 timestep t decoder模块的输入是 ground-truth 语句中位置的 <script type="math/tex">y_{t-1}^\star</script> 单词。这时候我们称 <script type="math/tex">y_{t-1}^\star</script> 为当前预测步的 context；</li>
+</ul>
+<p>Teacher-Forcing 技术之所以作为一种有用的训练技巧，主要是因为：</p>
+<ul>
+<li>Teacher-Forcing 能够在训练的时候矫正模型的预测，避免在序列生成的过程中误差进一步放大。</li>
+<li>Teacher-Forcing 能够极大的加快模型的收敛速度，令模型训练过程更加快&amp;平稳。</li>
+<li><strong>Teacher-Forcing 技术是保证 Transformer 模型能够在训练过程中完全并行计算所有token的关键技术。</strong></li>
+</ul>
+<p>但Teacher-Forcing存在以下问题：</p>
+<ul>
+<li>Exposure Bias：由于训练和预测的时候decode行为的不一致， 导致预测单词（predict words）在训练和预测的时候是从不同的分布中推断出来的，而这种不一致导致训练模型和预测模型之间的mismatch。</li>
+<li>Teacher-Forcing 技术在解码的时候生成的字符都受到了 Ground-Truth 的约束，希望模型生成的结果都必须和参考句一一对应。这种约束在训练过程中减少模型发散，加快收敛速度。但是一方面也扼杀了翻译多样性的可能。</li>
+<li>Teacher-Forcing 技术在这种约束下，还会导致一种叫做 Overcorrect(矫枉过正) 的问题。</li>
+</ul>
+<p>关于Teacher-Forcing更多的讨论见知乎专栏：<a href="https://zhuanlan.zhihu.com/p/93030328" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/93030328</a></p>
+<h2 id="Expression-Record"><a href="#Expression-Record" class="headerlink" title="Expression Record"></a>Expression Record</h2><p>be calibrated to：被校准到…</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://fadedcosine.github.io/2020/06/09/Neural-Text-Degeneration-With-Unlikelihood-Training/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -376,7 +581,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,169 字
+                  1,177 字
                 </span>
               
 
@@ -1921,182 +2126,6 @@ dp[i] = max\{A[i], dp[i-1] + A[i]\}</script>
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://fadedcosine.github.io/2019/07/04/Divide-and-Conquer-Code-Challenging/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Faded Cosine">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/Zoe.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Faded Cosine">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/04/Divide-and-Conquer-Code-Challenging/" itemprop="url">划分、解决、合并：分治法——《挑战程序设计竞赛》</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-04T19:51:30+08:00">
-                2019-07-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/三更有梦书为枕/" itemprop="url" rel="index">
-                    <span itemprop="name">三更有梦书为枕</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  378 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  2 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="4-6-1-数列上的分治法"><a href="#4-6-1-数列上的分治法" class="headerlink" title="4.6.1 数列上的分治法"></a>4.6.1 数列上的分治法</h3><blockquote>
-<p>给定一个1~n的排列<script type="math/tex">a_0,a_1,\cdots, a_{n-1}</script>，求这个数列中的逆序数对。</p>
-</blockquote>
-<p>我们可以把一个大的数列A分成左右两个子数列B、C，那么数列A中所有的逆序对必定来自于以下三者其一：<br>(1) i,j都属于左子数列B的逆序对(i,j);<br>(2) i,j都属于右子数列C的逆序对(i,j);<br>(3) i属于B而j属于C</p>
-<p>对于这(1)和(2)，可以通过递归求得，对于(3)，我们可以对数列C中的每个数字，统计数列B中比它大的数字的个数，再把结果加起来就好。代码如下，复杂度为$O(n\log n)。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="comment">//输入</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; A;</span><br><span class="line"><span class="function">ll <span class="title">merge_count</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;a)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n = a.size();</span><br><span class="line">	<span class="keyword">if</span>(n&lt;=<span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	ll cnt = <span class="number">0</span>;</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; b(a.begin(), a.begin()+n/<span class="number">2</span>);</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; c(a.begin() + n/<span class="number">2</span>, a.end());</span><br><span class="line">	</span><br><span class="line">	cnt += merge_count(b); <span class="comment">//(1)</span></span><br><span class="line">	cnt += merge_count(c); <span class="comment">//(2)</span></span><br><span class="line">	<span class="comment">//此时b和c就已经分别排好序了</span></span><br><span class="line">	<span class="comment">//(3)</span></span><br><span class="line">	<span class="keyword">int</span> ai = <span class="number">0</span>, bi = <span class="number">0</span>, ci = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(ai &lt; n)s</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(bi &lt; b.size() &amp;&amp; (ci == c.size() || b[bi] &lt;= c[ci])) <span class="comment">//ci == c.size()这个判断是，如果c数列已经全部找完了，剩下的全是b数列里的树，就不能看在有逆序数的存在</span></span><br><span class="line">		&#123;</span><br><span class="line">			a[ai++] = b[bi++];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			cnt += (n/<span class="number">2</span> -bi);</span><br><span class="line">			a[ai++] = c[ci++];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> cnt;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%lld\n"</span>, merge_count(A));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="4-6-3-平面上的分治法"><a href="#4-6-3-平面上的分治法" class="headerlink" title="4.6.3 平面上的分治法"></a>4.6.3 平面上的分治法</h3>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2149,7 +2178,7 @@ dp[i] = max\{A[i], dp[i-1] + A[i]\}</script>
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[NLG的Decoding方法相关论文笔记（2）—— Nucleus Sampling]]></title>
+    <url>%2F2020%2F06%2F10%2FThe-Curious-Case-of-Neural-Text-DeGeneration%2F</url>
+    <content type="text"><![CDATA[The Curious Case of Neural Text DeGenerationSummary文章介绍了一种基于truncation的Necleus Sampling策略，通过设定概率p，动态地选取每次sampling的tokens集合。 Research Objective文本生成中的文本退化的问题。 Problem Statement问题背景与上一篇NLG的论文笔记相同，通过MLE的训练方法所得的NLG模型很容易产生合乎语法但多样性、质量很差的文本，对此GAN方法和其他task-specific的beam search的变种不断被提出。上一篇unlikelihood training的文章是从NLG模型的训练方法上解决文本退化的问题，而本文则在decoding的方法上提出了一个新的解决方案。 文中还提到许多pair-wise的文本生成问题，如机器翻译、data-to-text生成、summarization等此类任务（被称为directed generation）通常以encoder-decoder架构，decoding的方法使用beam search，而其中的output是受到input的限制的，所以output中的重复等文本退化问题都不是什么大问题。而对于想故事生成这些open-ended的文本生成问题而言，其高自由度的特性是文本退化问题的难点。 Method(s)Nucleus Sampling文中提出了一个新的decoding策略：Nucleus Sampling。核心思想是以timestep t的token概率分布来决定sample tokens的集合。设定超参数p，定义top-p的sample token集为最小的V^p \subset V，使得： \sum\limits_{x\in V^p} P(x \mid x_{]]></content>
+      <categories>
+        <category>千里怀思月在峰</category>
+      </categories>
+      <tags>
+        <tag>论文笔记</tag>
+        <tag>NLP</tag>
+        <tag>文本生成</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[NLG的Decoding方法相关论文笔记（1）—— Unlikelihood Training]]></title>
     <url>%2F2020%2F06%2F09%2FNeural-Text-Degeneration-With-Unlikelihood-Training%2F</url>
     <content type="text"><![CDATA[Neural Text Degeneration With Unlikelihood TrainingSummary文章介绍了一种新的语言模型训练方法unlikelihood training，在MLE的基础上对于设定的negative candidate中的token使用unlikelihood loss做出限制，用于解决MLE的训练方法中存在的重复和unique token少（模型很少输出富有含义的低频词）这些问题。（我私觉得文中实验的评价指标都是对文章提出的方法有利的 Research Objective文本生成中的文本退化的问题。 Problem Statement最大化log-likelihood的目标函数使得文本生成任务的模型过于单调无趣，高频词被反复地使用，而富有含义的低频词却很少被利用。最近的解决方法是用一些采样和复杂的beam search的变种，但治标不治本。 文本退化的可能原因有三：1、Transformer之类的模型更偏爱重复；2、是人类语言的内在属性，而不是模型的缺陷；3、依赖于固定的语料库，而不能考虑到语言的真实目的。 文章使用unlikehood training，对于真实的target token使用likehood update，对于非真实（其他的）token使用unlikelihood update。 Neural Text Degeneration主要的问题包括，重复和token分布的差距。 重复的问题包括sequence-level的重复和next-token预测的重复。前者体现在greedy decoding的方法n-grams相比真实数据，模型的预测很容易出现重复；后者体现在模型在做t timestep时的next-token prediction时使用前文出现的token的概率要比真实数据时t timestep的token是前文出现的token的概率高。 token分布的差距是指模型生成的文本的unique token的数目要比真实数据的少40%。 The Unlikelihood Training ObjectiveUnlikelihood Training定义一个negative candidates，unlikelihood loss的思想就是降低negative candidates出现的概率，其定义step t的unlikelihood loss为 L_{UL}^t(p_{\theta}(\cdot\mid x_{]]></content>
