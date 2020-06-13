@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[NLG的Decoding方法相关论文笔记（2）—— Entmax Transformation]]></title>
+    <url>%2F2020%2F06%2F13%2FSparse-Text-Generation%2F</url>
+    <content type="text"><![CDATA[Sparse Text GenerationSummary文章提出了entmax的训练和sampling策略，解决文本生成中的退化问题的同时，得益于去训练和预测时都是基于entmax所得的稀疏概率分布，又不会额外引入train-test mismatch。文章中对entmax所得的稀疏概率分布没有细致的证明，而是用于19年ACL的一篇文章的结果。 Research Objective同样是解决文本生成任务当中的退化问题，文中把上一篇介绍的top-k sampling和nucleus sampling的策略称为ad-hoc truncation techniques。但这些策略只在decoding的时候实施，就造成了文本生成问题模型在训练和预测时的mismatch。 Problem Statement这些sampling策略的truncated和renormalized的softmax，只在预测阶段才人为地施加，并没有在training的阶段被学到；而且也很难去对比不同的truncation strategies。文章希望在解决文本退化问题的基础上，解决这些mismatch。 Method(s)Sparse Transformations文章以sparsemax或者说是\alpha-entmax来代替那些ad-hoc的sampling策略。\alpha-entmax的transformation能够内在地生成稀疏的概率分布，而后直接从这个稀疏的概率分布上sample就很自然地避免了文本的退化。具体如下。 19年ACL一篇《Sparse Sequence-to-Sequence Models》定义了\alpha-entmax如下： \alpha -entmax(z_t) := argmax_{\textbf{p }\in \triangle^d}\textbf{ p}^T\textbf{z}_t + H_\alpha(\textbf{p}) \tag{1}其中\textbf{z}_t为timesteps t时模型输出的logits，\triangle^d := \{\textbf{p} \in \mathbb{R}^d \mid \sum_{i=1}^d p_i = 1, \textbf{p} \geq \textbf{0} \}，H_\alpha是Tsallis \alpha-entropy: H_\alpha(\textbf{p}) := \left\{ \begin{aligned} & \frac{1}{\alpha(\alpha - 1)} \sum_j(p_j - p_j^\alpha),& \alpha !=1,\\ & \sum_j p_j \log p_j, &\alpha = 1 \end{aligned} \tag{2} \right.当\alpha = 1时，公式2就成了普通的香农熵的定义；当\alpha=2时，公式2就成了Gini熵；当\alpha \rightarrow \infty时，公式2趋近于0，因此相应地公式1中1-entmax, 2-entmax, \infty-entmax就分别对应softmax，sparsemax和argmax。《Learning Classifiers with Fenchel-YoungLosses: Generalized Entropies, Margins, and Algorithms》中展示了当\alpha > 1时，entmax能够输出稀疏的概率分布，也就是说一些无关的词的概率会真正地为0，而不是一个接近于0的比较小的数。 那如何把entmax应用到训练当中呢？原本的文本生成模型MLE的log-likelihood loss如下： L(\theta) = - \sum\limits_{i=1}^{|S|} \sum\limits_{t=1}^{T_i}\log p_\theta(x_t^i\mid x^i_{]]></content>
+      <categories>
+        <category>千里怀思月在峰</category>
+      </categories>
+      <tags>
+        <tag>论文笔记</tag>
+        <tag>NLP</tag>
+        <tag>文本生成</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[NLG的Decoding方法相关论文笔记（2）—— Nucleus Sampling]]></title>
     <url>%2F2020%2F06%2F10%2FThe-Curious-Case-of-Neural-Text-DeGeneration%2F</url>
     <content type="text"><![CDATA[The Curious Case of Neural Text DeGenerationSummary文章介绍了一种基于truncation的Necleus Sampling策略，通过设定概率p，动态地选取每次sampling的tokens集合，并对先前提出的top-k sampling和Samplingh with Temperature的多种sampling策略做出了比较。 Research Objective文本生成中的文本退化的问题。 Problem Statement问题背景与上一篇NLG的论文笔记相同，通过MLE的训练方法所得的NLG模型很容易产生合乎语法但多样性、质量很差的文本，对此GAN方法和其他task-specific的beam search的变种不断被提出。上一篇unlikelihood training的文章是从NLG模型的训练方法上解决文本退化的问题，而本文则在decoding的方法上提出了一个新的解决方案。 文中还提到许多pair-wise的文本生成问题，如机器翻译、data-to-text生成、summarization等此类任务（被称为directed generation）通常以encoder-decoder架构，decoding的方法使用beam search，而其中的output是受到input的限制的，所以output中的重复等文本退化问题都不是什么大问题。而对于想故事生成这些open-ended的文本生成问题而言，其高自由度的特性是文本退化问题的难点。 Method(s)Nucleus Sampling文中提出了一个新的decoding策略：Nucleus Sampling。核心思想是以timestep t的token概率分布来决定sample tokens的集合。设定超参数p，定义top-p的sample token集为最小的V^p \subset V，使得： \sum\limits_{x\in V^p} P(x \mid x_{]]></content>
