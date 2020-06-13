@@ -77,18 +77,18 @@
 
 
 
-<meta name="description" content="Sparse Text GenerationSummary文章提出了entmax的训练和sampling策略，解决文本生成中的退化问题的同时，得益于去训练和预测时都是基于entmax所得的稀疏概率分布，又不会额外引入train-test mismatch。文章中对entmax所得的稀疏概率分布没有细致的证明，而是用于19年ACL的一篇文章的结果。 Research Objective同样是解决文本">
+<meta name="description" content="Sparse Text GenerationSummary文章提出了entmax的训练和sampling策略，解决文本生成中的退化问题的同时，得益于去训练和预测时都是基于entmax所得的稀疏概率分布，又不会额外引入train-test mismatch。文章中对entmax所得的稀疏概率分布没有细致的证明，而是用于19年ACL的一篇文章的结果。">
 <meta name="keywords" content="论文笔记,NLP,文本生成">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NLG的Decoding方法相关论文笔记（2）—— Entmax Transformation">
+<meta property="og:title" content="NLG的Decoding方法相关论文笔记（3）—— Entmax Transformation">
 <meta property="og:url" content="https://fadedcosine.github.io/2020/06/13/Sparse-Text-Generation/index.html">
 <meta property="og:site_name" content="Faded Cosine">
-<meta property="og:description" content="Sparse Text GenerationSummary文章提出了entmax的训练和sampling策略，解决文本生成中的退化问题的同时，得益于去训练和预测时都是基于entmax所得的稀疏概率分布，又不会额外引入train-test mismatch。文章中对entmax所得的稀疏概率分布没有细致的证明，而是用于19年ACL的一篇文章的结果。 Research Objective同样是解决文本">
+<meta property="og:description" content="Sparse Text GenerationSummary文章提出了entmax的训练和sampling策略，解决文本生成中的退化问题的同时，得益于去训练和预测时都是基于entmax所得的稀疏概率分布，又不会额外引入train-test mismatch。文章中对entmax所得的稀疏概率分布没有细致的证明，而是用于19年ACL的一篇文章的结果。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-06-13T03:43:14.868Z">
+<meta property="og:updated_time" content="2020-06-13T03:47:59.849Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NLG的Decoding方法相关论文笔记（2）—— Entmax Transformation">
-<meta name="twitter:description" content="Sparse Text GenerationSummary文章提出了entmax的训练和sampling策略，解决文本生成中的退化问题的同时，得益于去训练和预测时都是基于entmax所得的稀疏概率分布，又不会额外引入train-test mismatch。文章中对entmax所得的稀疏概率分布没有细致的证明，而是用于19年ACL的一篇文章的结果。 Research Objective同样是解决文本">
+<meta name="twitter:title" content="NLG的Decoding方法相关论文笔记（3）—— Entmax Transformation">
+<meta name="twitter:description" content="Sparse Text GenerationSummary文章提出了entmax的训练和sampling策略，解决文本生成中的退化问题的同时，得益于去训练和预测时都是基于entmax所得的稀疏概率分布，又不会额外引入train-test mismatch。文章中对entmax所得的稀疏概率分布没有细致的证明，而是用于19年ACL的一篇文章的结果。">
 
 
 
@@ -124,7 +124,7 @@
 
 
 
-  <title>NLG的Decoding方法相关论文笔记（2）—— Entmax Transformation | Faded Cosine</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>NLG的Decoding方法相关论文笔记（3）—— Entmax Transformation | Faded Cosine</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -310,7 +310,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">NLG的Decoding方法相关论文笔记（2）—— Entmax Transformation</h1>
+          <h1 class="post-title" itemprop="name headline">NLG的Decoding方法相关论文笔记（3）—— Entmax Transformation</h1>
         
 
         <div class="post-meta">
@@ -419,6 +419,7 @@
 
       
         <h1 id="Sparse-Text-Generation"><a href="#Sparse-Text-Generation" class="headerlink" title="Sparse Text Generation"></a>Sparse Text Generation</h1><h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>文章提出了entmax的训练和sampling策略，解决文本生成中的退化问题的同时，得益于去训练和预测时都是基于entmax所得的稀疏概率分布，又不会额外引入train-test mismatch。文章中对entmax所得的稀疏概率分布没有细致的证明，而是用于19年ACL的一篇<a href="https://www.aclweb.org/anthology/P19-1146.pdf" target="_blank" rel="noopener">文章</a>的结果。</p>
+<a id="more"></a>
 <h2 id="Research-Objective"><a href="#Research-Objective" class="headerlink" title="Research Objective"></a>Research Objective</h2><p>同样是解决文本生成任务当中的退化问题，文中把上一篇介绍的top-k sampling和nucleus sampling的策略称为ad-hoc truncation techniques。但这些策略只在decoding的时候实施，就造成了文本生成问题模型在训练和预测时的mismatch。</p>
 <h2 id="Problem-Statement"><a href="#Problem-Statement" class="headerlink" title="Problem Statement"></a>Problem Statement</h2><p>这些sampling策略的<strong>truncated</strong>和<strong>renormalized</strong>的softmax，只在预测阶段才人为地施加，并没有在training的阶段被学到；而且也很难去对比不同的truncation strategies。文章希望在解决文本退化问题的基础上，解决这些mismatch。</p>
 <h2 id="Method-s"><a href="#Method-s" class="headerlink" title="Method(s)"></a>Method(s)</h2><h3 id="Sparse-Transformations"><a href="#Sparse-Transformations" class="headerlink" title="Sparse Transformations"></a>Sparse Transformations</h3><p>文章以sparsemax或者说是<script type="math/tex">\alpha-</script>entmax来代替那些ad-hoc的sampling策略。<script type="math/tex">\alpha-</script>entmax的transformation能够内在地生成稀疏的概率分布，而后直接从这个稀疏的概率分布上sample就很自然地避免了文本的退化。具体如下。</p>
